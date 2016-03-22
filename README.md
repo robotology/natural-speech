@@ -1,4 +1,3 @@
-# natural-speech
 Copywigth 2016 Istituto Italiano di Tecnologia 
 
 Authors: Leonardo Badino
@@ -6,7 +5,7 @@ Authors: Leonardo Badino
          Claudia Canevari
          
          
-                          IITspeech
+                          natural-speech
 
 The current folder contains the following sub-folders:
 
@@ -34,4 +33,4 @@ A brief description of each function/script is provided within the README file o
 
 This toolbox uses the Parallel Computing Matlab toolbox. It can either run with GPUs or not.
 
-Acknowledgment. This work was funded by the European Commision project Poeticon++ (grant agreement 288382). 
+Acknowledgements. This work was funded by the European Commision project Poeticon++ (grant agreement 288382). 
