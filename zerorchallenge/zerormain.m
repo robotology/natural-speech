@@ -2,7 +2,9 @@
 
 clear all;
 
-load('sampleDataSINGLE.mat');
+%you may have to change path and name of te datafile
+datafile = 'sampleDataSINGLE.mat';
+load(datafile);
 
 NoAuF = size(traindata,2);
 windowSize = 1; % size of the frame context

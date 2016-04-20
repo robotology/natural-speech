@@ -1,12 +1,15 @@
 %Modify input and output dir before starting
 
 % file containing acoustic and articulatory data
+% you may need to change the name of this file
 datafile = 'nmngu0_dataRecognition_bsil_melfilt_htk_ma_noMAVG.mat';
 
-% file for training and testing splitting.
+% file for training and testing splitting
+% you may need to change the name of this file
 splitfile = 'nmngu0_splitRecognition_bsil_melfilt_htk_ma_noMAVG.mat';
 
 %probabilities of phone and state unigrams and bigrams 
+% you may need to change the name of these file
 p_unifile{1} = 'mngu_1gram.arpa';
 p_bifile{1} = 'mngu_2gram.arpa';
 s_unifile{1} = 'mngu_state1gram.arpa';

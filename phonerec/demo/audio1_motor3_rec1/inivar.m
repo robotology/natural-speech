@@ -1,3 +1,5 @@
+% you may need to change names and paths for the following 
+% files
 datafile = 'nmngu0_dataRecognition_bsil_melfilt_htk_ma_noMAVG.mat';
 splitfile = 'nmngu0_splitRecognition_bsil_melfilt_htk_ma_noMAVG.mat';
 p_unifile{1} = 'mngu_1gram.arpa';

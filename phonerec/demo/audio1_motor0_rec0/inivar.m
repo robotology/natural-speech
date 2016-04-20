@@ -1,4 +1,5 @@
-
+% you may need to change names and paths for the following directory and
+% files
 dirin = '/DATA/badino/prdata/inputdata/mngu0/';
 datafile = [dirin 'nmngu0_dataRecognition_bsil_melfilt_htk_ma_noMAVG.mat'];
 splitfile = [dirin 'nmngu0_splitRecognition_bsil_melfilt_htk_ma_noMAVG.mat'];
