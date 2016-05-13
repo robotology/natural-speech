@@ -213,7 +213,7 @@ for split=1:numSplits
     
     post = nnFwd(classnet,classtestdata,parnet_classifier)';
     [~, cpred] = max(post);
-    [rseq, srseq]= computeBestPath_new(p_unigm,p_bigm,s_unigm,s_bigm,state,post,tmptestSentenceStart,tmptestSentenceEnd);
+    [rseq, srseq]= computeBestPath_new(p_unigm,p_bigm,s_unigm,s_bigm,post,tmptestSentenceStart,tmptestSentenceEnd);
     [tmp, classtarget] = max(classtesttargets,[],2);
     [confmatrix, rconfmatrix, cacc, rcacc] = createConfusionMatrix(classtarget,cpred,size(classtesttargets,2),state, rframes, tmptestSentenceStart, tmptestSentenceEnd);
     [rerr, predseq, totdels, totins, totsubs, moperations, rsubstitution, testseq] = computePhoneRecognitionError(rseq,classtesttargets,tmptestSentenceStart,tmptestSentenceEnd,state);
