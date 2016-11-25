@@ -1,11 +1,12 @@
 % you may need to change names and paths for the following 
 % files
-datafile = 'nmngu0_dataRecognition_bsil_melfilt_htk_ma_noMAVG.mat';
-splitfile = 'nmngu0_splitRecognition_bsil_melfilt_htk_ma_noMAVG.mat';
-p_unifile{1} = 'mngu_1gram.arpa';
-p_bifile{1} = 'mngu_2gram.arpa';
-s_unifile{1} = 'mngu_state1gram.arpa';
-s_bifile{1} = 'mngu_state2gram.arpa';
+dirin = '/DATA/badino/prdata/inputdata/mngu0/';
+datafile = [dirin 'nmngu0_dataRecognition_bsil_melfilt_htk_ma_noMAVG.mat'];
+splitfile = [dirin 'nmngu0_splitRecognition_bsil_melfilt_htk_ma_noMAVG.mat'];
+p_unifile{1} = [dirin 'mngu_1gram.arpa'];
+p_bifile{1} = [dirin 'mngu_2gram.arpa'];
+s_unifile{1} = [dirin 'mngu_state1gram.arpa'];
+s_bifile{1} = [dirin 'mngu_state2gram.arpa'];
 load(splitfile);
 removeSil = 1;
 NoAuF = 60;

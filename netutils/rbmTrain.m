@@ -13,6 +13,7 @@ function [ w, hb, allposhidprobs, vb ] = rbmTrain( X, numhid, rbmparam )
 try % check gpu availability
     gd = gpuDevice();
     useGpu = true;
+    fprintf(1, 'GPU available\n');
 catch
     useGpu = false;
 end

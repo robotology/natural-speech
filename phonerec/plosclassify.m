@@ -98,9 +98,7 @@ for split=1:numSplits
             trainmotor = nnFwd(recnet,trainaudio,parnet_regress);
             testmotor = nnFwd(recnet,testaudio,parnet_regress);
             rectrainerr{split} = computeReconstructionError(oritrainmotor,trainmotor);    
-            rectrainerr_each_phoneme{split} = computeReconstructionErrorEachPhoneme(oritrainmotor,trainmotor,traintargets);
             rectesterr{split} = computeReconstructionError(oritestmotor,testmotor);
-            rectesterr_each_phoneme{split}=computeReconstructionErrorEachPhoneme(oritestmotor,testmotor,testtargets);
         elseif bReconstruct == 2 || bReconstruct == 4
             entrainaudio = createContext(entrainaudio,traintargets,trainSentenceStart,trainSentenceEnd,nf_audio);
             entestaudio = createContext(entestaudio,testtargets,testSentenceStart,testSentenceEnd,nf_audio);

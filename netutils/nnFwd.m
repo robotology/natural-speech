@@ -1,14 +1,20 @@
-function [ output ] = nnFwd( net, X, parnet )
+function [ output ] = nnFwd( net, X, parnet, varargin )
 %NNFWD Performs a forward pass on the net, computing its output for the
 %given data
 % IN
 %   net: the net
 %   X: input matrix
 %   parnet: net parameters
+%   varargin{1}: net layer whose avctivations are returned by nnFwd
+%                default is the last layer
 % OUT
-%   output: output of the net
+%   output: output of the net or of the layer indicated by varargin{1}
 
-nl = length(parnet.activations);  %number of layers (hidden+output)
+if(length(varargin) > 0)
+    nl = varargin{1};
+else
+    nl = length(parnet.activations);  %number of layers (hidden+output)
+end
 N = size(X,1);   %number of cases
 
 probs = X;

@@ -17,7 +17,7 @@ The current folder contains the following sub-folders:
   
   Please cite the above paper if you use phonerec.
 
-   You can train and test a phone recognizer with phonerec scripts using a preprocessed version of mngu0 available at: https://goo.gl/tMehGe
+   You can train and test a phone recognizer with phonerec scripts using a preprocessed version of mngu0 available at: https://goo.gl/jZT2J1
 
   
 - zerorchallenge: zero-resource automatic speech recognition 
@@ -31,12 +31,15 @@ The current folder contains the following sub-folders:
  Datasets to train and test how zerorchallenge systems are available here:
  - English full: https://goo.gl/lG3pE5
  - Xitsonga: https://goo.gl/IN3BOH
- - English small: https://goo.gl/LwAKop
+ - English small: https://goo.gl/TyxFy3
 
 - netutils: deep neural network functions (e.g., training, forward pass)
 
 - utils: functions/scripts called by functions/scripts in phonrec and netutils 
 
+- pce_phonerec: phone recognition using phone context embeddings and multi-task learning described in:
+Badino, L., "Phonetic Context Embeddings for DNN-HMM Phone Recognition", in Proc. of Interspeech, San Francisco, CA, USA, 2016.
+  
 A brief description of each function/script is provided within the README file of each sub-folder.
 
 This toolbox uses the Parallel Computing Matlab toolbox. It can either run with GPUs or not.

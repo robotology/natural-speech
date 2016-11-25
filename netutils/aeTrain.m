@@ -8,7 +8,7 @@ function [ encNet, decNet, parDecNet, fullNet, parFullNet ] = aeTrain( X, parnet
 % OUT
 %   encNet: encoding part of the AE
 %   decNet: decoding part of the AE
-%   parDecNet: decoder parameters
+%   parDecNet: decoder parameter
 %   fullNet: full AE
 %   parFullAE: full AE parameters
 

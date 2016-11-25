@@ -1,4 +1,4 @@
-function [ f, df ] = nnCost( VV, X, Y, parnet )
+function [ f, df ] = nnCost( VV, X, Y, parnet, varargin )
 %NNCOST Computes the cost function and its gradient using backpropagation
 % IN
 %   VV: unrolled vector of weights
@@ -13,7 +13,17 @@ nl = length(parnet.activations);  % number of layers (hidden + output)
 N = size(X,1);   % number of cases
 lambda = parnet.weightDecay;   % weight decay parameter
 dropout = parnet.dropout;
-
+if(isfield(parnet,'vsparse'))
+    vsparse = parnet.vsparse;
+else
+    vsparse = [];
+end
+if(length(varargin) > 0 && isempty(varargin{1})==0)
+    options = varargin{1};
+    if(isfield(parnet,'constGradient') && parnet.constGradient)
+        constVV = options.constVV;
+    end
+end
 w=cell(1,nl);
 start=1;
 for il=1:nl   % reshape the unrolled weights
@@ -27,7 +37,7 @@ probs{1} = X;
 %% Forward pass
 for il=1:nl
     if dropout>0
-        if(strcmp(parnet.activations,'relu')==0)
+        if(strcmp(parnet.activations{1},'relu')==0)
             error('At present dropout only works with relu units\n');
         end
         if il>1
@@ -57,7 +67,7 @@ for il=1:nl
             probs{il+1} = bsxfun(@rdivide, probs{il+1}, sum(probs{il+1},2));
         otherwise
             error('Invalid activation for layer %i: %s', il, parnet.activations{il});
-    end
+    end    
 end
 
 %% Backpropagation
@@ -65,7 +75,7 @@ delta = cell(1,nl);
 dw = cell(1,nl);
 switch parnet.cost
     case 'mse'
-        f = 1/N * 1/2 * sum(sum((probs{nl+1}-Y).^2));
+        f = 1/N * 1/2 * sum(sum((probs{nl+1}-Y).^2)); 
         delta{nl} = 1/N * (probs{nl+1}-Y);
         switch parnet.activations{end}
             case 'linear'
@@ -81,6 +91,7 @@ switch parnet.cost
         end
     case 'ce_logistic'
         if strcmp(parnet.activations{end},'sigm')
+            probs{nl+1}(probs{nl+1}==0) = eps;    % anti-log(0)
             f = - 1/N * sum(sum(Y.*log(probs{nl+1}) + (1-Y).*log(1-probs{nl+1})));
             delta{nl} = 1/N * (probs{nl+1}-Y);
         else
@@ -104,6 +115,15 @@ dw{nl} = [probs{nl} ones(N,1)]' * delta{nl};
 
 for il=nl-1:-1:1
     delta{il} = delta{il+1} * w{il+1}(1:end-1,:)';
+    if(isempty(vsparse)==0 && vsparse(il)~=0)
+        if(strcmp(parnet.activations{il},'relu'))
+            res = probs{il+1} - zeros(size(probs{il+1}),class(VV));
+            f = f + 1/N * 1/2 * vsparse(il) *sum(sum(res.^2)); 
+            delta{il} = delta{il} + 1/N * vsparse(il) * res;
+        else
+            error('Sparsity for activations different from relu not implemented yet\n');
+        end
+    end
     switch parnet.activations{il}
         case 'linear'
             %nop
@@ -127,5 +147,8 @@ for il=1:nl % unroll the derivatives
 end
 
 df = df + lambda * VV; % weight decay derivative
-
+% set derivative to 0 for constnt value weights
+if(isfield(parnet,'constGradient') && parnet.constGradient)
+    df = df .* constVV;
+end
 end
