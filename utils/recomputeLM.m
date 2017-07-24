@@ -65,7 +65,7 @@ for i=1:NS
     end
     
 end
-pippo = 1;
+
 
 
 
