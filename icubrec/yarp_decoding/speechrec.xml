@@ -1,0 +1,35 @@
+<application>
+    <name>Speech Recognition</name>
+    <description>Speech Recognition</description>
+    <version>1.0</version>
+    <authors>
+        <author email="bertrand.higy@iit.it">Bertrand Higy</author>
+    </authors>
+    <module>
+        <name>/home/bhigy/dev/speech/icub_rec/HTKTools/decoder</name>
+        <node>bertrand</node>
+        <parameters>--path /home/bhigy/dev/speech/icub_rec/</parameters>
+    </module>
+    <module>
+        <name>node /home/bhigy/dev/yarp.js/examples/examples.js</name>
+        <node>bertrand</node>
+    </module>
+    <module>
+        <name>rctrld_yarphear_asr</name>
+        <node>bertrand</node>
+        <prefix>/yarphear</prefix>
+    </module>
+
+    <connection>
+        <from>/soundStream/mic:o</from>
+        <to>/yarphear/mic:i</to>
+    </connection>
+    <connection>
+        <from>/soundStream/trigger:o</from>
+        <to>/yarphear/cmd:i</to>
+    </connection>
+    <connection>
+        <from>/yarphear/asr/rpc:o</from>
+        <to>/decoder/rpc:i</to>
+    </connection>
+</application>

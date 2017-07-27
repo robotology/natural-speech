@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+  <head>
+    <title>YarpJS Stream Audio</title>
+
+
+    <meta name=viewport content="width=device-width, initial-scale=1">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <style>
+      .cont {
+        text-align: center;
+      }
+
+      .cont * {
+        display: inline-block;
+      }
+
+      .main {
+        margin-top: 4em;
+      }
+
+      canvas {
+        height: 40%;
+        border-radius: 10%;
+        margin-bottom: 1em;
+        border: 0.5em solid #D4D6D8;
+
+        box-shadow: 4px 4px 10px -3px rgba(0, 0, 0, 0.5);
+      }
+
+
+      .invisible {
+          display: none;
+      }
+
+      #description {
+          padding: 3em;
+      }
+
+      #description * {
+          text-align: center;
+      }
+
+      #description p {
+          font-size: 1.3em;
+          margin-top: 3em;
+      }
+
+      #description b {
+          font-weight: bold;
+          color: cornflowerblue;
+      }
+
+      #description h1 b {
+          font-family: 'Lobster', serif;
+      }
+
+      /* Custom */
+
+      #description p {
+        margin-top: 1em;
+      }
+
+
+      #description b.danger {
+          color: crimson;
+      }
+
+      #description ul {
+        font-size: 1.3em;
+        text-align: left;
+      }
+
+    </style>
+  </head>
+
+
+
+
+
+<!-- ############  BODY ################# -->
+
+  <body>
+
+    <div class='main cont'>
+        <canvas id="canvas"></canvas>
+        <br>
+        <div class='cont'>
+          <div>
+            <button id='btn-voice' type="button" class="btn" onClick="toggleVoiceBTN(this)" data-toggle="button" aria-pressed="false" autocomplete="off">
+                    <i class="fa fa-microphone-slash fa-fw" style='margin-right:0.3em' aria-hidden="true"></i>
+                    Stream Audio
+            </button>
+          </div>
+        </div>
+
+        <div id='description'>
+          <h1>Stream Audio</h1>
+
+          <p>
+            This simple application uses the Web APIs to send audio streams directly from the device microphone to the <b>YARP</b> network.
+            In particular it translates audio batches into <a target='_blank' href='http://www.yarp.it/classyarp_1_1sig_1_1Sound.html'>Yarp::sig::Sound</a> objects and then writes them on port <b>/soundStream/mic:o</b>
+            Furthermore it writes a Bottle through <b>/soundStream/trigger:o</b> upon clicking the streaming button in order to trigger the <b>yarpHear</b> module to start and stop saving to file.
+          </p>
+
+        </div>
+
+    </div>
+
+  </body>
+
+<!-- ############  END BODY ################# -->
+
+
+  <script src="/jquery/dist/jquery.min.js"></script>
+
+  <script src="/yarp.js"></script>
+
+
+
+
+
+  <script>
+
+  var streamer;
+  var recording = false;
+
+  var canvasElement = document.getElementById('canvas');
+  var canvasContext = canvasElement.getContext("2d");
+
+
+  var draw = function() {
+
+      if(streamer!=undefined)
+      {
+        // you can then access all the frequency and volume data
+        // and use it to draw whatever you like on your canvas
+        for(bin = 0; bin < streamer.length; bin ++) {
+            // do something with each value. Here's a simple example
+            var val = streamer[bin];
+            var red = val+100;
+            var green = 149 - val;
+            var blue = 237 + val / 2;
+            canvasContext.fillStyle = 'rgb(' + Math.round(red) + ', ' + Math.round(green) + ', ' + Math.round(blue) + ')';
+            var bin_size = 3;
+            canvasContext.fillRect(bin * bin_size, 0, bin_size, 200);
+            // use lines and shapes to draw to the canvas is various ways. Use your imagination!
+        }
+
+      }
+      requestAnimationFrame(draw);
+  };
+
+  draw();
+
+    var socket = io();
+
+    yarp.init(socket);
+
+    var trigger_out = yarp.PortHandler.openPort('/soundStream/trigger:o');
+
+    // what to do as soon as the yarp module is ready
+    yarp.onInit(function() {
+
+        var port_mic_out = yarp.PortHandler.openPort('/soundStream/mic:o','sound');
+
+        var errorCallback = function(e) {
+          console.log('Audio Recording Rejected!', e);
+      };
+
+        if (!navigator.getUserMedia)
+          navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+        if (navigator.getUserMedia) {
+          navigator.getUserMedia({audio:true}, success, function(e) {
+            alert('Error capturing audio.');
+          });
+        } else alert('getUserMedia not supported in this browser.');
+
+
+
+        function success(e) {
+          audioContext = window.AudioContext || window.webkitAudioContext;
+          context = new audioContext();
+
+          // the sample rate is in context.sampleRate
+          audioInput = context.createMediaStreamSource(e);
+
+          var bufferSize = 2048;
+          recorder = context.createScriptProcessor(bufferSize, 1, 1);
+
+
+          // for visualizaiton
+          analyser = context.createAnalyser();
+          analyser.fftSize = 256; // see - there is that 'fft' thing.
+          audioInput.connect(analyser);
+          // analyser.connect(context.destination);
+
+          var sampleAudioStream = function() {
+
+            if(recording)
+              analyser.getByteFrequencyData(streamer);
+            else
+            {
+              for(bin = 0; bin < streamer.length; bin ++)
+                streamer[bin]=0;
+            }
+
+          };
+          setInterval(sampleAudioStream, 20); //
+          // public properties and methods
+          streamer = new Uint8Array(128); // This just means we will have 128 "bins" (always half the
+
+
+          recorder.onaudioprocess = function onaudioprocess(e2) {
+
+            if(!recording)
+            {
+              return;
+            }
+
+            var left = e2.inputBuffer.getChannelData(0);
+            var hh = convertFloat32ToInt16(left);
+
+            // socket.emit('stream-audio',{buffer:hh});
+            port_mic_out.write(hh);
+
+          }
+
+          audioInput.connect(recorder);
+          recorder.connect(context.destination);
+
+        }
+
+
+    });
+
+
+
+
+    function convertFloat32ToInt16(buffer) {
+      l = buffer.length;
+      buf = new Int16Array(l);
+      while (l--) {
+        buf[l] = Math.min(1, buffer[l])*0x7FFF;
+      }
+      return buf.buffer;
+    }
+
+    function toggleVoiceBTN(el)
+    {
+      if($(el).hasClass('btn-primary'))
+      {
+        var text = 'w /home/bhigy/dev/speech/icub_rec/speech.wav';
+        trigger_out.write(text);
+        recording=false;
+        $(el).removeClass('btn-primary');
+        $(el).find('i').removeClass('fa-microphone');
+        $(el).find('i').addClass('fa-microphone-slash');
+      }
+      else
+      {
+        var text = 's';
+        trigger_out.write(text);
+        recording=true;
+        $(el).addClass('btn-primary');
+        $(el).find('i').removeClass('fa-microphone-slash');
+        $(el).find('i').addClass('fa-microphone');
+      }
+    }
+
+  </script>
+
+</html>
