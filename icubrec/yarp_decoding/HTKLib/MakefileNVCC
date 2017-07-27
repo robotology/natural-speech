@@ -42,7 +42,7 @@ hlib = .
 HLIBS = ${exec_prefix}/lib/HTKLib.a
 
 CC      = /usr/local/cuda/bin/nvcc
-CFLAGS  := -m64 -ccbin gcc -gencode arch=compute_30,code=sm_30 -D'ARCH="x86_64"' -DCUDA
+CFLAGS  := -m64 -ccbin clang -gencode arch=compute_30,code=sm_30 -D'ARCH="x86_64"' -DCUDA
 LDFLAGS = -L/usr/local/cuda/lib -Wl,-rpath=/usr/local/cuda/lib -L/usr/local/cuda/lib64 -Wl,-rpath=/usr/local/cuda/lib64 -lcblas -lpthread
 RANLIB = ranlib
 INSTALL= /usr/bin/install -c
@@ -67,7 +67,7 @@ objects = HGraf.o esig_asc.o \
 	HMath.o \
 	HMem.o \
 	HModel.o \
-        HNCache.o \
+	HNCache.o \
 	HNet.o \
 	HParm.o \
 	HRec.o \
@@ -98,7 +98,7 @@ lvobjects = $(basename HGraf.o).lv.o esig_asc.lv.o \
 	HMath.lv.o \
 	HMem.lv.o \
 	HModel.lv.o \
-        HNCache.lv.o \
+	HNCache.lv.o \
 	HNet.lv.o \
 	HParm.lv.o \
 	HRec.lv.o \
