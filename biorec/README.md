@@ -10,7 +10,7 @@ The current folder contains the following sub-folders:
   to run some of the experiments described in
   Badino, L., Canevari, C., Fadiga, L., Metta, G., "Integrating Articulatory
   Data in Deep Neural Network-based Acoustic Modeling",
-  Computer Speech and Language, vol 36, pp. 173�195, 2016.
+  Computer Speech and Language, vol 36, pp. 173-195, 2016.
 
   Please cite the above paper if you use phonerec.
 
