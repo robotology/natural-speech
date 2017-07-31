@@ -9,7 +9,7 @@ Authors: Leonardo Badino
 
 The current folder contains the following sub-folders:
 
-- phonerec: script(s) for articulatory phone recognition. This code was used 
+- phonerec: toolbox for articulatory phone recognition. This code was used 
   to run some of the experiments described in
   Badino, L., Canevari, C., Fadiga, L., Metta, G., "Integrating Articulatory 
   Data in Deep Neural Network-based Acoustic Modeling", 
@@ -19,7 +19,7 @@ The current folder contains the following sub-folders:
 
    You can train and test a phone recognizer with phonerec scripts using a preprocessed version of mngu0 available at: https://goo.gl/jZT2J1
 
-- pce_phonerec: phone recognition using phone context embeddings and multi-task learning described in:
+- pce_phonerec: articulatory phone recognition using phone context embeddings and multi-task learning described in:
 Badino, L., "Phonetic Context Embeddings for DNN-HMM Phone Recognition", in Proc. of Interspeech, San Francisco, CA, USA, 2016.
   
 - zerorchallenge: zero-resource automatic speech recognition 
@@ -35,13 +35,11 @@ Badino, L., "Phonetic Context Embeddings for DNN-HMM Phone Recognition", in Proc
  - Xitsonga: https://goo.gl/IN3BOH
  - English small: https://goo.gl/TyxFy3
 
-- netutils: deep neural network functions (e.g., training, forward pass)
+- netutils: deep neural network utilites (e.g., training, forward pass)
 
-- utils: functions/scripts called by functions/scripts in phonrec and netutils 
+- utils: utilities (e.g., data normalization,  Viterbi-based phone  decoding) 
 
 
 A brief description of each function/script is provided within the README file of each sub-folder.
 
 This toolbox uses the Parallel Computing Matlab toolbox. It can either run with GPUs or not.
-
-Acknowledgements. This work was funded by the European Commision project Poeticon++ (grant agreement 288382). 
