@@ -1,4 +1,22 @@
 function [hae, prevhae, loglik, storehae] = hmmauto_learn(traindata,parnet,trStart,trEnd,testdata,mode,varargin)
+% HMMAUTO_LEARN Trains a HMM-Encoder
+% IN
+%   traindata: matrix of training data, one row per acoustic feature frame
+%   parnet: struct of hyper-parameters of the autoencoder
+%   trStart: vector whose elements indicate the starting frame (within
+%           training data) of each utterance
+%   trEnd: vector whose elements indicate the starting frame (within
+%          training data) of each utterance
+%   testdata: matrix of testing data
+%   mode: % defines the way subword posterior probabilities are extracted. 
+%           Keep mode = enc
+%   varargin: contains Expectation-Maximization hyper-parameters
+% OUT
+%   hae: HMM-Encoder
+%   prevhae: inizial HMM_Encoder where actually no HMM as been trained
+%   loglik: overall log-likelihood of the trained HMM-Encoder on the training
+%          data
+%   storehae: array of HMM-Encoders, one for each EM iteration
 
 parnet.aehmm = 0;
 H = parnet.units(end);
@@ -10,7 +28,7 @@ nutts = length(trStart);
 Q = 2^H;
 
 [net, maxiter, thresh, adj_prior, adj_trans adj_ae, decNet, parDecNet, fullNet, parFullAE] = ...
-    process_options(varargin,'net','','maxiter', 10,'thresh', 1e-4,'adj_prior', 1,'adj_trans', 1,...
+    process_options(varargin,'net','','maxiter', 3,'thresh', 1e-4,'adj_prior', 1,'adj_trans', 1,...
     'adj_ae',1,'decNet','','parDecNet','','fullNet','','parFullAE','');
 
 prior = ones(Q,1)*(1/Q);
@@ -18,6 +36,7 @@ allpriors = prior';
 transmat = repmat(prior',Q,1);
 
 if isempty(net)
+    % autoencoder training
     [net, decNet, parDecNet, fullNet, parFullAE] = aeTrain(traindata,parnet,testdata);
     endata = nnFwd(net,traindata,parnet);
 end
@@ -41,12 +60,13 @@ norder = randperm(size(traindata,1));
 loglik = zeros(1,maxiter);
 
 for iter=1:maxiter
-    % E step
+    % Expectation  step
     B = ae_prob(traindata, allpriors,net, parnet,mode);
          
-    [loglik(iter) exp_num_trans exp_num_visits1 exp_num_visitsall allgammas] = ess_aehmm(prior,transmat,B,trStart,trEnd);
-    fprintf(1,'Loglik after Expectation step  interation %d : %f\n',iter, loglik(iter));
-    % M step
+    [loglik(iter), exp_num_trans, exp_num_visits1, exp_num_visitsall, allgammas] = ess_aehmm(prior,transmat,B,trStart,trEnd);
+    fprintf(1,'Loglikelihood after Expectation step  interation %d : %f\n',iter, loglik(iter));
+    
+    % Maximization step
     if adj_prior
         prior = normalise(exp_num_visits1);
     end
@@ -54,18 +74,6 @@ for iter=1:maxiter
         transmat = mk_stochastic(exp_num_trans);
     end
     if adj_ae                
-% %         maxgammas = zeros(size(traindata,1),H);
-% %         st = 1;
-% %         for i=1:nutts
-% %             
-% %              if(isempty(allgammas{i})==0)
-% %                 [tmp idx] = max(allgammas{i},[],1); 
-% %                 best = dec2bin(idx-1,H)-'0';
-% %                 maxgammas(st:st+size(allgammas{i},2)-1,:) = best; 
-% %                 st = st+size(allgammas{i},2);
-% %              end            
-% %         end
-       
        
         [explogs, allpriors] = getexplogs(traindata,allgammas,exp_num_visitsall,net,parnet,mode);
         net = aeBackprop(fullNet,traindata(norder,:),parFullAE,testdata,[],explogs(norder,:),mode);

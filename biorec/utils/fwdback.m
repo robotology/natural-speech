@@ -1,7 +1,7 @@
 function [alpha, beta, gamma, loglik, xi_summed, gamma2] = fwdback(init_state_distrib, ...
    transmat, obslik, varargin)
 % FWDBACK Compute the posterior probs. in an HMM using the forwards backwards algo.
-%
+% This is a K.P. Murphy's BayesNet Toolbox function
 % [alpha, beta, gamma, loglik, xi, gamma2] = fwdback(init_state_distrib, transmat, obslik, ...)
 %
 % Notation:

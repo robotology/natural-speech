@@ -1,13 +1,14 @@
 function dfM = extractDFeatures(labels,corpus)
 
-%% extract the vector of distinctive features from each phonetic label
-% Input arguments
-% - labels = N x K matrix. N = No. of frames/observations, K = No. of phone labels
-%   a phone label is represented as a 1-of-K vector
-% - corpus = name of the dataset
-% - varargin{1) = boolena = 1 is 
-% Output argument
-% - dfM = N x F matrix. F = number of distinctive features
+% EXTRACTDFEATURES Extracts the vector of distinctive/articulatory 
+% features from each phonetic label
+% IN
+%  labels: N x K matrix. N = No. of frames/observations, K = No. of phone labels
+%          a phone label is represented as a 1-of-K vector
+%  corpus: name of the dataset
+%
+% OUT
+%  dfM : N x F matrix. F = number of distinctive features
 
 %distincive features
 %old (pre-timit)

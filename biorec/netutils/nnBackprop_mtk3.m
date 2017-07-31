@@ -1,5 +1,5 @@
 function [ net, trainErr, testErr, trainErr2, testErr2] = nnBackprop_mtk3( net, X, Y, cY2, parnet, options)
-%NNBACKPROP Backpropagation training of the Neural Network
+% NNBACKPROP_MTK3 Backpropagation training of the Neural Network
 % IN
 %   net: initial network
 %   X: input matrix
@@ -25,6 +25,7 @@ end
 %add the primary task in the count
 nTasks = nTasks + 1;
 
+% max number of samples for evaluation
 maxN4Eval = 100000;
 
 try % check gpu availability

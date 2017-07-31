@@ -1,4 +1,5 @@
-%Modify input and output dir before starting
+% INIVAR Configuration file 
+% Modify input and output dir before starting
 
 % file containing acoustic and articulatory data
 % you may need to change the name of this file
@@ -60,6 +61,8 @@ mixtype = 1;
 nfae_audio = 1; % number of context frames for the audio AE
 
 % struct of hyperparameters of the autoencoder that extract acoustic features 
+% for more details on autoencoder hyperparmas and dnn hyperparams please
+% see ae_hyperparams.m and dnn_hyperparmas.m
 parae_audio = struct(...
     'units',[NoAuF*nfae_audio 300 36],...   % input + hidden (last is the encoding layer)
     'activations',{{'sigm','sigm'}},... % hidden

@@ -4,7 +4,7 @@ Authors: Leonardo Badino, Alessio Mereta, Claudia Canevari
                           bioRec
 
 The current folder contains the following sub-folders:
-<<<<<<< HEAD
+
 - phonerec: toolbox for articulatory phone recognition. This code was used
   to run some of the experiments described in
   Badino, L., Canevari, C., Fadiga, L., Metta, G., "Integrating Articulatory
@@ -13,7 +13,7 @@ The current folder contains the following sub-folders:
 .
   Please cite the above paper if you use phonerec.
 
-   You can train and test a phone recognizer with phonerec scripts using a preprocessed version of mngu0 available at: 
+   You can train and test a phone recognizer with phonerec scripts using a preprocessed version of mngu0 available at: https://zenodo.org/record/836692
 
 - pce_phonerec: articulatory phone recognition using phone context embeddings and multi-task learning described in:
 Badino, L., "Phonetic Context Embeddings for DNN-HMM Phone Recognition", in Proc. of Interspeech, San Francisco, CA, USA, 2016.
@@ -25,10 +25,7 @@ Badino, L., "Phonetic Context Embeddings for DNN-HMM Phone Recognition", in Proc
   with Binarized Autoencoders and Hidden-Markov-Model Encoders",
   Proc. of Interspeech, Dresden, Germany, 2015.
 
- Datasets to train and test how zerorchallenge systems are available here:
- - English full: 
- - Xitsonga: 
- - English small: 
+ Datasets to train and test how zerorchallenge systems are available here:  https://zenodo.org/record/836692
 
 - netutils: deep neural network utilites (e.g., training, forward pass)
 

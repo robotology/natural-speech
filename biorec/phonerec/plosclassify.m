@@ -1,5 +1,8 @@
-% Main for phone recognition using acoustic-articultory data
 function plosclassify(varargin)
+% PLOSCLASSIFY Trains and tests an articulatory phone recognition system
+% Requires datastes of articulatory data
+% Needs inivar to be configured
+% varargin{1}: folder where inivar is located
 
 if ~isempty(varargin)
     cd(varargin{1});

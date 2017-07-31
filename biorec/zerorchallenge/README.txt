@@ -22,13 +22,18 @@ The following is the list of scripts/functions in the folder:
 - mainaehmm.m: this is used to generate the ZRSC files with hmm-encoders
 
 - hmmauto_learn.m: learns the hmm-encoder parameters using Expectation Maximization
-  It's adapted from the mhmm_em function from K. Murphy's FullBNT toolbox
+  It's adapted from the mhmm_em function from K. Murphy's BayesNet toolbox
 
-- ae_prob and ess_aehmm.m are used for the expectation step of EM. They are 
+- ae_prob and ess_aehmm.m are used for the expectation step of the Expectation-Maximization (EM) algorithm. They are 
   called by hmmauto_learn
 
 - getexplogs.m: used for the maximization  step of EM. It is called by 
   hmmauto_learn
 
 - hmmauto_decode.m: decodes speech using the hmm-encoder
+
+3 different datasets are available for training at: https://zenodo.org/record/836692
+
+Testing tools are provided by the ZRSC Task1 evaluation tools 
+
  

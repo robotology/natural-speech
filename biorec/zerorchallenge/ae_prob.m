@@ -1,4 +1,16 @@
 function pr = ae_prob(obs,priors,net,parnet,mode,varargin)
+% AE_PROB Computes the TxQ trellis of emission probabilities,
+% where T = number of time ssteps and Q = numner of states
+% IN
+%   obs: matrix of input acoustic frames
+%   prios: prior state/sub-word probabilities
+%   net: autoencoder
+%   parnet: autoencoder hyper-parameters
+%   mode: mode in which obervation probabilities are computed. enc is the
+%          mode used in the paper. other modes are obsolete
+%   varargin: additional parameters required by mode rec and dec. Obsolete
+% OUT
+%   pr: TxQ matrix of emission probabilities
 
 scaled = 1;
 alpha = 0.001;

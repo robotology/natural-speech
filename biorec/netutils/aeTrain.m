@@ -12,6 +12,8 @@ function [ encNet, decNet, parDecNet, fullNet, parFullNet ] = aeTrain( X, parnet
 %   fullNet: full AE
 %   parFullAE: full AE parameters
 
+
+
 if ~prod(strcmp(parnet.activations(1:end),'sigm'))
     error('AE training supported only if all the layers are sigmoid');
 end

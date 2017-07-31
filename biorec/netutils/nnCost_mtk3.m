@@ -1,15 +1,19 @@
 function [ f, df, df2 ] = nnCost_mtk3( VV, cVV2, X, cY, parnet, varargin )
-%NNCOST Computes the cost function and its gradient using backpropagation
+% NNCOST_MTK3 Computes the cost function and its gradient using backpropagation
 % IN
 %   VV: unrolled vector of weights
+%   cVV2: urolled vector of weights used specifically for the secondary
+%           target
 %   X: input matrix
-%   Y: output matrix
+%   Y: output matrix for primary target
+%   cY: outputmatrix for secondary target(s)    
 %   parnet: net parameters
 %   varargin{1}: array indicating examples where task2 must not be
 %   performed
 % OUT
 %   f: cost function
 %   df: gradient
+%   df2: part of gradient due to the secondary target(s)
 
 nl = length(parnet.activations);  % number of layers (hidden + output)
 N = size(X,1);   % number of cases

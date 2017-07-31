@@ -1,4 +1,4 @@
-function [explogs cpriors] = getexplogs(obs,gammas,num_visitsall,net,parnet,mode,varargin)
+function [explogs] = getexplogs(obs,gammas,num_visitsall,net,parnet,mode,varargin)
 
 if strcmp(mode,'dec'==0) && strcmp(mode,'enc')
     error('Unknown mode in ae_prob\n');

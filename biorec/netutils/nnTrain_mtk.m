@@ -1,5 +1,5 @@
 function [ net, prenet ] = nnTrain_mtk( X, Y, Y2, parnet, initnet, options )
-%NNTRAIN Training of the Neural Network
+%NNTRAIN_MTK Training of the Neural Network using multi-task learning
 % IN
 %   X: input train matrix
 %   Y: output train matrix
@@ -13,6 +13,7 @@ function [ net, prenet ] = nnTrain_mtk( X, Y, Y2, parnet, initnet, options )
 
 % OUT
 %   net: final net
+%   prenet: net after inizialization/pretraining and before training
 
 switch parnet.pretrain
     case 'rand'

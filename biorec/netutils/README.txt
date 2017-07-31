@@ -7,18 +7,17 @@ Authors: Leonardo Badino
          
 Netutils
 
-The current folder contains the functions for DNNs and Autoencoders 
-(e.g., training, forward pass, etc...)
+The current folder contains functions for DNN and Autoencoder (AE) training, forward pass, etc...
 
-- aeBackprop.m: function that actually trains an autoencoder (AE) by updating 
-  the AE parameters after each minibatch
+-ae_hyperparameters.m: only used for description purposes to show and describe all the possible autoencoder hyper-parameters. Should not be modified
+
+- dnn_hyperparameters: only used for description purposes to show and describe all the possible dnn hyper-parameters. Shoud not be modified
+
+- aeTrain.m: trains an AE after it has been inizialized or pretrained
 
 - aeCheckNumericalGradient.m: checks the computation of the gradient (for AEs)
 
 - aeCost.m: computes the gradient (for AEs)
-
-- aeTrain.m: inizializes or pretraines the AE and then call aeBackprop.m to 
-  train it (or pretrain it)
 
 - computeNumericalGradient.m: called by aeCheckNumericalGradient.m and 
   nnCheckNumericalGradient.m
@@ -37,8 +36,10 @@ The current folder contains the functions for DNNs and Autoencoders
 
 - nnRandInit.m: random inizialization of the DNN parameters
 
-- nnTrain.m: inizializes or pretraines the DNN and then call nnBackprop.m to 
-  train it (or pretrain it)
+- nnTrain.m:  trains a DNN after it has been inizialized or pretrained
+
+- nnTrain_mtk.m: trains a DNN after it has been inizialized or pretrained using multi-task learning. 
+It requires a secondary target cost to be defined.
 
 - rbmTrain.m: restricted Boltzmann machine training 
 

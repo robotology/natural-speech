@@ -1,4 +1,5 @@
-% this is the main to run "Seltzer&Droppo, 2013"'s baselines
+% MTKPR_BASELINE Trains and tests THE multi-task learning-based phone recognition system
+% of Seltzer and Droppo (see README for references)
 
 clear all;
 close all;

@@ -1,20 +1,13 @@
-% MTKPR_PCE Trains and tests a phonetic context embebedding-based 
-% articulatory phone recognition system 
+% this is the main of pce_phonerec
 
 clear all;
 close all;
 
-%%%%%%%%%% VARIABLE/HYPER-PARAMETER SETTING %%%%%%%%%%
 
-% define the dataset to use (currently TIMIT and mngu0) 
 corpus = 'timit';
 
-% input files
 dirin = '/DATA/badino/prdata/inputdata/timit/';
-% file containing the whole dataset, i.e.: training, validation and testing data
 datafile = [dirin 'timitData18-Aug-2015.mat'];
-% file that indicates how the datafile has been partitioned  into training, 
-% validation and testing  
 splitfile = [dirin 'timitSplit18-Aug-2015.mat'];
 
 % type of input feature normalization
@@ -30,40 +23,23 @@ dfMapfile = 'dfMap_timit_09-Feb-2016'; %with silences
 
 %no. of states in the HMMs
 nstates = 3;
-
-% remove silences from dataset
 removeSil = 0;
-% ignore silences during multi-task learning (MTL) based training 
 ignoreSil = 1;
-%No. of input frames for the acoustic model (AM) DNN (i.e., the DNN that
-%computes phone posteriors
 Nframes4class = 11;
-%No. of input frames for the DNN that computes the phonetic context
-%embedding (pce)
 Nframes4Reg = 27;
-% downsampling of input frames for pce computation 
 downsample = 0;
 
 % hidden layer from which phonetic context embeddings are extracted
 nle = 1;
 
-% if = 1 loads a distinctive feature map (use to then compute pce), 
-%if = 0 computes the map 
 loadDFMap = 1;
-% do not change this
 rframes = 2;
-% use validation
 bValidation = 1;
-%load phone language models. If = 0 it recomputes the language model
 bloadlm = 0;
-% insert state information when computing pce
 insertStates = 0;
-% compute acoustic feature reconstruction error (of the DNN from which pce 
-% is extracted
 bReconstructionError = 0;
 
 % hyper-parameters of the DNN that computes phone state posteriors
-% for more details on DNN hyperparameters please see nn-heperparams
 parnet_classifier=struct(...
      'units',[NaN 2000 2000 2000 2000 NaN],...
     'activations',{{'relu','relu','relu','relu','softmax'}},...
@@ -197,16 +173,12 @@ parnet_regress1 = struct(...
     );
 
 
-%%%%%% END OF VARIABLE/HYPERPARAMET SETTING %%%%%%%%%%%
-
-netname = 'netblablabla';
 c = clock;
 wdir = datestr(c);
 wdir(wdir==' ') = [];
-wdir = [netname '_' wdir];
+wdir = ['nets_mtk3_27w-relu-3H300-300-300-_1Hpe_mse_normt2wis2' corpus '_' wdir];
 mkdir(wdir);
 
-%%%%%% DATA LOADING ADN NORMALIZATION %%%%%%%%%%%
 load(splitfile);
 
 if(strcmp(parnet_regress1.activations{end},'sigm'))

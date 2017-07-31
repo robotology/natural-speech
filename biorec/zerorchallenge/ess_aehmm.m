@@ -1,5 +1,18 @@
 function [loglik, exp_num_trans, exp_num_visits1,  exp_num_visitsall, allgammas] = ...
     ess_aehmm(prior, transmat, post,starts,ends)
+% ESS_AEHMM Computes the loglikelihood of the HMM-Encoder using the
+% forward-backward algorithm
+% IN
+%   prior: prior probabilities
+%   trasnmat: transition probabities
+%   post: emission probabilities
+%   starts: vector of starting utterance indices
+%   ends: vector of ending utterance indices
+% OUT
+%   loglik: HMM-Encoder loglokelihood
+%   exp_num_trans: expected transitions
+%   exp_num_visits1: expcted number of subword visits
+%   allgammas: subword ''responsabilities"
 
 sxb = 10;
 iblock = 1;
