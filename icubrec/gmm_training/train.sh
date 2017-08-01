@@ -63,57 +63,57 @@ echo ""
 
 cd $MODEL_FOLDER
 
-#sed "s:^:$CORPORA_OTHER/feat/$FEATURE_FOLDER/:g" $FEAT_LIST >train.scp
+sed "s:^:$CORPORA_OTHER/feat/$FEATURE_FOLDER/:g" $FEAT_LIST >train.scp
 export MFC_FILES=train.scp
 export SCRIPTS_PATH=~/dev/speech/htk/chime_recipe/scripts
 
-## Intial setup of training and test MLFs
-#echo "Building training MLF..."
-#make_mlf.sh $MODEL_FOLDER train
-#mv $MODEL_FOLDER/dataset.scp train.scp
-#
-#if [[ $MODEL_START == "flat" ]]; then
-#    # Get the basic monophone models trained
-#    echo "Flat starting monophones..."
-#    $SCRIPTS_PATH/flat_start.sh
-#else
-#    mkdir -p $MODEL_FOLDER/timit
-#    # Code the audio files to MFCC feature vectors
-#    echo "Coding TIMIT..."
-##    $SCRIPTS_PATH/prep_timit.sh
-#
-#    # Use the transcriptions to train up the monophone models
-#    mkdir -p timit
-#    echo "Training TIMIT monophones..."
-#    $SCRIPTS_PATH/train_mono_timit.sh
-#
-#    # As a sanity check, we'll evaluate the monophone models
-#    # doing just phone recognition on the training data.
-#    echo "Evaluating TIMIT monophones..."
-#    $SCRIPTS_PATH/eval_mono.sh
-#
-#    cd $MODEL_FOLDER
-#fi
+# Intial setup of training and test MLFs
+echo "Building training MLF..."
+make_mlf.sh $MODEL_FOLDER train
+mv $MODEL_FOLDER/dataset.scp train.scp
 
-## Create a new MLF that is aligned based on our monophone model
-#echo "Aligning with monophones..."
-#$SCRIPTS_PATH/align_mlf.sh $MODEL_START
-#
-## More training for the monophones, create triphones, train
-## triphones, tie the triphones, train tied triphones, then
-## mixup the number of Gaussians per state.
-#echo "Training monophones..."
-#$SCRIPTS_PATH/train_mono.sh $MODEL_START
-#echo "Prepping triphones..."
-#$SCRIPTS_PATH/prep_tri.sh $CTXEXP
-#echo "Training triphones..."
-#$SCRIPTS_PATH/train_tri.sh
-## These values of RO and TB seem to work fairly well, but
-## there may be more optimal values.
-#echo "Prepping state-tied triphones..."
-#$SCRIPTS_PATH/prep_tied.sh 200 750 $CTXEXP
-#echo "Training state-tied triphones..."
-#$SCRIPTS_PATH/train_tied.sh
+if [[ $MODEL_START == "flat" ]]; then
+    # Get the basic monophone models trained
+    echo "Flat starting monophones..."
+    $SCRIPTS_PATH/flat_start.sh
+else
+    mkdir -p $MODEL_FOLDER/timit
+    # Code the audio files to MFCC feature vectors
+    echo "Coding TIMIT..."
+#    $SCRIPTS_PATH/prep_timit.sh
+
+    # Use the transcriptions to train up the monophone models
+    mkdir -p timit
+    echo "Training TIMIT monophones..."
+    $SCRIPTS_PATH/train_mono_timit.sh
+
+    # As a sanity check, we'll evaluate the monophone models
+    # doing just phone recognition on the training data.
+    echo "Evaluating TIMIT monophones..."
+    $SCRIPTS_PATH/eval_mono.sh
+
+    cd $MODEL_FOLDER
+fi
+
+# Create a new MLF that is aligned based on our monophone model
+echo "Aligning with monophones..."
+$SCRIPTS_PATH/align_mlf.sh $MODEL_START
+
+# More training for the monophones, create triphones, train
+# triphones, tie the triphones, train tied triphones, then
+# mixup the number of Gaussians per state.
+echo "Training monophones..."
+$SCRIPTS_PATH/train_mono.sh $MODEL_START
+echo "Prepping triphones..."
+$SCRIPTS_PATH/prep_tri.sh $CTXEXP
+echo "Training triphones..."
+$SCRIPTS_PATH/train_tri.sh
+# These values of RO and TB seem to work fairly well, but
+# there may be more optimal values.
+echo "Prepping state-tied triphones..."
+$SCRIPTS_PATH/prep_tied.sh 200 750 $CTXEXP
+echo "Training state-tied triphones..."
+$SCRIPTS_PATH/train_tied.sh
 echo "Mixing up..."
 $SCRIPTS_PATH/train_mixup.sh
 
