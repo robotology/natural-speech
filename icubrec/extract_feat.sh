@@ -1,7 +1,7 @@
 #!/bin/bash
 
 USAGE="Convert the audio files into features\n"
-USAGE=$USAGE"Usage: $0 [-e envt_file] [-f audio_list] [-x extension] audio_root_folder output_folder"
+USAGE=$USAGE"Usage: $0 [-e envt_file] [-f audio_list] [-x extension] [-r audio_root_folder] output_folder"
 
 # Set default values
 RM_AUDIO_LIST=0
@@ -9,7 +9,7 @@ AUDIO_LIST=""
 
 # ":" for options that require a string argument
 # "#" for options that require a int argument
-while getopts "e:f:hx:" opt; do
+while getopts "e:f:hr:x:" opt; do
     case $opt in
     e)
         ENVT_FILE=$OPTARG;;
@@ -18,6 +18,8 @@ while getopts "e:f:hx:" opt; do
     h)
         echo -e $USAGE >&2;
         exit 0;;
+    r)
+        AUDIO_ROOT_FOLDER=$OPTARG;;
     x)
         AUDIO_EXT=$OPTARG;;
     \?)
@@ -29,15 +31,9 @@ done
 # shifting the options index to the next parameter we didn't take care of
 shift $((OPTIND - 1));
 
-AUDIO_ROOT_FOLDER=${1%%/};
-OUTPUT_FOLDER=${2%%/};
+OUTPUT_FOLDER=${1%%/};
 
 # Check mandatory arguments
-if test -z $AUDIO_ROOT_FOLDER; then
-    echo -e $USAGE >&2;
-    exit 1;
-fi
-
 if test -z $OUTPUT_FOLDER; then
     echo -e $USAGE >&2;
     exit 1;
@@ -48,11 +44,22 @@ if ! test -z $ENVT_FILE; then
     source $ENVT_FILE
 fi
 
+# set AUDIO_EXT to default value if not set in environment or command line
 if test -z $AUDIO_EXT ; then
     if test -z $AUDIO_FILES_EXT; then
         AUDIO_EXT='wav'
     else
         AUDIO_EXT=$AUDIO_FILES_EXT
+    fi
+fi
+
+# AUDIO_ROOT_FOLDER can be set from the environment or the command line
+if test -z $AUDIO_ROOT_FOLDER; then
+    if test -z $AUDIO_FOLDER; then
+        echo -e $USAGE >&2;
+        exit 1;
+    else
+        AUDIO_ROOT_FOLDER=$AUDIO_FOLDER
     fi
 fi
 
