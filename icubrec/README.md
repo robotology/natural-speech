@@ -5,9 +5,6 @@ recognition (ASR) system. Even though the scripts are quite generic and can be
 used to trained models on different datasets, our ultimate goal is to provide
 tools to perform speech recognition on the iCub plateform.
 
-<!-- The code proposed here is based on the Hidden Markov Model ToolKit (HTK)
-version 3.5.-->
-
 ## Code organization
 
 The code is organized in several subfolders as follows:
@@ -25,6 +22,12 @@ Additionaly to those, several "utility" subfolders are also present:
 * `common` contains configuration and template files required by the scripts
   mentionned above.
 * `scripts` provides generic utility scripts common to different subfolders.
+
+## Dependencies
+
+The code proposed here is based on the Hidden Markov Model ToolKit (HTK)
+version 3.5. The toolkit can be downloaded for [HTK's
+website](http://htk.eng.cam.ac.uk/).
 
 ## Environment files
 
@@ -93,3 +96,11 @@ this dictionary.
 Once the dictionary downloaded, we can adapt it to our vocabulary and compute
 the word network.  For WSJ and CHiME4 datasets, the script `build_lm_wsj.sh`
 can be used for that purpose.
+
+## Credits and License
+
+The starting point of most of the scripts provided here is the [HTK Wall Street
+Journal Training Recipe](http://www.keithv.com/software/htk/) written by Keith
+Vertanen. His code is released under the new BSD licence, except for the file
+`tree_ques.hed` which he didn't write (even though no mention of its origin is
+made). This is compatible with the GPLv3 license we use here.
