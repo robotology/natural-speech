@@ -23,6 +23,9 @@ Additionaly to those, several "utility" subfolders are also present:
   mentionned above.
 * `scripts` provides generic utility scripts common to different subfolders.
 
+A tutorial explaining the full pipeline to train an ASR system on WSJ in
+available in [TUTORIAL.md](TUTORIAL.md).
+
 ## Dependencies
 
 The code proposed here is based on the Hidden Markov Model ToolKit (HTK)
