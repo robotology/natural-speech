@@ -4,11 +4,11 @@
 # Cleanup old files
 rm -f $1/prune.log $1/missing.log $1/missing.txt $1/dataset.scp $1/words.mlf
 
-# Create a file listing all the MFC files in the training directory
-if test -z $MFC_FILES; then
-    rm -f $1/mfc_files.txt
-    find $MFC_FOLDER -iname '*.mfc' >$1/mfc_files.txt
-    MFC_FILES=$1/mfc_files.txt
+# Create a file listing all the FEAT files in the training directory
+if test -z $FEAT_FILES; then
+    rm -f $1/feat_files.txt
+    find $CORPORA_OTHER/feat/$FEAT_FOLDER -iname '*.feat' >$1/feat_files.txt
+    FEAT_FILES=$1/feat_files.txt
 fi
 
 # Create a file that contains the filename of all the transcription files
@@ -21,4 +21,4 @@ fi
 # Now create the MLF file using a script, we prune out anything that
 # has words that aren't in our dictionary, producing a MLF with only
 # these files and a corresponding script file.
-perl $HTK_SCRIPTS/$MLF_CREATION_SCRIPT $2 $MFC_FILES $DOT_FILES $HTK_DATA/cmu/cmu6 $1/words.mlf $1/dataset.scp 1 "" $1/missing.txt 1 >$1/missing.log
+perl $HTK_SCRIPTS/$MLF_CREATION_SCRIPT $2 $FEAT_FILES $DOT_FILES $HTK_DATA/cmu/cmu6 $1/words.mlf $1/dataset.scp 1 "" $1/missing.txt 1 >$1/missing.log
