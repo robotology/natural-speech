@@ -1,6 +1,10 @@
-# Training
+# GMM Training
 
 The training is performed by calling the script `train.sh`.
+
+## Environment files
+
+We offer default environment files for WSJ, CHiME4 and VoCub datasets, all stored in this folder and named after their respective dataset
 
 ## Main training parameters
 
