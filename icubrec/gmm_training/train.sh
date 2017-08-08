@@ -63,9 +63,10 @@ echo ""
 
 cd $MODEL_FOLDER
 
-sed "s:^:$CORPORA_OTHER/feat/$FEATURE_FOLDER/:g" $FEAT_LIST >train.scp
-export MFC_FILES=train.scp
-export SCRIPTS_PATH=~/dev/speech/htk/chime_recipe/scripts
+if ! test -z $FEAT_LIST; then
+    sed "s:^:$CORPORA_OTHER/feat/$FEATURE_FOLDER/:g" $FEAT_LIST >train.scp
+    export FEAT_FILES=train.scp
+fi
 
 # Intial setup of training and test MLFs
 echo "Building training MLF..."
@@ -78,9 +79,9 @@ if [[ $MODEL_START == "flat" ]]; then
     $SCRIPTS_PATH/flat_start.sh
 else
     mkdir -p $MODEL_FOLDER/timit
-    # Code the audio files to MFCC feature vectors
-    echo "Coding TIMIT..."
-#    $SCRIPTS_PATH/prep_timit.sh
+    # Adapting TIMIT phone transcription files
+    echo "Preparing TIMIT..."
+    $SCRIPTS_PATH/prep_timit.sh
 
     # Use the transcriptions to train up the monophone models
     mkdir -p timit
