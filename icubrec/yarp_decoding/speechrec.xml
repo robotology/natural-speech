@@ -7,16 +7,16 @@
     </authors>
     <module>
         <name>/home/bhigy/dev/speech/icub_rec/HTKTools/decoder</name>
-        <node>bertrand</node>
+        <node>localhost</node>
         <parameters>--path /home/bhigy/dev/speech/icub_rec/</parameters>
     </module>
     <module>
         <name>node /home/bhigy/dev/yarp.js/examples/examples.js</name>
-        <node>bertrand</node>
+        <node>localhost</node>
     </module>
     <module>
         <name>rctrld_yarphear_asr</name>
-        <node>bertrand</node>
+        <node>localhost</node>
         <prefix>/yarphear</prefix>
     </module>
 
