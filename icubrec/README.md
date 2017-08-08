@@ -9,8 +9,8 @@ tools to perform speech recognition on the iCub plateform.
 
 The code is organized in several subfolders as follows:
 * `gmm_training` provides code to train Gaussian Mixture Models (GMM).
-* `dnn_training` contains scripts to train Deep Neural Networks (DNN) models.
-  Two alternatives are offered here: training the net with HTK (`htk`
+* `dnn_training` contains scripts to train Deep Neural Network (DNN) based
+  models.  Two alternatives are offered here: training the net with HTK (`htk`
 subfolder) or with Tensorflow (`tf` subfolder). Instructions on how to convert
 a net trained with Tensorflow for use in HTK are provided in
 [`offline_decoding/README.md`](offline_decoding#how-to-convert-tf-net-to-htk-format).
@@ -23,7 +23,7 @@ Additionaly to those, several "utility" subfolders are also present:
   mentionned above.
 * `scripts` provides generic utility scripts common to different subfolders.
 
-A tutorial explaining the full pipeline to train an ASR system on WSJ in
+A tutorial explaining the full pipeline to train an ASR system on WSJ is
 available in [TUTORIAL.md](TUTORIAL.md).
 
 ## Dependencies
@@ -87,18 +87,30 @@ To perform speech recognition, we will need two additional resources:
 * a word network (our language model) that will define which combination of
   words is a valid sentence.
 
-#### Downloading CMU dictionary
+#### Preparing CMU dictionary
 
-Our scripts are based on the CMU dictionary v0.6, downloadable from [CMU's
-website](http://www.speech.cs.cmu.edu/cgi-bin/cmudict). The environment
-variable `$DICT_FILE` in `sys_dpdt.env` should be updated with the location of
-this dictionary.
+Our scripts are based on the CMU dictionary v0.6x (e.g. v0.6d), downloadable
+from [CMU's website](http://www.speech.cs.cmu.edu/cgi-bin/cmudict). The file
+should be placed under `$HTK_DATA/cmu/` folder and called `c0.6`.
+
+Before using the dictionary, the file need to be converted to a better format
+and a few issues need to be fixed (see `scripts/FixCMUDict.pl` for more details
+about the modifications we're doing). This can conveniently be done with the
+script `prep_cmu_dict.sh`. From `icubrec` folder, one can simply issue the
+command:
+
+    ./prep_cmu_dict.sh -e gmm_training/wsj0.env
+
+As a result, the folder `$HTK_DATA/cmu/` will contain three new files: `cmu6`
+which is the cleaned version of the dictionary, `cmu6sp` which additionally
+contains sp short pauses after each word and `cmu6spsil` which also maps the
+word "silence" the phone "sil".
 
 #### Building the resources
 
-Once the dictionary downloaded, we can adapt it to our vocabulary and compute
-the word network.  For WSJ and CHiME4 datasets, the script `build_lm_wsj.sh`
-can be used for that purpose.
+Once the dictionary downloaded and preprocessed, we can adapt it to our
+vocabulary and compute the word network.  For WSJ and CHiME4 datasets, the
+script `build_lm_wsj.sh` can be used for that purpose.
 
 ## Credits and License
 
