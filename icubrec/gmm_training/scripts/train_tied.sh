@@ -23,14 +23,14 @@ rm -f $MODEL_FOLDER/hmm14.log $MODEL_FOLDER/hmm15.log $MODEL_FOLDER/hmm16.log $M
 # As per the CSTIT notes, do four rounds of reestimation (more than
 # in the tutorial).
 
-#HERest -B -A -T 1 -m 0 -C $HTK_COMMON/$FEAT_CONFIG_FILE -I $TRAIN_WSJ0/wintri.mlf -t 250.0 150.0 1000.0 -S train.scp -H $TRAIN_WSJ0/hmm13/macros -H $TRAIN_WSJ0/hmm13/hmmdefs -M $TRAIN_WSJ0/hmm14 $TRAIN_WSJ0/tiedlist >$TRAIN_WSJ0/hmm14.log
+#HERest -B -A -T 1 -m 0 -C $HTK_COMMON/$FEAT_CONF_FILE -I $TRAIN_WSJ0/wintri.mlf -t 250.0 150.0 1000.0 -S train.scp -H $TRAIN_WSJ0/hmm13/macros -H $TRAIN_WSJ0/hmm13/hmmdefs -M $TRAIN_WSJ0/hmm14 $TRAIN_WSJ0/tiedlist >$TRAIN_WSJ0/hmm14.log
 train_iter.sh $MODEL_FOLDER hmm13 hmm14 tiedlist wintri.mlf 0
 
-#HERest -B -A -T 1 -m 0 -C $HTK_COMMON/$FEAT_CONFIG_FILE -I $TRAIN_WSJ0/wintri.mlf -t 250.0 150.0 1000.0 -S train.scp -H $TRAIN_WSJ0/hmm14/macros -H $TRAIN_WSJ0/hmm14/hmmdefs -M $TRAIN_WSJ0/hmm15 $TRAIN_WSJ0/tiedlist >$TRAIN_WSJ0/hmm15.log
+#HERest -B -A -T 1 -m 0 -C $HTK_COMMON/$FEAT_CONF_FILE -I $TRAIN_WSJ0/wintri.mlf -t 250.0 150.0 1000.0 -S train.scp -H $TRAIN_WSJ0/hmm14/macros -H $TRAIN_WSJ0/hmm14/hmmdefs -M $TRAIN_WSJ0/hmm15 $TRAIN_WSJ0/tiedlist >$TRAIN_WSJ0/hmm15.log
 train_iter.sh $MODEL_FOLDER hmm14 hmm15 tiedlist wintri.mlf 0
 
-#HERest -B -A -T 1 -m 0 -C $HTK_COMMON/$FEAT_CONFIG_FILE -I $TRAIN_WSJ0/wintri.mlf -t 250.0 150.0 1000.0 -S train.scp -H $TRAIN_WSJ0/hmm15/macros -H $TRAIN_WSJ0/hmm15/hmmdefs -M $TRAIN_WSJ0/hmm16 $TRAIN_WSJ0/tiedlist >$TRAIN_WSJ0/hmm16.log
+#HERest -B -A -T 1 -m 0 -C $HTK_COMMON/$FEAT_CONF_FILE -I $TRAIN_WSJ0/wintri.mlf -t 250.0 150.0 1000.0 -S train.scp -H $TRAIN_WSJ0/hmm15/macros -H $TRAIN_WSJ0/hmm15/hmmdefs -M $TRAIN_WSJ0/hmm16 $TRAIN_WSJ0/tiedlist >$TRAIN_WSJ0/hmm16.log
 train_iter.sh $MODEL_FOLDER hmm15 hmm16 tiedlist wintri.mlf 0
 
-#HERest -B -A -T 1 -m 0 -C $HTK_COMMON/$FEAT_CONFIG_FILE -I $TRAIN_WSJ0/wintri.mlf -t 250.0 150.0 1000.0 -S train.scp -H $TRAIN_WSJ0/hmm16/macros -H $TRAIN_WSJ0/hmm16/hmmdefs -M $TRAIN_WSJ0/hmm17 $TRAIN_WSJ0/tiedlist >$TRAIN_WSJ0/hmm17.log
+#HERest -B -A -T 1 -m 0 -C $HTK_COMMON/$FEAT_CONF_FILE -I $TRAIN_WSJ0/wintri.mlf -t 250.0 150.0 1000.0 -S train.scp -H $TRAIN_WSJ0/hmm16/macros -H $TRAIN_WSJ0/hmm16/hmmdefs -M $TRAIN_WSJ0/hmm17 $TRAIN_WSJ0/tiedlist >$TRAIN_WSJ0/hmm17.log
 train_iter.sh $MODEL_FOLDER hmm16 hmm17 tiedlist wintri.mlf 0

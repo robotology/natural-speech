@@ -41,7 +41,7 @@ HHEd -H $MODEL_FOLDER/hmm5/hmmdefs -H $MODEL_FOLDER/hmm5/macros -M $MODEL_FOLDER
 #  -S   File listing all the feature vector files
 #  -M   Where to store the output files
 #  -I   MLF containg phone labels of feature vector files
-HCompV -A -T 1 -C $HTK_COMMON/$FEAT_CONFIG_FILE -f 0.01 -m -S $MODEL_FOLDER/train.scp -M $MODEL_FOLDER/hmm5_text -I $MODEL_FOLDER/aligned2.mlf $HTK_COMMON/proto >$MODEL_FOLDER/hcompv.log
+HCompV -A -T 1 -C $HTK_COMMON/$FEAT_CONF_FILE -f 0.01 -m -S $MODEL_FOLDER/train.scp -M $MODEL_FOLDER/hmm5_text -I $MODEL_FOLDER/aligned2.mlf $HTK_COMMON/proto >$MODEL_FOLDER/hcompv.log
 cp $HTK_COMMON/macros $MODEL_FOLDER/hmm5_text/macros
 cat $MODEL_FOLDER/hmm5_text/vFloors >> $MODEL_FOLDER/hmm5_text/macros
 

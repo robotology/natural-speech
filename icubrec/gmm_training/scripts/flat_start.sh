@@ -21,7 +21,7 @@ HLEd -A -T 1 -l '*' -d $HTK_DATA/cmu/cmu6 -i $MODEL_FOLDER/phones0.mlf $HTK_COMM
 #  -m   Update the means as well
 #  -S   File listing all the feature vector files
 #  -M   Where to store the output files
-HCompV -A -T 1 -C $HTK_COMMON/$FEAT_CONFIG_FILE -f 0.01 -m -S $MODEL_FOLDER/train.scp -M $MODEL_FOLDER/hmm0 $HTK_COMMON/proto >$MODEL_FOLDER/hcompv_flat.log
+HCompV -A -T 1 -C $HTK_COMMON/$FEAT_CONF_FILE -f 0.01 -m -S $MODEL_FOLDER/train.scp -M $MODEL_FOLDER/hmm0 $HTK_COMMON/proto >$MODEL_FOLDER/hcompv_flat.log
 
 # Create the master model definition and macros file
 cd $MODEL_FOLDER
