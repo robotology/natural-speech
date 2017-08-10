@@ -229,13 +229,6 @@ if(loadDFMap==0)
 end
 
 % 2. extract distinctive features from phone labels
-if(insertStates)
-    trainSids = getStateId(traintargets,nstates,0);
-    valSids = getStateId(valtargets,nstates,0);
-    testSids = getStateId(testtargets,nstates,0);
-
-end
-%clear traintargets testtargets valtargets;
 
 if(loadDFMap)
     [traindfM, valdfM, testdfM] = getDFs(dfMapfile,insertStates);
