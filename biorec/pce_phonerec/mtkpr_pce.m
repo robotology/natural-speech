@@ -57,7 +57,9 @@ bValidation = 1;
 %load phone language models. If = 0 it recomputes the language model
 bloadlm = 0;
 % insert state information when computing pce
-insertStates = 0;
+% now it only works with insertStates = 0. In previous experiments this
+% turned out to be the best choice
+insertStates = 0; 
 % compute acoustic feature reconstruction error (of the DNN from which pce 
 % is extracted
 bReconstructionError = 0;
