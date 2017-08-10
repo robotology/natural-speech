@@ -1,10 +1,8 @@
-function [traindfM, valdfM, testdfM] = getDFs(dfMapfile,insertStates,varargin)
+function [traindfM, valdfM, testdfM] = getDFs(dfMapfile,varargin)
 %GETDFS Loads or computes a vector of distinctive/articulatory features for
 % each frame of acoustic features
 % IN
 %   dfMapfile: file name where articulatory features are saved
-%   insertStates: boolean indicating whether inserting state indeces as additional
-%                 info
 %   varargin{1}: label matrix of the training set
 %   varargin{2}: label matrix of the validation set
 %   varargin{1}: label matrix of the testing set
@@ -25,9 +23,9 @@ else
     error('Wrong nukber of input arguments<n');
 end
 
-if(insertStates)    
-    traindfM = [traindfM trainSids];
-    valdfM = [valdfM valSids];
-    testdfM = [testdfM testSids];
-    clear trainSids testSids valSids;
-end
+% if(insertStates)    
+%     traindfM = [traindfM trainSids];
+%     valdfM = [valdfM valSids];
+%     testdfM = [testdfM testSids];
+%     clear trainSids testSids valSids;
+% end

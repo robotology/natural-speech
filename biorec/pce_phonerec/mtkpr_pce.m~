@@ -59,8 +59,7 @@ bloadlm = 0;
 % insert state information when computing pce
 % now it only works with insertStates = 0. In previous experiments this
 % turned out to be the best choice
-%insertStates = 0; 
-
+insertStates = 0; 
 % compute acoustic feature reconstruction error (of the DNN from which pce 
 % is extracted
 bReconstructionError = 0;
@@ -232,9 +231,9 @@ if(loadDFMap==0)
 end
 
 if(loadDFMap)
-    [traindfM, valdfM, testdfM] = getDFs(dfMapfile);
+    [traindfM, valdfM, testdfM] = getDFs(dfMapfile,insertStates);
 else
-    [traindfM, valdfM, testdfM] = getDFs('',trainplabels, valplables, testplables, corpus);
+    [traindfM, valdfM, testdfM] = getDFs('',insertStates,trainplabels, valplables, testplables, corpus);
     dfMapfile = ['dfMap_' corpus '_' date]; 
     save(dfMapfile,'traindfM''valdfM','testdfM');
 end
@@ -324,7 +323,7 @@ end
 %%%% that computes phone state posteriors
 
 
-[traindfM, valdfM, testdfM] = getDFs(dfMapfile);
+[traindfM, valdfM, testdfM] = getDFs(dfMapfile,insertStates);
 if(ignoreSil)
     trainsil = traindfM(:,end)==1;
 else
