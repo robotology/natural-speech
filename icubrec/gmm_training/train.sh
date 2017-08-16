@@ -1,8 +1,7 @@
 #!/bin/bash
-# Trains up GMM models.
 
-# Set default values
-USAGE="Usage: $0 [-e envt_file] model_folder [feat_list] [dot_list]";
+USAGE="Trains up GMM models.\n"
+USAGE=$USAGE"Usage: $0 [-e envt_file] model_folder feat_list";
 
 # ":" for options that require a string argument
 # "#" for options that require a int argument
@@ -24,11 +23,13 @@ shift $((OPTIND - 1));
 
 export MODEL_FOLDER=${1%%/};
 export FEAT_LIST=${2%%/};
-export DOT_FILES=${3%%/};
 
 # Check mandatory arguments
-if test -z $MODEL_FOLDER
-then
+if test -z $MODEL_FOLDER; then
+    echo -e $USAGE >&2;
+    exit 1;
+fi
+if test -z $FEAT_LIST; then
     echo -e $USAGE >&2;
     exit 1;
 fi
@@ -56,22 +57,16 @@ echo "Environment variables:"
 echo "ENVT_FILE       = $ENVT_FILE"
 echo "MODEL_FOLDER    = $MODEL_FOLDER"
 echo "FEAT_LIST       = $FEAT_LIST"
-echo "DOT_FILES       = $DOT_FILES"
+echo "DOT_LIST        = $DOT_LIST"
 echo "CTXEXP          = $CTXEXP"
 echo "MODEL_START     = $MODEL_START"
 echo ""
 
 cd $MODEL_FOLDER
 
-if ! test -z $FEAT_LIST; then
-    sed "s:^:$CORPORA_OTHER/feat/$FEATURE_FOLDER/:g" $FEAT_LIST >train.scp
-    export FEAT_FILES=train.scp
-fi
-
-# Intial setup of training and test MLFs
+# Intial setup of training MLFs
 echo "Building training MLF..."
-make_mlf.sh $MODEL_FOLDER train
-mv $MODEL_FOLDER/dataset.scp train.scp
+make_mlf.sh $MODEL_FOLDER $FEAT_LIST train.scp words.mlf train
 
 if [[ $MODEL_START == "flat" ]]; then
     # Get the basic monophone models trained
