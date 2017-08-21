@@ -16,11 +16,16 @@ More details about the training procedure are given in the table below.
 
 ## DNN models
 
-We also proposed pretrained DNN-based models for TIMIT and WSJ0.
+We also proposed pretrained DNN-based models for TIMIT and WSJ0. Both were trained with the script `dnn_training/htk/train.sh`, using the same architecture and the same training parameters:
+* number of hidden layers: 4
+* number of hidden nodes: 2000
+* optimizer: newbob
+* learning rate: 3e-5
+* decay factor: 0.75
 
-More details about the training procedure are given in the table below.
+More details about the trained models are given in the table below.
 
-|Archive name|Training dataset(s)|Context expansion|Optimizer|Learning rate|Decay factor|
-|-|-|-|-|-|-|
-|[dnn_timit](https://zenodo.org/record/836692/files/dnn_timit.tar.gz)|TIMIT|Word internal|Newbob|3e-5|0.75|
-|[dnn_wsj0](https://zenodo.org/record/836692/files/dnn_wsj0.tar.gz)|WSJ0|Word internal|Newbob|3e-5|0.75|
+|Archive name|Training dataset(s)|Context expansion|
+|-|-|-|
+|[dnn_timit](https://zenodo.org/record/836692/files/dnn_timit.tar.gz)|TIMIT|Word internal|
+|[dnn_wsj0](https://zenodo.org/record/836692/files/dnn_wsj0.tar.gz)|WSJ0|Word internal|
