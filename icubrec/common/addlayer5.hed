@@ -1,0 +1,6 @@
+AM ~M "layer4_weight" <MATRIX> 1000 1000
+AV ~V "layer4_bias" <VECTOR> 1000
+IL ~N "DNN1" 4 ~L "layer4" <BEGINLAYER> <LAYERKIND> "PERCEPTRON" <INPUTFEATURE> ~F "layer3_feamix" <WEIGHT> ~M "layer4_weight" <BIAS> ~V "layer4_bias" <ACTIVATION> "SIGMOID" <ENDLAYER>
+CF ~L "layerout" ~F "layer4_feamix" <FEATURE> 1 1000 <SOURCE> ~L "layer4" <CONTEXTSHIFT> 1 0
+EL ~L "layer4"
+EL ~L "layerout"

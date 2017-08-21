@@ -1,0 +1,5 @@
+CH proto/dnn proto/foolist ~N "DNN1" <HYBRID>
+SW 1 $FEATURE_SIZE
+SK $FEATURE_TYPE
+EL ~L "layer2"
+EL ~L "layerout"

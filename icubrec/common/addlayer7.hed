@@ -1,0 +1,6 @@
+AM ~M "layer6_weight" <MATRIX> 1000 1000
+AV ~V "layer6_bias" <VECTOR> 1000
+IL ~N "DNN1" 6 ~L "layer6" <BEGINLAYER> <LAYERKIND> "PERCEPTRON" <INPUTFEATURE> ~F "layer5_feamix" <WEIGHT> ~M "layer6_weight" <BIAS> ~V "layer6_bias" <ACTIVATION> "SIGMOID" <ENDLAYER>
+CF ~L "layerout" ~F "layer6_feamix" <FEATURE> 1 1000 <SOURCE> ~L "layer6" <CONTEXTSHIFT> 1 0
+EL ~L "layer6"
+EL ~L "layerout"
