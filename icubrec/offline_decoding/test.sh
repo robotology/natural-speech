@@ -1,27 +1,31 @@
 #!/bin/bash
 
-read -r -d '' USAGE <<'EOF'
-Tests models
-Usage: test.sh [-h] [-e envt_file] model_folder feat_list [-t transcr_list] result_folder
+DESCRIPTION="Tests models"
+USAGE="Usage: $(basename $0) [-h] [-e envt_file] [-t transcr_list] model_folder
+           feat_list result_folder
+
 Positional arguments:
     model_folder    folder where the model is stored
     feat_list       list of feature files to use for testing
     result_folder   folder where the results should be stored
+
 Optional arguments:
-    -h              help
     -e              environment file
-    -t              list of transcriptions
-EOF
+    -h              help
+    -t              list of transcriptions"
 
 # ":" for options that require a string argument
 # "#" for options that require a int argument
-while getopts "e:h" opt; do
+while getopts "e:ht:" opt; do
     case $opt in
     e)
         ENVT_FILE=$OPTARG;;
     h)
-        echo -e "$USAGE" >&2;
+        echo -e "$DESCRIPTION\n";
+        echo -e "$USAGE";
         exit 0;;
+    t)
+        TRANSCR_LIST=$OPTARG;;
     \?)
         echo -e "$USAGE" >&2;
         exit 1;;
@@ -72,12 +76,13 @@ echo "Environment variables:"
 echo "ENVT_FILE       = $ENVT_FILE"
 echo "MODEL_FOLDER    = $MODEL_FOLDER"
 echo "FEAT_LIST       = $FEAT_LIST"
+echo "TRANSCR_LIST    = $TRANSCR_LIST"
 echo "RESULT_FOLDER   = $RESULT_FOLDER"
 echo ""
 
 # Intial setup of test MLFs
 echo "Building test MLF..."
-make_mlf.sh $RESULT_FOLDER $FEAT_LIST dataset.scp words.mlf test
+make_mlf.sh -s -t "$TRANSCR_LIST" $RESULT_FOLDER $FEAT_LIST dataset.scp words.mlf test
 
 # You can probably now increase results slightly by running
 # the best penalty and scale factor with a higher beam width,

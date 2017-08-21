@@ -6,8 +6,12 @@
 # coverage in the WSJ1 training data
 #
 
-USAGE="Prepare CMU dictionary\n"
-USAGE=$USAGE"Usage: $0 [-e envt_file]";
+DESCRIPTION="Prepare CMU dictionary"
+USAGE="Usage: $(basename $0) [-h] [-e envt_file]
+
+Optional arguments:
+    -e              environment file
+    -h              help"
 
 # ":" for options that require a string argument
 # "#" for options that require a int argument
@@ -16,10 +20,11 @@ while getopts "e:h" opt; do
     e)
         ENVT_FILE=$OPTARG;;
     h)
-        echo -e $USAGE >&2;
+        echo -e "$DESCRIPTION\n";
+        echo -e "$USAGE";
         exit 0;;
     \?)
-        echo -e $USAGE >&2;
+        echo -e "$USAGE" >&2;
         exit 1;;
     esac
 done

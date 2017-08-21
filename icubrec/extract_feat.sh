@@ -1,7 +1,19 @@
 #!/bin/bash
 
-USAGE="Convert the audio files into features\n"
-USAGE=$USAGE"Usage: $0 [-e envt_file] [-f audio_list] [-x extension] [-r audio_root_folder] output_folder"
+DESCRIPTION="Convert the audio files into features"
+USAGE="Usage: $(basename $0) [-h] [-e envt_file] [-f audio_list] [-r audio_root_folder]
+           [-x extension]  output_folder
+
+Positional arguments:
+    output_folder   folder where the files containing the features should be
+                    stored
+
+Optional arguments:
+    -e              environment file
+    -f              list of audio files to convert
+    -h              help
+    -r              root folder where the audio files are stored
+    -x              extension of the audio files (default:wav)"
 
 # Set default values
 RM_AUDIO_LIST=0
@@ -16,14 +28,15 @@ while getopts "e:f:hr:x:" opt; do
     f)
         AUDIO_LIST=$OPTARG;;
     h)
-        echo -e $USAGE >&2;
+        echo -e "$DESCRIPTION\n";
+        echo -e "$USAGE";
         exit 0;;
     r)
         AUDIO_ROOT_FOLDER=$OPTARG;;
     x)
         AUDIO_EXT=$OPTARG;;
     \?)
-        echo -e $USAGE >&2;
+        echo -e "$USAGE" >&2;
         exit 1;;
     esac
 done
@@ -35,7 +48,7 @@ OUTPUT_FOLDER=${1%%/};
 
 # Check mandatory arguments
 if test -z $OUTPUT_FOLDER; then
-    echo -e $USAGE >&2;
+    echo -e "$USAGE" >&2;
     exit 1;
 fi
 
@@ -56,7 +69,7 @@ fi
 # AUDIO_ROOT_FOLDER can be set from the environment or the command line
 if test -z $AUDIO_ROOT_FOLDER; then
     if test -z $AUDIO_FOLDER; then
-        echo -e $USAGE >&2;
+        echo -e "$USAGE" >&2;
         exit 1;
     else
         AUDIO_ROOT_FOLDER=$AUDIO_FOLDER

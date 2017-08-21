@@ -1,6 +1,11 @@
 #!/bin/bash
-# Builds the dictionary and the word network we need for recognition
 
+DESCRIPTION="Builds the dictionary and the word network needed for recognition"
+USAGE="Usage: $(basename $0) [-h] [-e envt_file]
+
+Optional arguments:
+    -e              environment file
+    -h              help"
 # Set default values
 USAGE="Usage: $0 [-e envt_file]";
 
@@ -11,10 +16,11 @@ while getopts "e:h" opt; do
     e)
         ENVT_FILE=$OPTARG;;
     h)
-        echo -e $USAGE >&2;
+        echo -e "$DESCRIPTION\n";
+        echo -e "$USAGE";
         exit 0;;
     \?)
-        echo -e $USAGE >&2;
+        echo -e "$USAGE" >&2;
         exit 1;;
     esac
 done
@@ -44,4 +50,3 @@ rm -f dict_temp dict_temp2
 gunzip -d -c $LNG_MODEL >lm_temp
 HBuild -A -T 1 -C $HTK_COMMON/rawmit.htkc -n lm_temp -u '<UNK>' -s '<s>' '</s>' -z $DICT_FILE $GRAM_FILE >hbuild.log
 rm -f lm_temp
-
