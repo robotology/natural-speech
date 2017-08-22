@@ -50,12 +50,11 @@ def input_pipeline(filenames, num_epochs=None):
     return example_batch, label_batch
 
 
-def main(output_size):
+def main(args):
     with tf.Session() as sess:
         with tf.device('/cpu:0'):
             # File reading
-            example_batch, label_batch = input_pipeline(
-                ["/DATA/bhigy/corpora/timit/tr.xy.csv"])
+            example_batch, label_batch = input_pipeline(args.input_files)
 
         # Defining the network
         input = example_batch
@@ -63,7 +62,7 @@ def main(output_size):
             with tf.name_scope("layer" + str(i + 1)):
                 input = tf.nn.relu(add_layer(input, 2000))
         with tf.name_scope("layerout"):
-            y = add_layer(input, output_size)
+            y = add_layer(input, args.output_size)
             cross_entropy = tf.reduce_mean(
                 tf.nn.sparse_softmax_cross_entropy_with_logits(
                     labels=label_batch, logits=y))
@@ -76,7 +75,7 @@ def main(output_size):
         tf.summary.scalar('accuracy', accuracy)
 
         # TensorBoard summary
-        writer = tf.summary.FileWriter('/DATA/bhigy/tf/summaries', sess.graph)
+        writer = tf.summary.FileWriter(args.summary_folder, sess.graph)
         merged = tf.summary.merge_all()
 
         sess.run(tf.global_variables_initializer())
@@ -87,7 +86,6 @@ def main(output_size):
 
         start = time.time()
         for i in range(10):
-            # acc, _ = sess.run([accuracy, train_step])
             summary, _ = sess.run([merged, train_step])
             writer.add_summary(summary, i)
         end = time.time()
@@ -98,8 +96,12 @@ def main(output_size):
 
 if __name__ == '__main__':
     # Parsing command line
-    parser = argparse.ArgumentParser(description='Data loading testing script')
+    parser = argparse.ArgumentParser(description='Example of training script')
+    parser.add_argument('output_size', help='Size of the output layer')
     parser.add_argument(
-        'output_size', metavar='output_size', help='Size of the output layer')
+        'summary_folder', help='Folder where to output the summary')
+    parser.add_argument(
+        'input_files', metavar='input_file', help='Input file',
+        nargs='+')
     args = parser.parse_args()
-    main(args.output_size)
+    main(args)
