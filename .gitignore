@@ -1,3 +1,4 @@
-*.swp
 build/
-vocub/
+_site
+*.swp
+*.lock
