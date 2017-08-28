@@ -1,0 +1,103 @@
+No you are not
+Yes you are
+Forget all objects
+Skip it
+This is an octopus
+This is a bottle
+This is a car
+This is a turtle
+This is a ladybug
+This is a lego
+This is a toy
+This is a box
+Forget the box
+Forget the bottle
+Forget the car
+Forget the turtle
+Forget the ladybug
+Forget the lego
+Forget the toy
+Forget the octopus
+Explore the box
+Explore the bottle
+Explore the car
+Explore the turtle
+Explore the ladybug
+Explore the lego
+Explore the toy
+Explore the octopus
+Wrong, this is a lego
+Wrong, this is a toy
+Wrong, this is a box
+Wrong, this is a bottle
+Wrong, this is a car
+Wrong, this is a turtle
+Wrong, this is a ladybug
+Wrong, this is an octopus
+Let me show you how to reach the box with your left arm
+Let me show you how to reach the box with your right arm
+Let me show you how to reach the bottle with your left arm
+Let me show you how to reach the bottle with your right arm
+Let me show you how to reach the car with your left arm
+Let me show you how to reach the car with your right arm
+Let me show you how to reach the turtle with your left arm
+Let me show you how to reach the turtle with your right arm
+Let me show you how to reach the ladybug with your left arm
+Let me show you how to reach the ladybug with your right arm
+Let me show you how to reach the lego with your left arm
+Let me show you how to reach the lego with your right arm
+Let me show you how to reach the toy with your left arm
+Let me show you how to reach the toy with your right arm
+Let me show you how to reach the octopus with your left arm
+Let me show you how to reach the octopus with your right arm
+What is this?
+Execute a plan
+I will teach you a new object
+See you soon
+Calibrate on table
+Grasp the box
+Grasp the bottle
+Grasp the car
+Grasp the turtle
+Grasp the ladybug
+Grasp the lego
+Grasp the toy
+Grasp the octopus
+Return to home position
+Finished
+Push the box
+Push the bottle
+Push the car
+Push the turtle
+Push the ladybug
+Push the lego
+Push the toy
+Push the octopus
+Touch the box
+Touch the bottle
+Touch the car
+Touch the turtle
+Touch the ladybug
+Touch the lego
+Touch the toy
+Touch the octopus
+There you go
+Take the box
+Take the bottle
+Take the car
+Take the turtle
+Take the ladybug
+Take the lego
+Take the toy
+Take the octopus
+No, I do not
+Yes I do
+No, here it is
+Where is the box?
+Where is the bottle?
+Where is the car?
+Where is the turtle?
+Where is the ladybug?
+Where is the lego?
+Where is the toy?
+Where is the octopus?

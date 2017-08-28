@@ -1,0 +1,28 @@
+$vObject = OCTOPUS;
+$cObject = TOY | LEGO | LADYBUG | TURTLE | CAR | BOTTLE | BOX;
+$object = $vObject | $cObject;
+$aObject = AN $vObject | A $cObject;
+$side = LEFT | RIGHT;
+$action = TAKE | GRASP | TOUCH | PUSH | EXPLORE;
+$sent = SKIP IT |
+		YES YOU ARE |
+		NO YOU ARE NOT |
+		NO HERE IT IS |
+		YES I DO |
+		NO I DO NOT |
+		THERE YOU GO |
+		FINISHED |
+		RETURN TO HOME POSITION |
+		CALIBRATE ON TABLE |
+		SEE YOU SOON |
+		I WILL TEACH YOU A NEW OBJECT |
+		EXECUTE A PLAN |
+		WHAT IS THIS |
+		WRONG THIS IS $aObject |
+		THIS IS $aObject |
+		WHERE IS THE $object |
+		$action THE $object |
+		LET ME SHOW YOU HOW TO REACH THE $object WITH YOUR $side ARM |
+		FORGET THE $object |
+		FORGET ALL OBJECTS;
+( SENT-START ( $sent ) SENT-END )

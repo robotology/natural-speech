@@ -13,7 +13,7 @@ We have created a dataset specifically for ASR for iCub. Recording a dataset has
 
 ## Characteristics
 
-The recordings consist of spoken English commands addressed to iCub. There are 103 unique commands (see below for some examples), composed of 62 different words. The command length ranges from 1 to 13 words, with an average of ~5 words per sentence. 29 speakers were recorded, 16 males and 13 females, 28 of which are non-native English speakers. We finally obtained 118 recordings from each speaker: of the 103 unique commands, 88 were recorded once, and 15 twice (corresponding to sentences containing rare words). This leads to about 2 hours and 30 minutes of recording in total.
+The recordings consist of spoken English commands addressed to iCub. There are 103 unique commands (see below for some examples or [Resources](#resources) section for the complete list), composed of 62 different words. The command length ranges from 1 to 13 words, with an average of ~5 words per sentence. 29 speakers were recorded, 16 males and 13 females, 28 of which are non-native English speakers. We finally obtained 118 recordings from each speaker: of the 103 unique commands, 88 were recorded once, and 15 twice (corresponding to sentences containing rare words). This leads to about 2 hours and 30 minutes of recording in total.
 
 |10 examples of the commands used in the VoCub dataset|
 |-|
@@ -44,4 +44,11 @@ The commands were recorded in two different conditions (see video below for an i
 
 In the static condition, the speaker sat in front of two screens where the sentences to read were displayed. In the non-static condition, the commands were provided to the subject verbally through a speech synthesis system, and the person had to repeat them while performing a secondary manual task. This secondary task was designed to be simple enough to not impede the utterance repetition task, while requiring people to move around the robot. The distance between the speaker and the microphone in this last condition ranges from 50cm to 3m.
 
-We also registered a set of additional sentences for the testing group (same structure but different vocabulary) to test a recognition system for new commands not seen during training. The sentences consist of 20 new commands, pronounced by each speaker of the test set twice: once in non-static condition (`cond` = 3) and once in static condition (`cond` = 4).
+We also registered a set of additional sentences for the testing group (same structure but different vocabulary, see [Resources](#resources) section) to test a recognition system for new commands not seen during training. The sentences consist of 20 new commands, pronounced by each speaker of the test set twice: once in non-static condition (`cond` = 3) and once in static condition (`cond` = 4).
+
+## Resources<a name="resources"></a>
+
+* [List of original commands](sent.txt)
+* [Original grammar](gram.txt)
+* [Additionnal sentences](sent_add.txt) (conditions 3 and 4)
+* [Full grammar](gram_all.txt), including additional sentences
