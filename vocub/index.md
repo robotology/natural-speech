@@ -37,7 +37,10 @@ A split of the speakers into training, validation and test sets is proposed with
 
 ## Recording conditions
 
-The commands were recorded in two different conditions, non-static (`cond` = 1) and static condition (`cond` = 2),  with an equal number of recorded utterances per condition.
+The commands were recorded in two different conditions (see video below for an illustration), non-static (`cond` = 1) and static condition (`cond` = 2),  with an equal number of recorded utterances per condition.
+
+**Illustration of VoCub dataset acquisition procedure**
+<iframe width="560" height="315" src="https://www.youtube.com/embed/N-rrNQ0gnRY" frameborder="0" allowfullscreen></iframe>
 
 In the static condition, the speaker sat in front of two screens where the sentences to read were displayed. In the non-static condition, the commands were provided to the subject verbally through a speech synthesis system, and the person had to repeat them while performing a secondary manual task. This secondary task was designed to be simple enough to not impede the utterance repetition task, while requiring people to move around the robot. The distance between the speaker and the microphone in this last condition ranges from 50cm to 3m.
 
