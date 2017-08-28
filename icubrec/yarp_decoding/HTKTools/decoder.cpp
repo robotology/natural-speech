@@ -187,9 +187,15 @@ using namespace yarp::os;
 
 class MyModule:public RFModule
 {
+public:
+    int argc;
+    char **argv;
+
+private:
     RpcServer handlerPort; //a port to handle messages
     BufferedPort<Bottle> speechOutPort;
     bool hvite_initialized;
+
 public:
 
     double getPeriod()
@@ -205,17 +211,14 @@ public:
         return true;
     }
 
-    /*
-    * Message handler. Just echo all received messages.
-    */
-    bool respond(const Bottle& command, Bottle& reply) 
+    bool respond(const Bottle& command, Bottle& reply)
     {
         cout<<"Got something, echo is on"<<endl;
         if (command.get(0).asString()=="quit")
-            return false;     
+            return false;
         else if (command.get(0).asString()=="recognize") {
-            int argc = 16;
-            char* argv[] = {"HVite", "-C", "config", "-H", "mmf", "-i", "recout.mlf", "-w", "wdnet_upper", "-p", "4.0", "-s", "15", "dict_sp", "tiedlist", "speech.wav"};
+            //int argc = 16;
+            //char* argv[] = {"HVite", "-C", "config", "-H", "mmf", "-i", "recout.mlf", "-w", "wdnet_upper", "-p", "4.0", "-s", "15", "dict_sp", "tiedlist", "speech.wav"};
             initHVite(argc, argv);
             DoRecognition();
             cleanHVite();
@@ -226,7 +229,7 @@ public:
         return true;
     }
 
-    /* 
+    /*
     * Configure function. Receive a previously initialized
     * resource finder object. Use it to configure your module.
     * Open port and attach it to message handler.
@@ -239,10 +242,6 @@ public:
             return false;
 
         attach(handlerPort);
-        /*hvite_initialized = false;
-        int argc = 16;
-        char* argv[] = {"HVite", "-C", "config", "-H", "mmf", "-i", "recout.mlf", "-w", "wdnet_upper", "-p", "4.0", "-s", "15", "dict_sp", "tiedlist", "speech.wav"};
-        initHVite(argc, argv);*/
         return true;
     }
 
@@ -285,12 +284,12 @@ public:
         #endif
         InitANNet();
 
-        if(InitParm()<SUCCESS)  
+        if(InitParm()<SUCCESS)
           HError(3200,"HVite: InitParm failed");
 
         InitDict();
         InitNet();   InitRec();
-        InitUtil(); 
+        InitUtil();
         /* cz277 - xform */
         /*InitAdapt(&xfInfo);*/
         InitAdapt();
@@ -305,11 +304,11 @@ public:
 
         SetConfParms();
         CreateHeap(&modelHeap, "Model heap",  MSTAK, 1, 0.0, 100000, 800000 );
-        CreateHMMSet(&hset,&modelHeap,TRUE); 
+        CreateHMMSet(&hset,&modelHeap,TRUE);
 
         while (NextArg() == SWITCHARG) {
           s = GetSwtArg();
-          if (strlen(s)!=1) 
+          if (strlen(s)!=1)
              HError(3219,"HVite: Bad switch %s; must be single letter",s);
           switch(s[0]){
           case 'a':
@@ -319,7 +318,7 @@ public:
                 HError(3219,"HVite: Utterance boundary word expected");
              bndId = GetLabId(GetStrArg(),TRUE); break;
           case 'c':
-             tmBeam = GetChkedFlt(0.0,1000.0,s); break;          
+             tmBeam = GetChkedFlt(0.0,1000.0,s); break;
           case 'd':
              if (NextArg()!=STRINGARG)
                 HError(3219,"HVite: HMM definition directory expected");
@@ -357,7 +356,7 @@ public:
                 nTrans = GetChkedInt(1,10000,s);
              else
                 nTrans = 1;
-             break;      
+             break;
           case 'o':
              if (NextArg()!=STRINGARG)
                 HError(3219,"HVite: Output label format expected");
@@ -373,7 +372,7 @@ public:
           case 's':
              lmScale = GetChkedFlt(0.0,1000.0,s);  break;
           case 't':
-             genBeam = GetChkedFlt(0,1.0E20,s); 
+             genBeam = GetChkedFlt(0,1.0E20,s);
          if (genBeam == 0.0)
             genBeam = -LZERO;
              if (NextArg()==FLOATARG || NextArg()==INTARG) {
@@ -386,7 +385,7 @@ public:
               else {
                  genBeamInc = 0.0;
                  genBeamLim = genBeam;
-              }  
+              }
               break;
           case 'w':
              if (NextArg()!=STRINGARG)
@@ -400,9 +399,9 @@ public:
              }
              break;
           case 'u':
-             maxActive = GetChkedInt(0,100000,s); break;      
+             maxActive = GetChkedInt(0,100000,s); break;
           case 'v':
-             wordBeam = GetChkedFlt(0,1.0E20,s); 
+             wordBeam = GetChkedFlt(0,1.0E20,s);
              if (wordBeam == 0.0)
                 wordBeam = -LZERO;
              break;
@@ -433,7 +432,7 @@ public:
           case 'H':
              if (NextArg() != STRINGARG)
                 HError(3219,"HVite: MMF File name expected");
-             AddMMF(&hset,GetStrArg()); 
+             AddMMF(&hset,GetStrArg());
              break;
           case 'I':
              if (NextArg() != STRINGARG)
@@ -465,40 +464,40 @@ public:
         if (NextArg()==STRINGARG) {
           xfInfo.inSpkrPat = GetStrArg();
           if (NextArg()==STRINGARG)
-            xfInfo.paSpkrPat = GetStrArg(); 
+            xfInfo.paSpkrPat = GetStrArg();
         }
         if (NextArg() != SWITCHARG)
-          HError(2319,"HERest: cannot have -h as the last option");	  
+          HError(2319,"HERest: cannot have -h as the last option");
         break;
           case 'E':
              if (NextArg()!=STRINGARG)
                 HError(2319,"HERest: parent transform directory expected");
          xfInfo.usePaXForm = TRUE;
-             xfInfo.paXFormDir = GetStrArg(); 
+             xfInfo.paXFormDir = GetStrArg();
              if (NextArg()==STRINGARG)
-           xfInfo.paXFormExt = GetStrArg(); 
+           xfInfo.paXFormExt = GetStrArg();
          if (NextArg() != SWITCHARG)
-           HError(2319,"HVite: cannot have -E as the last option");	  
-             break;              
+           HError(2319,"HVite: cannot have -E as the last option");
+             break;
           case 'J':
              if (NextArg()!=STRINGARG)
                 HError(2319,"HERest: input transform directory expected");
              AddInXFormDir(&hset,GetStrArg());
              if (NextArg()==STRINGARG)
-           xfInfo.inXFormExt = GetStrArg(); 
+           xfInfo.inXFormExt = GetStrArg();
          if (NextArg() != SWITCHARG)
-           HError(2319,"HVite: cannot have -J as the last option");	  
-             break;              
+           HError(2319,"HVite: cannot have -J as the last option");
+             break;
           case 'K':
              if (NextArg()!=STRINGARG)
                 HError(2319,"HVite: output transform directory expected");
-             xfInfo.outXFormDir = GetStrArg(); 
+             xfInfo.outXFormDir = GetStrArg();
          xfInfo.useOutXForm = TRUE;
              if (NextArg()==STRINGARG)
-           xfInfo.outXFormExt = GetStrArg(); 
+           xfInfo.outXFormExt = GetStrArg();
          if (NextArg() != SWITCHARG)
-           HError(2319,"HVite: cannot have -K as the last option");	  
-             break;              
+           HError(2319,"HVite: cannot have -K as the last option");
+             break;
           default:
              HError(3219,"HVite: Unknown switch %s",s);
           }
@@ -521,7 +520,7 @@ public:
           HError(3230,"HVite: Must choose either alignment from network or labels");
         if (nToks>1 && latExt==NULL && nTrans==1)
           HError(-3230,"HVite: Performing nbest recognition with no nbest output");
-        if (nToks > 1 && latExt != NULL && nTrans > 1) 
+        if (nToks > 1 && latExt != NULL && nTrans > 1)
           HError(-3230,"HVite: Performing nbest recognition with 1-best and latttices output");
         if ((update>0) && (!xfInfo.useOutXForm))
           HError(3230,"HVite: Must use -K option with incremental adaptation");
@@ -552,7 +551,7 @@ public:
         DeleteVRecInfo(vri);
         ResetHeap(&netHeap);
         FreePSetInfo(psi);
-        UpdateSpkrStats(&hset,&xfInfo, NULL); 
+        UpdateSpkrStats(&hset,&xfInfo, NULL);
         ResetHeap(&regHeap);
         ResetHeap(&modelHeap);
 
@@ -580,20 +579,20 @@ public:
        int scriptcount;
 
        /* Load hmms, convert to inverse DiagC */
-       if(MakeHMMSet(&hset,hmmListFn)<SUCCESS) 
+       if(MakeHMMSet(&hset,hmmListFn)<SUCCESS)
           HError(3228,"Initialise: MakeHMMSet failed");
-       if(LoadHMMSet(&hset,hmmDir,hmmExt)<SUCCESS) 
+       if(LoadHMMSet(&hset,hmmDir,hmmExt)<SUCCESS)
           HError(3228,"Initialise: LoadHMMSet failed");
        ConvDiagC(&hset,TRUE);
-       
+
        /* Create observation and storage for input buffer */
        SetStreamWidths(hset.pkind,hset.vecSize,hset.swidth,&eSep);
        obs=MakeObservation(&gstack,hset.swidth,hset.pkind,
                            (Boolean)(hset.hsKind==DISCRETEHS),eSep);	/* TODO: for Tandem system, might need an extra obs */
 
        /* sort out masks just in case using adaptation */
-       if (xfInfo.inSpkrPat == NULL) xfInfo.inSpkrPat = xfInfo.outSpkrPat; 
-       if (xfInfo.paSpkrPat == NULL) xfInfo.paSpkrPat = xfInfo.outSpkrPat; 
+       if (xfInfo.inSpkrPat == NULL) xfInfo.inSpkrPat = xfInfo.outSpkrPat;
+       if (xfInfo.paSpkrPat == NULL) xfInfo.paSpkrPat = xfInfo.outSpkrPat;
 
        if (xfInfo.useOutXForm || (update>0)) {
           CreateHeap(&regHeap,   "regClassStore",  MSTAK, 1, 0.5, 1000, 8000 );
@@ -608,22 +607,22 @@ public:
           SetPruningLevels(alignvri,0,genBeam,-LZERO,0.0,tmBeam);
           InitUttInfo(utt, FALSE);
           InitialiseForBack(fbInfo, &regHeap, &hset,
-                            (UPDSet) (UPXFORM), genBeam*2.0, genBeam*2.0, 
+                            (UPDSet) (UPXFORM), genBeam*2.0, genBeam*2.0,
                             genBeam*4.0+1.0, 10.0);
           utt->twoDataFiles = FALSE;
-          utt->S = hset.swidth[0]; 
+          utt->S = hset.swidth[0];
           AttachPreComps(&hset,hset.hmem);
        }
-        
+
        CreateHeap(&bufHeap,"Input Buffer heap",MSTAK,1,0.0,50000,50000);
        CreateHeap(&repHeap,"Replay Buffer heap",MSTAK,1,0.0,50000,50000);
-       
+
        maxM = MaxMixInSet(&hset);
        for (s=1; s<=hset.swidth[0]; s++)
           maxMixInS[s] = MaxMixInSetS(&hset, s);
        if (trace&T_TOP) {
           printf("Read %d physical / %d logical HMMs\n",
-                 hset.numPhyHMM,hset.numLogHMM); 
+                 hset.numPhyHMM,hset.numLogHMM);
           /* cz277 - ANN */
           if (hset.annSet != NULL) {
              if (hset.hsKind == HYBRIDHS)
@@ -637,15 +636,15 @@ public:
 
        SetupNMatRPLInfo(&hset);
        SetupNVecRPLInfo(&hset);
-       
+
        /* Initialise recogniser */
        if (nToks>1) nBeam=genBeam;
        psi=InitPSetInfo(&hset);
        vri=InitVRecInfo(psi,nToks,models,states);
 
        /* Read dictionary and create storage for lattice */
-       InitVocab(&vocab);   
-       if(ReadDict(dictFn,&vocab)<SUCCESS) 
+       InitVocab(&vocab);
+       if(ReadDict(dictFn,&vocab)<SUCCESS)
           HError(3213, "Main: ReadDict failed");
        CreateHeap(&ansHeap,"Lattice heap",MSTAK,1,0.0,4000,4000);
        if (trace & T_MEM){
@@ -697,7 +696,7 @@ public:
        printf(" -f      output full state alignment          off\n");
        printf(" -g      enable audio replay                  off\n");
        printf(" -h s    set speaker name pattern             *.mfc\n");
-       printf(" -i s    Output transcriptions to MLF s       off\n"); 
+       printf(" -i s    Output transcriptions to MLF s       off\n");
        printf(" -j i    Online MLLR adaptation               off\n");
        printf("         Perform update every i utterances      \n");
        printf(" -k      use an input transform               off\n");
@@ -711,7 +710,7 @@ public:
        printf(" -s f    grammar scale factor                 1.0\n");
        printf(" -t f [f f] set pruning threshold             0.0\n");
        printf(" -u i    set pruning max active               0\n");
-       printf(" -v f    set word end pruning threshold       0.0\n"); 
+       printf(" -v f    set word end pruning threshold       0.0\n");
        printf(" -w [s]  recognise from network               off\n");
        printf(" -x s    extension for hmm files              none\n");
        printf(" -y s    output label file extension          rec\n");
@@ -733,7 +732,7 @@ public:
              roPrefix=CopyString(&gstack,buf);
           if (GetConfStr(cParm,nParm,"RECOUTSUFFIX",buf))
              roSuffix=CopyString(&gstack,buf);
-          if (GetConfBool(cParm,nParm,"SAVEBINARY",&b)) 
+          if (GetConfBool(cParm,nParm,"SAVEBINARY",&b))
              saveBinary = b;
           if (GetConfStr(cParm,nParm,"LABFILEMASK",buf)) {
              labFileMask = CopyString(&gstack, buf);
@@ -795,9 +794,9 @@ public:
                    printf("Transforming model set\n");
                    fflush(stdout);
                 }
-            /* 
-               at every stage a new transform is created - fix?? 
-               Estimate transform and then set it up as the 
+            /*
+               at every stage a new transform is created - fix??
+               Estimate transform and then set it up as the
                input XForm
             */
             incXForm = CreateAdaptXForm(&hset,"inc");
@@ -831,9 +830,9 @@ public:
                    printf("Transforming model set\n");
                    fflush(stdout);
                 }
-            /* 
-               at every stage a new transform is created - fix?? 
-               Estimate transform and then set it up as the 
+            /*
+               at every stage a new transform is created - fix??
+               Estimate transform and then set it up as the
                input XForm
             */
             incXForm = CreateAdaptXForm(&hset,"inc");
@@ -878,11 +877,11 @@ public:
           strcpy(thisFN,fn);
        else if (fn==NULL && saveAudioOut)
           CounterFN(roPrefix,roSuffix,++roCounter,4,thisFN);
-       else 
+       else
           enableOutput = FALSE;
-          
+
        if((pbuf = OpenBuffer(&bufHeap,fn,50,dfmt,TRI_UNDEF,TRI_UNDEF))==NULL)
-          HError(3250,"ProcessFile: Config parameters invalid");   
+          HError(3250,"ProcessFile: Config parameters invalid");
 
        /* Check pbuf same as hset */
        GetBufferInfo(pbuf,&pbinfo);
@@ -894,7 +893,7 @@ public:
 
        StartRecognition(vri,net,lmScale,wordPen,prScale);
        SetPruningLevels(vri,maxActive,currGenBeam,wordBeam,nBeam,tmBeam);
-     
+
        tact=0;nFrames=0;
 
        /* cz277 - ANN */
@@ -902,7 +901,7 @@ public:
           StartBuffer(pbuf);
           while(BufferStatus(pbuf)!=PB_CLEARED) {
              ReadAsBuffer(pbuf,&obs);
-             if (trace&T_OBS) PrintObservation(nFrames,&obs,13);      
+             if (trace&T_OBS) PrintObservation(nFrames,&obs,13);
 
              if (hset.hsKind==DISCRETEHS){
                 for (s=1; s<=hset.swidth[0]; s++){
@@ -912,7 +911,7 @@ public:
              }
 
              ProcessObservation(vri,&obs,-1,xfInfo.inXForm);
-          
+
              if (trace & T_FRS) {
                 for (d=vri->genMaxNode,j=0;j<30;d=d->links[0].node,j++)
                    if (d->type==n_word) break;
@@ -933,7 +932,7 @@ public:
        }
        else {
           /* get utterance name in cache */
-          if (strcmp(GetCurUttName(cache[1]), fn) != 0) 
+          if (strcmp(GetCurUttName(cache[1]), fn) != 0)
              HError(3234, "Mismatched utterance in the cache and script file");
           uttElem = GetCurUttElem(cache[1]);	/* cz277 - xform */
           /* install the current replaceable parts */
@@ -943,7 +942,7 @@ public:
           uttCnt = 1;
           uttLen = ObsInBuffer(pbuf);
           cUttLen = GetCurUttLen(cache[1]);
-          if (cUttLen != uttLen) 
+          if (cUttLen != uttLen)
              HError(3292, "Unequal utterance length in the cache and the original feature file");
           while (nFrames < uttLen) {
              /* load a data batch */
@@ -954,7 +953,7 @@ public:
                 /*UpdateCacheStatus(cache[s]);*/
                 LoadCacheData(cache[s]);
              }
-             /*if (nLoaded != 1) 
+             /*if (nLoaded != 1)
                  HError(9999, "HVite is only able to process frame by frame");*/
              loadClock += clock() - loadStClock;   /* cz277 - clock */
              /* forward these frames */
@@ -987,7 +986,7 @@ public:
                      else p = ":external:";
                      m = FindMacroStruct(&hset, 'h', vri->genMaxNode->info.hmm);
                      printf("Optimum @%-4d HMM: %s (%s)  %d %5.3f\n",
-                            vri->frame, m->id->name, p, vri->nact, 
+                            vri->frame, m->id->name, p, vri->nact,
                             vri->genMaxTok.like / vri->frame);
                      fflush(stdout);
                  }
@@ -1009,7 +1008,7 @@ public:
        }
 
        lat=CompleteRecognition(vri,pbinfo.tgtSampRate/10000000.0,&ansHeap);
-       
+
        if (lat==NULL) {
           if ((trace & T_TOP) && fn != NULL){
              if (restartable)
@@ -1019,12 +1018,12 @@ public:
              fflush(stdout);
           } else if (fn==NULL){
              printf("Sorry [%d frames]?\n",nFrames);fflush(stdout);
-          }      
+          }
           if (pbinfo.a != NULL && replay)  ReplayAudio(pbinfo);
           CloseBuffer(pbuf);
           return FALSE;
        }
-       
+
        if (vri->noTokenSurvived && restartable)
           return FALSE;
 
@@ -1037,7 +1036,7 @@ public:
        lat->utterance=thisFN;
        lat->net=wdNetFn;
        lat->vocab=dictFn;
-       
+
        if (trace & T_TOP || fn==NULL) {
           node=NULL;
           for (j=0;j<lat->nn;j++) {
@@ -1072,8 +1071,8 @@ public:
         }
 
        if (pbinfo.a != NULL && replay)  ReplayAudio(pbinfo);
-       
-       /* accumulate stats for online unsupervised adaptation 
+
+       /* accumulate stats for online unsupervised adaptation
           only if a token survived */
        if ((lat != NULL) &&  (!vri->noTokenSurvived) && ((update > 0) || (xfInfo.useOutXForm)))
           DoOnlineAdaptation(lat, pbuf, nFrames);
@@ -1086,7 +1085,7 @@ public:
              } else
                 strcpy (labfn, thisFN);
              MakeFN(labfn,labDir,latExt,lfn);
-             if ((file=FOpen(lfn,NetOFilter,&isPipe))==NULL) 
+             if ((file=FOpen(lfn,NetOFilter,&isPipe))==NULL)
                 HError(3211,"ProcessFile: Could not open file %s for lattice output",lfn);
              if (latForm==NULL)
                 form=HLAT_DEFAULT;
@@ -1113,7 +1112,7 @@ public:
             }
 
             /* only output 1-best transcription if generating lattices */
-            if (nTrans > 1 && latExt != NULL) 
+            if (nTrans > 1 && latExt != NULL)
              trans=TranscriptionFromLattice(&ansHeap,lat,1);
             /* output N-best transcriptions as usual */
             else
@@ -1210,25 +1209,25 @@ public:
                                  &vocab,&netHeap);
        alignNet=ExpandWordNet(&netHeap,wordNet,&vocab,&hset);
 
-       StartRecognition(alignvri,alignNet,0.0,0.0,0.0);     
+       StartRecognition(alignvri,alignNet,0.0,0.0,0.0);
 
        /* do forced alignment */
        for (i = 0; i < nFrames; i++) {
           ReadAsTable(pbuf, i, &obs);
           ProcessObservation(alignvri,&obs,-1,xfInfo.inXForm);
        }
-        
+
        alignLat=CompleteRecognition(alignvri,
                                     pbinfo.tgtSampRate/10000000.0,
                                     &netHeap);
-            
+
        if (alignvri->noTokenSurvived) {
           Dispose(&netHeap, trans);
           /* Return value 0 to indicate zero frames process failed */
           return 0;
        }
        modelTrans=TranscriptionFromLattice(&netHeap,alignLat,1);
-          
+
        /* format the transcription so that it contains just the models */
        FormatTranscription(modelTrans,pbinfo.tgtSampRate,FALSE,TRUE,
                            FALSE,FALSE,TRUE,FALSE,TRUE,TRUE, FALSE);
@@ -1240,7 +1239,7 @@ public:
        utt->Q = CountLabs(utt->tr->head);
        utt->T = nFrames;
        utt->ot = obs;
-      
+
        /* do frame state alignment and accumulate statistics */
        fbInfo->inXForm = xfInfo.inXForm;
        fbInfo->al_inXForm = xfInfo.inXForm;
@@ -1251,11 +1250,11 @@ public:
        Dispose(&netHeap, trans);
 
        if (trace&T_TOP) {
-          printf("Accumulated statistics...\n"); 
+          printf("Accumulated statistics...\n");
           fflush(stdout);
        }
        return nFrames;
-    } 
+    }
 
     void LoadCacheVec(Observation *obs, int shift, HMMSet *hset) {
         int s, S, i, offset;
@@ -1263,7 +1262,7 @@ public:
         FELink feaElem;
         LELink layerElem;
 
-        if (hset->annSet == NULL) 
+        if (hset->annSet == NULL)
             HError(3290, "LoadCacheVec: DataCache is only applicable for ANN related systems");
 
         S = hset->swidth[0];
@@ -1295,6 +1294,8 @@ int main(int argc, char * argv[])
     //Network yarp;
 
     MyModule module;
+    module.argc = argc;
+    module.argv = argv;
     ResourceFinder rf;
     rf.configure(argc, argv);
     // rf.setVerbose(true);

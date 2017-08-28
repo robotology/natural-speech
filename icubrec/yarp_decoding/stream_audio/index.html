@@ -260,7 +260,7 @@
     {
       if($(el).hasClass('btn-primary'))
       {
-        var text = 'w /home/bhigy/dev/speech/icub_rec/speech.wav';
+        var text = 'stop'
         trigger_out.write(text);
         recording=false;
         $(el).removeClass('btn-primary');
@@ -269,7 +269,7 @@
       }
       else
       {
-        var text = 's';
+        var text = 'start';
         trigger_out.write(text);
         recording=true;
         $(el).addClass('btn-primary');

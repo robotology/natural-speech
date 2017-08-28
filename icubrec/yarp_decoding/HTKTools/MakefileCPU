@@ -56,11 +56,11 @@ includedir := ${prefix}/include $(YARP_INCLUDE)
 oldincludedir = /usr/include
 
 
-CC      = 	g++
-CFLAGS  = 	-m64 -ansi -D_SVID_SOURCE -DOSS_AUDIO -D'ARCH="x86_64"' -Wall -Wno-switch -g -O2 -I$(inc) -DPHNALG -I$(YARP_INCLUDE)
-LDFLAGS =      -L/usr/X11R6/lib -lpthread -lm $(YARP_LIB)/libYARP_OS.so
-INSTALL = 	/usr/bin/install -c
-PROGS   = 	decoder
+CPP      = g++
+CPPFLAGS = -m64 -ansi -D_SVID_SOURCE -DOSS_AUDIO -D'ARCH="x86_64"' -Wall -Wno-switch -g -O2 -I$(inc) -DPHNALG -I$(YARP_INCLUDE)
+LDFLAGS  = -L/usr/X11R6/lib -lpthread -lm $(YARP_LIB)/libYARP_OS.so
+INSTALL  = /usr/bin/install -c
+PROGS    = decoder
 		#HBuild HCompV HCopy HDMan \
 		HERest HHEd HInit HLEd 	HList \
 		HLConf HLRescore HLStats HMMIRest HNTrainSGD HNForward HParse \
@@ -71,9 +71,9 @@ all: $(PROGS)
 %: %.cpp $(HTKLIB)
 	if [ ! -d $(bindir) -a X_ = X_yes ] ; then mkdir -p $(bindir) ; fi
 	if [ x$@ = xHSLab ] ; then \
-		$(CC) -o $@ $(CFLAGS) $^ $(LDFLAGS) -lX11 ; \
-		else \
-		$(CC) -o $@ $(CFLAGS) $^ $(LDFLAGS) ; fi
+		$(CPP) -o $@ $(CPPFLAGS) $^ $(LDFLAGS) -lX11 ; \
+	else \
+		$(CPP) -o $@ $(CPPFLAGS) $^ $(LDFLAGS) ; fi
 	if [ X_ = X_yes ] ; then $(INSTALL) -m 755 $@ $(bindir)  ; fi
 
 strip: $(PROGS)

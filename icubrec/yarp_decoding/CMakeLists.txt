@@ -3,7 +3,7 @@
 # CopyPolicy: Released under the terms of the GNU GPL v3.0.
 set(PROJECTNAME natural-speech)
 set(APPNAME icubrec)
-set(PGMNAME rctrld_yarphear_asr)
+set(PGMNAME rctrld_yarphear)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -11,7 +11,7 @@ include_directories(${YARP_INCLUDE_DIRS})
 include_directories(${ACE_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR})
 
-add_executable(${PGMNAME} rctrld_yarphear_asr.cpp)
+add_executable(${PGMNAME} rctrld_yarphear.cpp)
 
 target_link_libraries(${PGMNAME} ${YARP_LIBRARIES})
 target_link_libraries(${PGMNAME} ${ACE_LIBRARIES})

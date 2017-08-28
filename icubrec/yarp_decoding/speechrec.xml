@@ -6,16 +6,16 @@
         <author email="bertrand.higy@iit.it">Bertrand Higy</author>
     </authors>
     <module>
-        <name>/home/bhigy/dev/speech/icub_rec/HTKTools/decoder</name>
+        <name>decoder</name>
         <node>localhost</node>
-        <parameters>--path /home/bhigy/dev/speech/icub_rec/</parameters>
+        <parameters>-C $MODEL_DIR/config -H $MODEL_DIR/mmf -i $MODEL_DIR/recout.mlf -w $MODEL_DIR wdnet_upper -p 4.0 -s 15 $MODEL_DIR/dict_sp $MODEL_DIR/tiedlist $MODEL_DIR/speech.wav</parameters>
     </module>
     <module>
-        <name>node /home/bhigy/dev/yarp.js/examples/examples.js</name>
+        <name>node $YARPJS_DIR/examples/examples.js</name>
         <node>localhost</node>
     </module>
     <module>
-        <name>rctrld_yarphear_asr</name>
+        <name>rctrld_yarphear</name>
         <node>localhost</node>
         <prefix>/yarphear</prefix>
     </module>
@@ -27,9 +27,11 @@
     <connection>
         <from>/soundStream/trigger:o</from>
         <to>/yarphear/cmd:i</to>
+        <protocol>tcp+send.portmonitor+file.streamer_yarphear</protocol>
     </connection>
     <connection>
         <from>/yarphear/asr/rpc:o</from>
         <to>/decoder/rpc:i</to>
+        <protocol>tcp+send.portmonitor+file.yarphear_decoder</protocol>
     </connection>
 </application>

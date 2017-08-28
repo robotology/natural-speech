@@ -30,12 +30,15 @@ using namespace yarp::dev;
 bool interrupt = false;
 
 class Echo : public TypedReaderCallback<Sound>, public TypedReaderCallback<Bottle> {
+public:
+    ConstString fname;
+
 private:
     PolyDriver poly;
     IAudioRender *put;
     BufferedPort<Sound> mic_port;
     BufferedPort<Bottle> cmd_port;
-    RpcClient asr_port;
+    BufferedPort<Bottle> log_port;
     Semaphore mutex;
     bool muted;
     bool saving;
@@ -58,6 +61,7 @@ public:
         put = NULL;
         ct = 0;
         padding = 0;
+        fname = "audio_%06d.wav";
     }
 
     bool open(Searchable& p) {
@@ -65,7 +69,7 @@ public:
             yError("Communication problem\n");
             return false;
         }
-        if (!asr_port.open("/asr/rpc:o")) {
+        if (!log_port.open("/log:o")) {
             yError("Communication problem\n");
             return false;
         }
@@ -141,9 +145,7 @@ public:
 
     using TypedReaderCallback<Bottle>::onRead;
     virtual void onRead(Bottle& command) {
-        std::cout << "onRead ..." << std::endl;
         bool help = false;
-        ConstString fname = "audio_%06d.wav";
 
         ConstString cmd = command.get(0).asString();
         if (command.size()==0) {
@@ -170,7 +172,7 @@ public:
             char buf[2560];
             sprintf(buf, fname.c_str(), ct);
             saveFile(buf);
-            do_recognition();
+            log("write", fname.c_str());
             ct++;
         } else if (cmd=="q"||cmd=="quit") {
             interrupt = true;
@@ -195,13 +197,13 @@ public:
         }
     }
 
-    void do_recognition() {
-        Bottle cmd;
-        cmd.addString("recognize");
-        printf("Sending message... %s\n", cmd.toString().c_str());
-        Bottle response;
-        asr_port.write(cmd,response);
-        printf("Got response: %s\n", response.toString().c_str());
+    void log(ConstString action, ConstString description="") {
+        Bottle& log = log_port.prepare();
+        log.clear();
+        log.addString(action.c_str());
+        if (description != "")
+            log.addString(description.c_str());
+        log_port.write();
     }
 
     void mute(bool muteFlag=true) {
@@ -226,7 +228,6 @@ public:
     }
 
     bool saveFile(const char *name) {
-        std::cerr << "saveFile" << std::endl;
         mutex.wait();
         saving = false;
 
@@ -261,7 +262,7 @@ public:
     bool close() {
         mic_port.close();
         cmd_port.close();
-        asr_port.close();
+        log_port.close();
         if (poly.isValid()) {
             poly.close();
         }
@@ -293,6 +294,8 @@ int main(int argc, char *argv[]) {
         p.fromCommand(argc,argv);
     }
 
+
+
     // otherwise default device is "portaudio"
     if (!p.check("device")) {
         p.put("device","portaudio");
@@ -302,6 +305,9 @@ int main(int argc, char *argv[]) {
 
     // start the echo service running
     Echo echo;
+    if (p.check("filename")) {
+        echo.fname = p.find("filename").asString();
+    }
     echo.open(p);
 
     while (!interrupt) {
