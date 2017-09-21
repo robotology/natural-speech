@@ -8,7 +8,7 @@
     <module>
         <name>decoder</name>
         <node>localhost</node>
-        <parameters>-C $ENV{MODEL_DIR}/config -H $ENV{MODEL_DIR}/mmf -i $ENV{MODEL_DIR}/recout.mlf -w $ENV{MODEL_DIR} wdnet_upper -p 4.0 -s 15 $ENV{MODEL_DIR}/dict_sp $ENV{MODEL_DIR}/tiedlist $ENV{MODEL_DIR}/speech.wav</parameters>
+        <parameters>-C $ENV{MODEL_DIR}/config -H $ENV{MODEL_DIR}/mmf -i $ENV{MODEL_DIR}/recout.mlf -w $ENV{MODEL_DIR}/wdnet -p 4.0 -s 15 $ENV{MODEL_DIR}/dict $ENV{MODEL_DIR}/tiedlist $ENV{MODEL_DIR}/speech.wav</parameters>
     </module>
     <module>
         <name>node $ENV{YARPJS_DIR}/icubrec/examples.js</name>
@@ -18,7 +18,7 @@
         <name>rctrld_yarphear</name>
         <node>localhost</node>
         <prefix>/yarphear</prefix>
-        <parameters>--filename $ENV{MODEL_DIR}/speech.wav
+        <parameters>--filename $ENV{MODEL_DIR}/speech.wav</parameters>
     </module>
 
     <connection>
@@ -32,7 +32,7 @@
     </connection>
     <connection>
         <from>/yarphear/log:o</from>
-        <to>/decoder/rpc:i</to>
+        <to>/decoder/cmd:i</to>
         <protocol>tcp+send.portmonitor+file.yarphear_decoder</protocol>
     </connection>
 </application>

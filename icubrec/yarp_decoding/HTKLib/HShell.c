@@ -2128,6 +2128,7 @@ ReturnStatus InitShell(int argc, char *argv[], char *ver, char *sccs)
     int i,j;
     Boolean b;
 
+    nextarg=1;
     argcount = 1; 
     arglist = (char **) malloc(argc * sizeof(char *));
     arglist[0] = argv[0];

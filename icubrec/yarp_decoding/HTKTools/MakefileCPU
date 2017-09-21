@@ -28,7 +28,7 @@ top_srcdir = ..
 
 
 YARP_DIR = /home/bhigy/dev/yarp
-YARP_INCLUDE =  ${YARP_DIR}/build/generated_include \
+YARP_INCLUDE =  ${YARP_DIR}/build/src/libYARP_conf/include \
                 -I${YARP_DIR}/src/libYARP_OS/include \
                 -I${YARP_DIR}/src/libYARP_sig/include \
                 -I${YARP_DIR}/src/libYARP_eigen/include \

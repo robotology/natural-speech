@@ -185,14 +185,14 @@ static int nParm = 0;            /* total num params */
 using namespace std;
 using namespace yarp::os;
 
-class MyModule:public RFModule
+class MyModule:public RFModule, public TypedReaderCallback<Bottle>
 {
 public:
     int argc;
     char **argv;
 
 private:
-    RpcServer handlerPort; //a port to handle messages
+    BufferedPort<Bottle> handlerPort; //a port to handle messages
     BufferedPort<Bottle> speechOutPort;
     bool hvite_initialized;
 
@@ -211,22 +211,18 @@ public:
         return true;
     }
 
-    bool respond(const Bottle& command, Bottle& reply)
+    using TypedReaderCallback<Bottle>::onRead;
+    virtual void onRead(Bottle& command)
+    //bool respond(const Bottle& command, Bottle& reply)
     {
         cout<<"Got something, echo is on"<<endl;
-        if (command.get(0).asString()=="quit")
-            return false;
-        else if (command.get(0).asString()=="recognize") {
+        if (command.get(0).asString()=="recognize") {
             //int argc = 16;
-            //char* argv[] = {"HVite", "-C", "config", "-H", "mmf", "-i", "recout.mlf", "-w", "wdnet_upper", "-p", "4.0", "-s", "15", "dict_sp", "tiedlist", "speech.wav"};
+            //char* argv[] = {"HVite", "-C", "/home/bhigy/data/icubrec/config", "-H", "/home/bhigy/data/icubrec/mmf", "-i", "/home/bhigy/data/icubrec/recout.mlf", "-w", "/home/bhigy/data/icubrec/wdnet", "-p", "4.0", "-s", "15", "/home/bhigy/data/icubrec/dict", "/home/bhigy/data/icubrec/tiedlist", "/home/bhigy/data/icubrec/speech.wav"};
             initHVite(argc, argv);
             DoRecognition();
             cleanHVite();
-            reply.addString("OK");
         }
-        else
-            reply=command;
-        return true;
     }
 
     /*
@@ -236,12 +232,12 @@ public:
     */
     bool configure(yarp::os::ResourceFinder &rf)
     {
-        if (!handlerPort.open("/decoder/rpc:i"))
+        if (!handlerPort.open("/decoder/cmd:i"))
             return false;
         if (!speechOutPort.open("/decoder/speech:o"))
             return false;
 
-        attach(handlerPort);
+        handlerPort.useCallback(*this);
         return true;
     }
 
@@ -1296,6 +1292,7 @@ int main(int argc, char * argv[])
     MyModule module;
     module.argc = argc;
     module.argv = argv;
+    module.argv[0] = "HVite";
     ResourceFinder rf;
     rf.configure(argc, argv);
     // rf.setVerbose(true);
