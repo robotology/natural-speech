@@ -28,11 +28,11 @@
     <connection>
         <from>/soundStream/trigger:o</from>
         <to>/yarphear/cmd:i</to>
-        <protocol>tcp+send.portmonitor+file.streamer_yarphear</protocol>
+        <protocol>tcp+send.portmonitor+context.natural-speech+file.streamer_yarphear</protocol>
     </connection>
     <connection>
         <from>/yarphear/log:o</from>
         <to>/decoder/cmd:i</to>
-        <protocol>tcp+send.portmonitor+file.yarphear_decoder</protocol>
+        <protocol>tcp+send.portmonitor+context.natural-speech+file.yarphear_decoder</protocol>
     </connection>
 </application>
