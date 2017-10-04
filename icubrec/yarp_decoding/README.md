@@ -1,5 +1,9 @@
 # Decoding within YARP
 
+<kbd>![Pipeline](pipeline_small.png "Illustration of the overall pipeline.")</kbd>
+
+*Illustration of the overall pipeline.*
+
 ## Prerequisites
 
 For the pipeline described here to work, the requirements are:

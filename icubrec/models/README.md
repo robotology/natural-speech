@@ -8,7 +8,7 @@ Three different GMMs are proposed, trained for WSJ0, Chime4 and VoCub datasets r
 
 More details about the training procedure are given in the table below.
 
-|Archive name|Training dataset(s)|Monophone starting models|Context expansion|
+|Archive name|Training dataset(s)|Monophone starting model|Context expansion|
 |-|-|-|-|
 |[gmm_wsj0](https://zenodo.org/record/836692/files/gmm_wsj0.tar.gz)|WSJ0|Trained from TIMIT|Cross word|
 |[gmm_chime4](https://zenodo.org/record/836692/files/gmm_chime4.tar.gz)|Chime4|Flat start|Word internal|

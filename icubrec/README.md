@@ -112,10 +112,6 @@ Once the dictionary downloaded and preprocessed, we can adapt it to our
 vocabulary and compute the word network.  For WSJ and CHiME4 datasets, the
 script `build_lm_wsj.sh` can be used for that purpose.
 
-## Credits and License
+## License
 
-The starting point of most of the scripts provided here is the [HTK Wall Street
-Journal Training Recipe](http://www.keithv.com/software/htk/) written by Keith
-Vertanen. His code is released under the new BSD licence, except for the file
-`tree_ques.hed` which he didn't write (even though no mention of its origin is
-made). This is compatible with the GPLv3 license we use here.
+The code is released under GPLv3 license.
