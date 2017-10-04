@@ -336,10 +336,25 @@ while ($filename = <IN>)
 								# Try and recover from common problems in the transcripts
 								$word = $words[$i];
 
-								# Remove punctuation
-								if ($word =~ /^.+[?,]$/)
+								# Make things like FIVEPOINT into FIVE POINT
+								if ($word =~ /^.+POINT$/)
 								{
-									$word =~ s/[?,]//g;
+                                    $pos1 = length($word) - 5;
+                                    $part1 = substr($word, 0, $pos1);
+                                    $part2 = substr($word, $pos1);
+
+                                    if (($inDict{$part1}) && ($inDict{$part2}))
+                                    {
+                                        $madeFix = 1;
+                                        $outLine = $outLine . $part1 . "\n" . $part2 . "\n";
+                                        #print "part 1 $part1 part2 $part2 both in dict\n";
+                                    }
+								}
+
+								# Remove punctuation
+								if ($word =~ /^.+[?,.]$/)
+								{
+									$word =~ s/[?,.]//g;
 								}
 
 								# Make things like *KINSLEY*'S into KINSLEY'S
