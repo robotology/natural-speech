@@ -57,9 +57,9 @@ if test -z $CTXEXP; then
 fi
 case $CTXEXP in
     wi)
-        export CONFIG_CTXEXP=configwi;;
+        export CONFIG_CTXEXP=wi.htkc;;
     cross)
-        export CONFIG_CTXEXP=configcross;;
+        export CONFIG_CTXEXP=cross.htkc;;
 esac
 
 if test -z $MODEL_START; then
