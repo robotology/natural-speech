@@ -82,7 +82,7 @@ echo ""
 
 # Intial setup of test MLFs
 echo "Building test MLF..."
-make_mlf.sh -s -t "$TRANSCR_LIST" $RESULT_FOLDER $FEAT_LIST dataset.scp words.mlf test
+make_mlf.sh -s -t "$TRANSCR_LIST" $RESULT_FOLDER $FEAT_LIST dataset.scp words.mlf train
 
 # You can probably now increase results slightly by running
 # the best penalty and scale factor with a higher beam width,
