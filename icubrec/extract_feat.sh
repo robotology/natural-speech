@@ -92,7 +92,7 @@ if test -z $AUDIO_LIST; then
 fi
 
 # Creating destination folder structure
-cat $AUDIO_LIST | sed -e "s:$AUDIO_ROOT_FOLDER/:$OUTPUT_FOLDER/:g" -e "s:/\?[a-zA-Z0-9_\.]*.$AUDIO_EXT$::i" | uniq | xargs mkdir -p
+cat $AUDIO_LIST | sed -e "s:$AUDIO_ROOT_FOLDER/:$OUTPUT_FOLDER/:g" -e "s:/\?[^/]*\.$AUDIO_EXT$::i" | uniq | xargs mkdir -p
 
 # Create the list file we need to send to HCopy to convert .wav files to .mfc
 paste $AUDIO_LIST $AUDIO_LIST | sed -E "s:$AUDIO_ROOT_FOLDER(\S+)\.$AUDIO_EXT$:$OUTPUT_FOLDER\1\.feat:i" >audio_feat.scp
