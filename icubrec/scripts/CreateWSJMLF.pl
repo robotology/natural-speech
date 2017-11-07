@@ -74,12 +74,6 @@ my %splits;
 my $totalTrain;
 my $totalGood;
 my %idWithPath;
-my @ext;
-my $existFile;
-my $outLine2;
-my $id2;
-my $suffix;
-my $newId;
 my $set;
 
 ($set, $mfcFiles, $transFiles, $dictFile, $outputMLF, $outputScript, $ignoreNoises, $includeOOVs, $missingFile, $fixUp, $findReplaceFile, $splitFile) = @ARGV;
@@ -112,15 +106,6 @@ while ($line = <IN>)
     if (($posStart > -1) && ($posEnd > -1))
     {
         $id = substr($line, $posStart + 1, $posEnd - $posStart - 1);
-        if ($set eq 'test')
-        {
-            # For chime test set, we have same IDs for real and simu data
-            $suffix = substr($line, rindex($line, "/") - 4, 4);
-            if ($suffix eq 'real' || $suffix eq 'simu')
-            {
-                $id = $id . "." . $suffix;
-            }
-        }
 
         # Remember the original case of the file on disk
         $idsCase{lc($id)} = $id;
@@ -129,7 +114,7 @@ while ($line = <IN>)
         $posStart = 0; #index($line, ".");
         $idWithPath{$id} = substr($line, $posStart, $posEnd - $posStart);
 
-#        print "id = " . $id . ", line = '" . $line . "'\n";
+#       print "id = " . $id . ", line = '" . $line . "'\n";
 
         if ($hasFile{$id})
         {
@@ -200,9 +185,6 @@ open(OUT_SCRIPT, ">" . $outputScript);
 
 print OUT_MLF "#!MLF!#\n";
 
-# For chime, we have several channels
-@ext = ("",".ch0",".ch1",".ch2",".ch3",".ch4",".ch5",".ch6");
-
 while ($filename = <IN>)
 {
     $filename =~ s/\n//g;
@@ -228,24 +210,8 @@ while ($filename = <IN>)
         {
             $id = substr($line, $posStart + 1, $posEnd - $posStart - 1);
             $id = lc($id);
-            if ($set eq 'test')
-            {
-                # For chime test set, we have same IDs for real and simu data
-                $suffix = substr($filename, rindex($filename, "/") - 4, 4);
-                if ($suffix eq 'real' || $suffix eq 'simu')
-                {
-                    $id = $id . "." . $suffix;
-                }
-            }
 
-            for ($i = 0; $i < scalar @ext; $i++)
-            {
-
-                if ($hasFile{$id . $ext[$i]} > 0)
-                {
-                    $foundTrans{$id . $ext[$i]} = 1;
-                }
-            }
+            $foundTrans{$id} = 1;
 
             $text = substr($line, 0, $posStart - 1);
 
@@ -272,18 +238,18 @@ while ($filename = <IN>)
             $outLine = "";
 
             # If we found a MFC file with this ID then we output
-            $existFile = 0;
-            for ($i = 0; $i < scalar @ext; $i++)
+            if (($hasFile{$id} > 0) && (length($text) > 0))
             {
-                if ($hasFile{$id . $ext[$i]})
-                {
-#                   print "Found ID: " . $id . $ext[$i] . "\n";
-                    $existFile = 1;
-                }
-            }
+                #print "Found ID: " . $id . "\n";
 
-            if ($existFile && (length($text) > 0))
-            {
+
+                $outLine = $outLine . "\"" . $idWithPath{$id} . ".lab\"\n";
+
+#               $outLine = $outLine . "\"*/";
+#               # Make sure to use the same case as was on disk
+#               $outLine = $outLine .$idsCase{$id};
+#               $outLine = $outLine .".lab\"\n";
+
                 @words = split(/\s{1,}/, $text);
                 $badWord = 0;
 
@@ -338,26 +304,6 @@ while ($filename = <IN>)
                                 # Try and recover from common problems in the transcripts
                                 $word = $words[$i];
 
-                                # Make things like FIVEPOINT into FIVE POINT
-                                if ($word =~ /^.+POINT$/)
-                                {
-                                    $pos1 = length($word) - 5;
-                                    $part1 = substr($word, 0, $pos1);
-                                    $part2 = substr($word, $pos1);
-
-                                    if (($inDict{$part1}) && ($inDict{$part2}))
-                                    {
-                                        $madeFix = 1;
-                                        $outLine = $outLine . $part1 . "\n" . $part2 . "\n";
-                                        #print "part 1 $part1 part2 $part2 both in dict\n";
-                                    }
-                                }
-
-                                # Remove punctuation
-                                if ($word =~ /^.+[?,.]$/)
-                                {
-                                    $word =~ s/[?,.]//g;
-                                }
 
                                 # Make things like *KINSLEY*'S into KINSLEY'S
                                 if ($word =~ /^\*.+\*\'S$/)
@@ -502,26 +448,13 @@ while ($filename = <IN>)
             # Output the line to our MLF file if everything was in dictionary
             if (($badWord == 0) || ($includeOOVs))
             {
-                for ($i = 0; $i < scalar @ext; $i++)
+                print OUT_MLF $outLine;
+                #print "looking for: '" . $id . "' = '" . $mfcNames{$id} . "'\n";
+                if ($hasFile{$id})
                 {
-                    $id2 = $id . $ext[$i];
-                    if ($hasFile{$id2})
-                    {
-                        $outLine2 = "\"" . $idWithPath{$id2} . ".lab\"\n" . $outLine;
+                    print OUT_SCRIPT $mfcNames{$id} . "\n";
 
-#                           $outLine = $outLine . "\"*/";
-#                           # Make sure to use the same case as was on disk
-#                           $outLine = $outLine .$idsCase{$id2};
-#                           $outLine = $outLine .".lab\"\n";
-
-                        print OUT_MLF $outLine2;
-                        #print "looking for: '" . $id . "' = '" . $mfcNames{$id} . "'\n";
-                        if ($hasFile{$id2})
-                        {
-                            print OUT_SCRIPT $mfcNames{$id2} . "\n";
-                            $totalGood++;
-                        }
-                    }
+                    $totalGood++;
                 }
             }
         }
