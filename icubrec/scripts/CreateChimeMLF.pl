@@ -81,6 +81,8 @@ my $id2;
 my $suffix;
 my $newId;
 my $set;
+my $sub;
+my @dir;
 
 ($set, $mfcFiles, $transFiles, $dictFile, $outputMLF, $outputScript, $ignoreNoises, $includeOOVs, $missingFile, $fixUp, $findReplaceFile, $splitFile) = @ARGV;
 
@@ -202,12 +204,17 @@ print OUT_MLF "#!MLF!#\n";
 
 # For chime, we have several channels
 @ext = ("",".ch0",".ch1",".ch2",".ch3",".ch4",".ch5",".ch6");
+if ($set eq 'test') {
+    @dir = ("", ".real", ".simu");
+} else {
+    @dir = ("");
+}
 
 while ($filename = <IN>)
 {
     $filename =~ s/\n//g;
 
-#   print "Working on filename: " . $filename . "\n";
+#    print "Working on filename: " . $filename . "\n";
 
     open(IN2, $filename);
 
@@ -228,22 +235,19 @@ while ($filename = <IN>)
         {
             $id = substr($line, $posStart + 1, $posEnd - $posStart - 1);
             $id = lc($id);
-            if ($set eq 'test')
+
+            # For chime test set, we have same IDs for real and simu data
+            $suffix = '.' . substr($filename, rindex($filename, "/") - 4, 4);
+            if ($suffix ne '.real' && $suffix ne '.simu')
             {
-                # For chime test set, we have same IDs for real and simu data
-                $suffix = substr($filename, rindex($filename, "/") - 4, 4);
-                if ($suffix eq 'real' || $suffix eq 'simu')
-                {
-                    $id = $id . "." . $suffix;
-                }
+                $suffix = '';
             }
 
             for ($i = 0; $i < scalar @ext; $i++)
             {
-
-                if ($hasFile{$id . $ext[$i]} > 0)
+                if ($hasFile{$id . $ext[$i] . $suffix} > 0)
                 {
-                    $foundTrans{$id . $ext[$i]} = 1;
+                    $foundTrans{$id . $ext[$i] . $suffix} = 1;
                 }
             }
 
@@ -275,9 +279,9 @@ while ($filename = <IN>)
             $existFile = 0;
             for ($i = 0; $i < scalar @ext; $i++)
             {
-                if ($hasFile{$id . $ext[$i]})
+                if ($hasFile{$id . $ext[$i] . $suffix})
                 {
-#                   print "Found ID: " . $id . $ext[$i] . "\n";
+#                    print "Found ID: " . $id . $ext[$i] . "\n";
                     $existFile = 1;
                 }
             }
@@ -504,7 +508,7 @@ while ($filename = <IN>)
             {
                 for ($i = 0; $i < scalar @ext; $i++)
                 {
-                    $id2 = $id . $ext[$i];
+                    $id2 = $id . $ext[$i] . $suffix;
                     if ($hasFile{$id2})
                     {
                         $outLine2 = "\"" . $idWithPath{$id2} . ".lab\"\n" . $outLine;
