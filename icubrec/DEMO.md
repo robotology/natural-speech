@@ -1,4 +1,4 @@
-# Demo
+# Demo - Offline decoding with a pretrained model for the VoCub dataset
 
 This page describes how to test the performance of the pretrained model for the
 VoCub dataset. This serves as a starting point for people interested in our
