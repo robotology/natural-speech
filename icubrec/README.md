@@ -5,6 +5,10 @@ recognition (ASR) system. Even though the scripts are quite generic and can be
 used to trained models on different datasets, our ultimate goal is to provide
 tools to perform speech recognition on the iCub plateform.
 
+A good starting point is [this demo](DEMO.md) of offline decoding with a
+pretrained model. A tutorial explaining the full pipeline to train an ASR
+system on WSJ is available in [this tutorial](TUTORIAL.md).
+
 ## Code organization
 
 The code is organized in several subfolders as follows:
@@ -22,9 +26,6 @@ Additionaly to those, several "utility" subfolders are also present:
 * `common` contains configuration and template files required by the scripts
   mentionned above.
 * `scripts` provides generic utility scripts common to different subfolders.
-
-A tutorial explaining the full pipeline to train an ASR system on WSJ is
-available in [TUTORIAL.md](TUTORIAL.md).
 
 ## Dependencies
 
