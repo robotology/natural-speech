@@ -18,7 +18,7 @@
         <name>rctrld_yarphear</name>
         <node>localhost</node>
         <prefix>/yarphear</prefix>
-        <parameters>--filename $ENV{MODEL_DIR}/speech.wav</parameters>
+        <parameters>--muted --filename $ENV{MODEL_DIR}/speech.wav</parameters>
     </module>
 
     <connection>
@@ -35,4 +35,13 @@
         <to>/decoder/cmd:i</to>
         <protocol>tcp+send.portmonitor+context.natural-speech+file.yarphear_decoder</protocol>
     </connection>
+    <!--<connection>
+        <from>/decoder/speech:o</from>
+        <to>/r</to>
+    </connection>
+    <connection>
+        <from>/decoder/speech:o</from>
+        <to>/r</to>
+        <protocol>tcp+send.portmonitor+context.natural-speech+file.decoder_clean</protocol>
+    </connection>-->
 </application>

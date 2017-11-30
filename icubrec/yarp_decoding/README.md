@@ -50,8 +50,9 @@ updated to:
 * allow receiving commands through rpc (via port /cmd:i) instead of the
   terminal
 * write logs (e.g. when saving a file) on the port `log:o`
-* take an optional argument `--filename` that defines the location and name
-  of the output file
+* take an optional argument `--filename <file>` that defines the location and 
+  name of the output file
+* take an optional argument `--muted` that starts the module in mute
 
 ## Building the decoder
 

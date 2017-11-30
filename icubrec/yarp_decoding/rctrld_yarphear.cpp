@@ -308,6 +308,9 @@ int main(int argc, char *argv[]) {
     if (p.check("filename")) {
         echo.fname = p.find("filename").asString();
     }
+    if (p.check("muted")) {
+        echo.mute();
+    }
     echo.open(p);
 
     while (!interrupt) {
