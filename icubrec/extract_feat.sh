@@ -32,7 +32,7 @@ while getopts "e:f:hr:x:" opt; do
         echo -e "$USAGE";
         exit 0;;
     r)
-        AUDIO_ROOT_FOLDER=$OPTARG;;
+        AUDIO_ROOT_FOLDER=${OPTARG%%/};;
     x)
         AUDIO_EXT=$OPTARG;;
     \?)

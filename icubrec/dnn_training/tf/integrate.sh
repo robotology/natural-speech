@@ -78,8 +78,8 @@ fi
 if [ ! -d "cvn" ]; then
     mkdir -p cvn
 fi
-sed "s:^:$CORPORA_OTHER/feat/$FEATURE_FOLDER/:g" <$DNN_TR_LIST >./train.scp
-sed "s:^:$CORPORA_OTHER/feat/$FEATURE_FOLDER/:g" <$DNN_DT_LIST >./hv.scp
+sed "s:^*:$CORPORA_OTHER/feat/$FEATURE_FOLDER:g" <$DNN_TR_LIST >./train.scp
+sed "s:^*:$CORPORA_OTHER/feat/$FEATURE_FOLDER:g" <$DNN_DT_LIST >./hv.scp
 HCompV -p *%%%% -k *.%%%% -C cvn.cfg -q mv -c cvn -S train.scp
 
 cp dnn6.trained/init/$GMM_HMMDEFS dnn6.trained
