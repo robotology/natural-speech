@@ -6,7 +6,7 @@ USAGE="Usage: $(basename $0) [-h] [-s] [-e envt_file] [-t transcr_list] model_fo
 
 Positional arguments:
     model_folder    folder where the model is stored
-    feat_list       list of feature files to use for testing
+    feat_list       list of feature files to use for training
     scp_filename    name for the produced SCP file
     mlf_filename    name for the produced word level MLF file
     set             'train' for the training set, 'test' for validation and
@@ -94,7 +94,7 @@ cd $MODEL_FOLDER
 rm -f prune.log missing.log missing.txt dot_files.txt $SCP_FILE $MLF_FILE
 
 # Create a file listing all the FEAT files
-sed "s:^:$CORPORA_OTHER/feat/$FEATURE_FOLDER/:g" $FEAT_LIST >feat_files.txt
+sed "s:^*:$CORPORA_OTHER/feat/$FEATURE_FOLDER/:g" $FEAT_LIST >feat_files.txt
 
 # Create a file that contains the filename of all the transcription files
 if test -z $TRANSCR_LIST; then

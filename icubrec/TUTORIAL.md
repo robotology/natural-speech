@@ -76,9 +76,9 @@ under this root folder. The lists of feature files for our 3 subsets can by
 running:
 
     cd $WSJ0_CORPORA
-    find si_tr_s -iname "*.wv1" >$WSJ0_OTHER/tr_feat.lst
-    find si_dt_05 -iname "*.wv1" >$WSJ0_OTHER/dt_feat.lst
-    find si_et_05 -iname "*.wv1" >$WSJ0_OTHER/et_feat.lst
+    find si_tr_s -iname "*.feat" | sed "s:^:*/:g" >$WSJ0_OTHER/tr_feat.lst
+    find si_dt_05 -iname "*.feat" | sed "s:^:*/:g" >$WSJ0_OTHER/dt_feat.lst
+    find si_et_05 -iname "*.feat" | sed "s:^:*/:g" >$WSJ0_OTHER/et_feat.lst
     cd -
 
 ## Training the GMM-HMM model
@@ -86,7 +86,7 @@ running:
 From `gmm_training` subfolder (in this repo), simply launch the training script:
 
     mkdir $WSJ0_OTHER/gmm
-    ./train.sh -e wsj0.env $WSJ0_OTHER/gmm
+    ./train.sh -e wsj0.env $WSJ0_OTHER/gmm $WSJ0_OTHER/tr_feat.lst
 
 ## Computing alignments
 

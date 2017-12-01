@@ -75,8 +75,8 @@ HHEd -H $GMM_MODEL_DIR/$GMM_HMMDEFS_DIR/$GMM_HMMDEFS -M dnn6/init connect.hed $G
 if [ ! -d "cvn" ]; then
     mkdir -p cvn
 fi
-sed "s:^:$CORPORA_OTHER/feat/$FEATURE_FOLDER/:g" <$DNN_TR_LIST >./train.scp
-sed "s:^:$CORPORA_OTHER/feat/$FEATURE_FOLDER/:g" <$DNN_DT_LIST >./hv.scp
+sed "s:^*:$CORPORA_OTHER/feat/$FEATURE_FOLDER:g" <$DNN_TR_LIST >./train.scp
+sed "s:^*:$CORPORA_OTHER/feat/$FEATURE_FOLDER:g" <$DNN_DT_LIST >./hv.scp
 HCompV -p *%%%% -k *.%%%% -C cvn.cfg -q mv -c cvn -S train.scp
 
 ### Training  ####################

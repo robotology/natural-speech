@@ -94,7 +94,7 @@ fi
 # Creating destination folder structure
 cat $AUDIO_LIST | sed -e "s:$AUDIO_ROOT_FOLDER/:$OUTPUT_FOLDER/:g" -e "s:/\?[^/]*\.$AUDIO_EXT$::i" | uniq | xargs mkdir -p
 
-# Create the list file we need to send to HCopy to convert .wav files to .mfc
+# Create the list file we need to send to HCopy to convert .wav files to .feat
 paste $AUDIO_LIST $AUDIO_LIST | sed -E "s:$AUDIO_ROOT_FOLDER(\S+)\.$AUDIO_EXT$:$OUTPUT_FOLDER\1\.feat:i" >audio_feat.scp
 
 HCopy -A -T 1 -C $HTK_COMMON/wav.htkc -C $HTK_COMMON/$FEAT_CONF_FILE -C $HTK_COMMON/$CORPORA_CONF_FILE -S audio_feat.scp

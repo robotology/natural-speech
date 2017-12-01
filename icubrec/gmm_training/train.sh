@@ -6,7 +6,7 @@ USAGE="Usage: $(basename $0) [-h] [-e envt_file] [-t transcr_list] model_folder
 
 Positional arguments:
     model_folder    folder where the model is stored
-    feat_list       list of feature files to use for testing
+    feat_list       list of feature files to use for training
 
 Optional arguments:
     -e              environment file

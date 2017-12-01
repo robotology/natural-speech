@@ -3,7 +3,7 @@
 # Then train up the monophone models.
 
 cd $TIMIT_OTHER
-sed "s:^:$TIMIT_OTHER/feat/$FEATURE_FOLDER/:g" $TIMIT_OTHER/lists/train_feat.lst >$MODEL_FOLDER/timit/train.scp
+sed "s:^*:$TIMIT_OTHER/feat/$FEATURE_FOLDER:g" $TIMIT_OTHER/lists/train_feat.lst >$MODEL_FOLDER/timit/train.scp
 
 cd $MODEL_FOLDER/timit
 # Create monophones0 from monophones1, eliminating the sp model
