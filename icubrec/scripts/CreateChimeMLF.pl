@@ -220,7 +220,7 @@ while ($filename = <IN>)
 
     while ($line = <IN2>)
     {
-#       print "Line is: " . $line . "\n";
+#        print "Line is: " . $line . "\n";
 
         $posStart = rindex($line, "(");
         $posEnd   = rindex($line, ")");
@@ -235,14 +235,16 @@ while ($filename = <IN>)
         {
             $id = substr($line, $posStart + 1, $posEnd - $posStart - 1);
             $id = lc($id);
+#            print "Id is: " . $id . "\n";
 
             # For chime test set, we have same IDs for real and simu data
             $suffix = '.' . substr($filename, rindex($filename, "/") - 4, 4);
-            if ($suffix ne '.real' && $suffix ne '.simu')
+            if ($set ne 'test' || ($suffix ne '.real' && $suffix ne '.simu'))
             {
                 $suffix = '';
             }
 
+#            print "Suffix is: " . $suffix . "\n";
             for ($i = 0; $i < scalar @ext; $i++)
             {
                 if ($hasFile{$id . $ext[$i] . $suffix} > 0)
@@ -341,6 +343,12 @@ while ($filename = <IN>)
                             {
                                 # Try and recover from common problems in the transcripts
                                 $word = $words[$i];
+
+                                # Change --DASH into -DASH
+                                if ($word =~ /--DASH/)
+                                {
+                                    $word = '-DASH';
+                                }
 
                                 # Make things like FIVEPOINT into FIVE POINT
                                 if ($word =~ /^.+POINT$/)
