@@ -63,8 +63,8 @@ the features for both kind of models, run:
     ./extract_feat.sh -e gmm_training/wsj0.env -f $WSJ0_OTHER/et_wav.lst $WSJ0_OTHER/feat/fbanks
 
 The folders `$WSJ0/mfcc` and `$WSJ0/fbanks` should now contain the same folder
-hierarchy as `$WSJ0_CORPORA/wsj0` for our 3 subsets, with a `.feat` file in place
-of each `.wv1` file.
+hierarchy as `$WSJ0_CORPORA/wsj0` for our 3 subsets, with a `.feat` file in
+place of each `.wv1` file.
 
 Finally, similarly to what we did for the wavfiles, we will create lists
 containing all the feature files. However, in order to be able to switch easily
@@ -72,8 +72,8 @@ from one kind of feature to the other, we will decouple the features location
 (e.g.  `$WSJ0_OTHER/feat/mfcc`) from the subsequent path (e.g.
 `si_tr_s/011/011c0201.feat`). The features root folder is defined by an
 environment variable while the feature list will only contain the relative path
-under this root folder. The lists of feature files for our 3 subsets can by
-running:
+under this root folder. The lists of feature files for our 3 subsets can be
+obtained by running:
 
     cd $WSJ0_CORPORA
     find si_tr_s -iname "*.feat" | sed "s:^:*/:g" >$WSJ0_OTHER/tr_feat.lst
@@ -83,7 +83,8 @@ running:
 
 ## Training the GMM-HMM model
 
-From `gmm_training` subfolder (in this repo), simply launch the training script:
+From `gmm_training` subfolder (in this repo), simply launch the training
+script:
 
     mkdir $WSJ0_OTHER/gmm
     ./train.sh -e wsj0.env $WSJ0_OTHER/gmm $WSJ0_OTHER/tr_feat.lst

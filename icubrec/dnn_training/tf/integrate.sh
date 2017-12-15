@@ -1,6 +1,11 @@
 #!/bin/bash
 
-DESCRIPTION="Integrate DNN and HMM definitions"
+DESCRIPTION="Integrate DNN and HMM definitions
+
+The output folder should already contain a file called htkdef which contains
+the definition of the network (extracted from TensorFlow).
+The GMM model under \$GMM_MODEL_DIR (normally defined in the environment file)
+is used for the HMM definition."
 USAGE="Usage: $(basename $0) [-h] [-e envt_file] output_folder
 
 Positional arguments:
@@ -71,9 +76,9 @@ cp -f $GMM_MODEL_DIR/$GMM_HMMLIST .
 touch proto/foolist
 HHEd -H $GMM_MODEL_DIR/$GMM_HMMDEFS_DIR/$GMM_HMMDEFS -M dnn6.trained/init connect.hed $GMM_HMMLIST
 if [ "$MODEL_UNIT" = "TRI" ]; then
-    connect_HMM.py --senones dnn6.trained/init/$GMM_HMMDEFS $GMM_MODEL_DIR/senlist
+    $REPO/icubrec/dnn_training/tf/connect_HMM.py --senones dnn6.trained/init/$GMM_HMMDEFS $GMM_MODEL_DIR/senlist
 else
-    connect_HMM.py dnn6.trained/init/$GMM_HMMDEFS $GMM_HMMLIST
+    $REPO/icubrec/dnn_training/tf/connect_HMM.py dnn6.trained/init/$GMM_HMMDEFS $GMM_HMMLIST
 fi
 if [ ! -d "cvn" ]; then
     mkdir -p cvn
