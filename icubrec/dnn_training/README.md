@@ -21,7 +21,7 @@ The folder `htk` contains two different scripts to train a network:
 The file `tf/train.py` gives an example of how to train a net with Tensorflow.
 Once the net is trained, it can be used with HTK in a few step:
 * first, the net parameters should be exported in a format HTK can handle. To
-  do that, it is enough to add following lines just after the net is finished
+  do that, it is enough to add following lines just after the net has finished
   training (or alternatively after it is loaded from a previous save):
 
         net = nndef.parse_from_tf_graph(tf.get_default_graph(), "output")
@@ -31,9 +31,18 @@ Once the net is trained, it can be used with HTK in a few step:
         file.close()
 
   The paramaters are exported in a file called `htkdef`. We assume here that
-  the features used are mean-normalised fbanks with first and second
-  derivative, and that a context of 11 frames is used
+  the output layer is named `output` in TF's graph, that mean-normalised fbanks
+  are used with first and second derivatives, and that a context of 11 frames
+  is used.
 * once the parameters are exported, they need to be integrated with an existing
-  HMM definition. We provide the script `integrate.sh` for that purpose.
+  HMM definition. We provide the script `integrate.sh` for that purpose, which
+  can be used as following:
+
+        integrate.sh -e <envt_file> <output_folder>
+
+  where `<output_folder>` will be used to store the new model and should
+  already contain the definition of the DNN (the `htkdef` file created above).
+  The GMM model under `$GMM_MODEL_DIR` (normally defined in the environment
+  file) is used for the HMM definition.
 
 The model is then ready to be used within HTK.
