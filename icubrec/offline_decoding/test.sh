@@ -57,6 +57,12 @@ fi
 if test -z $PRUNING_BEAM; then
     export PRUNING_BEAM=250.0;
 fi
+
+# Source envt file
+if ! test -z $ENVT_FILE; then
+    source $ENVT_FILE
+fi
+
 if test -z $CTXEXP; then
     export CTXEXP='wi'
 fi
@@ -67,17 +73,13 @@ case $CTXEXP in
         export CONFIG_CTXEXP=cross.htkc;;
 esac
 
-# Source envt file
-if ! test -z $ENVT_FILE; then
-    source $ENVT_FILE
-fi
-
 echo "Environment variables:"
 echo "ENVT_FILE       = $ENVT_FILE"
 echo "MODEL_FOLDER    = $MODEL_FOLDER"
 echo "FEAT_LIST       = $FEAT_LIST"
 echo "TRANSCR_LIST    = $TRANSCR_LIST"
 echo "RESULT_FOLDER   = $RESULT_FOLDER"
+echo "CTXEXP          = $CTXEXP"
 echo ""
 
 # Intial setup of test MLFs
