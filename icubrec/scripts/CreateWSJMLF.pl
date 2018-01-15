@@ -304,6 +304,11 @@ while ($filename = <IN>)
                                 # Try and recover from common problems in the transcripts
                                 $word = $words[$i];
 
+                                # Change --DASH into -DASH
+                                if ($word =~ /--DASH/)
+                                {
+                                    $word = '-DASH';
+                                }
 
                                 # Make things like *KINSLEY*'S into KINSLEY'S
                                 if ($word =~ /^\*.+\*\'S$/)
