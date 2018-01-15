@@ -41,9 +41,10 @@ echo "Environment variables:"
 echo "ENVT_FILE       = $ENVT_FILE"
 echo ""
 
-perl $HTK_SCRIPTS/FixCMUDict.pl $HTK_DATA/cmu/c0.6 >$HTK_DATA/cmu/cmu6
+perl $HTK_SCRIPTS/FixCMUDict.pl $HTK_DATA/cmu/c0.6 >$HTK_DATA/cmu/cmu6temp
 
-#perl MergeDict.pl $HTK_DATA/cmu/cmu6temp $HTK_COMMON/wsj1_extra_dict >$HTK_DATA/cmu/cmu6
+perl $HTK_SCRIPTS/MergeDict.pl $HTK_DATA/cmu/cmu6temp \
+    $HTK_COMMON/wsj0_20k_extra_dict >$HTK_DATA/cmu/cmu6
 
 # Create a dictionary with a sp short pause after each word, this is
 # so when we do the phone alignment from the word level MLF, we get
@@ -52,7 +53,8 @@ perl $HTK_SCRIPTS/FixCMUDict.pl $HTK_DATA/cmu/c0.6 >$HTK_DATA/cmu/cmu6
 # this we get about a 0.5% abs increase on Nov92 test set.
 perl $HTK_SCRIPTS/AddSp.pl $HTK_DATA/cmu/cmu6 1 >$HTK_DATA/cmu/cmu6sp
 
-# We need a dictionary that has the word "silence" with the mapping to the sil phone
+# We need a dictionary that has the word "silence" with the mapping to the sil
+# phone
 cat $HTK_DATA/cmu/cmu6sp >$HTK_DATA/cmu/cmu6temp
 echo "silence sil" >>$HTK_DATA/cmu/cmu6temp
 sort $HTK_DATA/cmu/cmu6temp >$HTK_DATA/cmu/cmu6spsil

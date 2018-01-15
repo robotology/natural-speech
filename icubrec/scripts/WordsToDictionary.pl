@@ -15,7 +15,7 @@ use strict;
 
 if ( @ARGV < 3 )
 {
-    print "$0 <word list> <dictionary> <output file> [sentence start] [sentence end]\n"; 
+    print "$0 <word list> <dictionary> <output file> [sentence start] [sentence end]\n";
     exit(1);
 }
 
@@ -70,7 +70,7 @@ while($line = <IN>)
 
 #print "word = '" . $word . "', phones = '" . $phones . "'\n";
 
-    # We store in the hash all the lines corresponding to this word	
+    # We store in the hash all the lines corresponding to this word
     $words{$word} = $words{$word} . $word . "\t" . $phones . "\n";
 }
 close(IN);
@@ -85,7 +85,7 @@ while($line = <IN>)
 
     @chunks = split(/\s{1,}/, $line);
 
-    $word = uc $chunks[0];    
+    $word = uc $chunks[0];
 
     # Escape any leading apostrophes
     if (index($word, "'") == 0)
@@ -99,8 +99,8 @@ while($line = <IN>)
     }
     else
     {
-	print "Unknown word: " . $line . "\n";
-	print OUT $line . "\t!!UNKNOWN!!\n";
+        print "Unknown word: " . $line . "\n";
+        print OUT $line . "\t!!UNKNOWN!!\n";
     }
 }
 close(IN);

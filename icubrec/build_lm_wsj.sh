@@ -42,7 +42,7 @@ echo "<s> [] sil" >$DICT_FILE
 echo "</s> [] sil" >>$DICT_FILE
 
 # Add pronunciations for each word
-perl $SCRIPTS_PATH/WordsToDictionary.pl dict_temp $HTK_DATA/cmu/cmu6sp dict_temp2
+perl $HTK_SCRIPTS/WordsToDictionary.pl dict_temp $HTK_DATA/cmu/cmu6sp dict_temp2
 cat dict_temp2 >>$DICT_FILE
 rm -f dict_temp dict_temp2
 

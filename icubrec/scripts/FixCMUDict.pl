@@ -20,7 +20,7 @@ use strict;
 
 if ( @ARGV < 1 )
 {
-    print "$0 <file> [add to end]\n"; 
+    print "$0 <file> [add to end]\n";
     exit(1);
 }
 
@@ -40,16 +40,16 @@ my %words;
 my $firstChar;
 my $newPart;
 
-while ($line = <IN>) 
+while ($line = <IN>)
 {
-    if (index($line, "#") != 0) 
+    if (index($line, "#") != 0)
     {
 	$pos = index($line, " ");
 	$word = substr($line, 0, $pos);
 	$word =~ s/\([123456789]\)//g;
 
 	$firstChar = substr($line, 0, 1);
-	
+
 	# See if we need to escape this word
 	if (($firstChar !~ /[A-Z|a-z|0-9|\s]/) && (length($line) > 0))
 	{
@@ -71,13 +71,13 @@ while ($line = <IN>)
 	    {
 		$rest = $rest . " " . $addToEnd;
 	    }
-	    
+
 	}
 
 	# We may already have a pronunciation for this word
 	# so we'll just add a second line to the output part.
 	$newPart = $word . "\t" . $rest . "\n";
-	
+
 	# Only add if we don't have something identical for this word
 	if (index($words{$word}, $newPart) == -1)
 	{
