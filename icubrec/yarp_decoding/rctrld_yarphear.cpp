@@ -186,9 +186,9 @@ public:
             yInfo("  Type \"mute\" to mute\n");
             yInfo("  Type \"unmute\" to unmute\n");
             yInfo("  Type \"s\" to set start/stop saving audio in memory\n");
-            yInfo("  Type \"write filename.wav\" to write saved audio to a file\n");
-            yInfo("  Type \"buf NUMBER\" to set buffering delay (default is 0)\n");
-            yInfo("  Type \"write\" or \"w\" to write saved audio with same/default name\n");
+            yInfo("  Type \"w[rite]\" to write saved audio with same/default name\n");
+            yInfo("  Type \"w[rite] filename.wav\" to write saved audio to a file\n");
+            yInfo("  Type \"b[uf] NUMBER\" to set buffering delay (default is 0)\n");
             yInfo("  Type \"q\" to quit\n");
             yInfo("  Type \"help\" to see this list again\n");
             help = false;
