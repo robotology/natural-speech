@@ -2,16 +2,16 @@
 
 The main script for GMM-based model training is `train.sh`.
 
-For example, to train such a model for wsj0, you can run the command:
+For example, to train such a model for WSJ, you can run the command:
 
-    ./train.sh -e wsj0.env model_folder
+    ./train.sh -e wsj0_5k.env model_folder
 
 The training procedures follows the gender independent SI-84 systems described
 in [1](#ref1) [1](#references).
 
 ## Environment files
 
-We offer default environment files to train models for WSJ, CHiME4 and VoCub
+We offer default environment files to train models for WSJ, chime4 and VoCub
 datasets, all stored in this folder and named after their respective dataset.
 
 ## Main training parameters

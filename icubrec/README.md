@@ -2,12 +2,13 @@
 
 This folder contains code to train, test and run an automatic speech
 recognition (ASR) system. Even though the scripts are quite generic and can be
-used to trained models on different datasets, our ultimate goal is to provide
+used to trained models for other purposes, our ultimate goal is to provide
 tools to perform speech recognition on the iCub plateform.
 
-A good starting point is [this demo](DEMO.md) of offline decoding with a
+A good starting point is [the demo](DEMO.md) on offline decoding with a
 pretrained model. A tutorial explaining the full pipeline to train an ASR
-system on WSJ is available in [this tutorial](TUTORIAL.md).
+system on Wall Street Journal (WSJ) dataset is available in [this other
+tutorial](TUTORIAL.md).
 
 ## Code organization
 
@@ -49,7 +50,7 @@ be used in two different ways:
   environment file. This file will be automatically loaded from the script
 (leaving the shell environment clean after the execution of the script).
 * alternatively, one can load the environment file in the shell's environment
-  before running the script, using the command `source {filename}.env`. This
+  before running the script, using the command `source <file.env>`. This
 allows the user to easily modify some parameters on-the-fly, without the need
 to modify the original environment file.
 
@@ -75,10 +76,10 @@ performed on-the-fly by HTK tools. But to fasten the training or the testing,
 we precompute the features and save them on the disk. Features can be extracted
 using the script `extract_feat.sh`.
 
-For example, to extract MFCC features for wsj0 (MFCC are usually used to train
+For example, to extract MFCC features for WSJ (MFCC are usually used to train
 GMMs), you can run the command:
 
-    ./extract_feat.sh -e gmm_traning/wsj0.env output_folder
+    ./extract_feat.sh -e gmm_traning/wsj0_5k.env output_folder
 
 ### Preparing the dictionary and the language model
 
@@ -100,7 +101,7 @@ about the modifications we're doing). This can conveniently be done with the
 script `prep_cmu_dict.sh`. From `icubrec` folder, one can simply issue the
 command:
 
-    ./prep_cmu_dict.sh -e gmm_training/wsj0.env
+    ./prep_cmu_dict.sh -e gmm_training/wsj0_5k.env
 
 As a result, the folder `$HTK_DATA/cmu/` will contain three new files: `cmu6`
 which is the cleaned version of the dictionary, `cmu6sp` which additionally
@@ -110,7 +111,7 @@ word "silence" the phone "sil".
 #### Building the resources
 
 Once the dictionary downloaded and preprocessed, we can adapt it to our
-vocabulary and compute the word network.  For WSJ and CHiME4 datasets, the
+vocabulary and compute the word network.  For WSJ and chime4 datasets, the
 script `build_lm_wsj.sh` can be used for that purpose.
 
 ## License
