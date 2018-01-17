@@ -15,7 +15,7 @@ add_executable(rctrld_yarphear rctrld_yarphear.cpp)
 target_link_libraries(rctrld_yarphear ${YARP_LIBRARIES} ${ACE_LIBRARIES})
 install(TARGETS rctrld_yarphear DESTINATION bin)
 # sound_player
-add_executable(sound_player rctrld_yarphear.cpp)
+add_executable(sound_player sound_player.cpp)
 target_link_libraries(sound_player ${YARP_LIBRARIES})
 install(TARGETS sound_player DESTINATION bin)
 
