@@ -71,7 +71,8 @@ On a CPU machine, the module can then be compiled in the following way:
 1. Compile HTK Library.
 
         cd HTKLib
-        make -f MakefileCPU all cd ..
+        make -f MakefileCPU all
+        cd ..
 
 2. Compile and install the decoder.
 
