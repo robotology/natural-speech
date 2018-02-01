@@ -8,7 +8,7 @@
     <module>
         <name>decoder</name>
         <node>localhost</node>
-        <parameters>-C $ENV{MODEL_DIR}/config -H $ENV{MODEL_DIR}/mmf -i $ENV{MODEL_DIR}/recout.mlf -w $ENV{MODEL_DIR}/wdnet -p 4.0 -s 15 $ENV{MODEL_DIR}/dict $ENV{MODEL_DIR}/tiedlist $ENV{MODEL_DIR}/speech.wav</parameters>
+        <parameters>-C $ENV{MODEL_DIR}/config -H $ENV{MODEL_DIR}/mmf -i $ENV{MODEL_DIR}/recout.mlf -w $ENV{MODEL_DIR}/wdnet -p 4.0 -s 15 -S $ENV{MODEL_DIR}/dataset.scp $ENV{MODEL_DIR}/dict $ENV{MODEL_DIR}/tiedlist</parameters>
     </module>
     <module>
         <name>node $ENV{YARPJS_DIR}/icubrec/examples.js</name>

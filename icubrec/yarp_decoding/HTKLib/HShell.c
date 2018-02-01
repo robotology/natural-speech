@@ -2129,6 +2129,7 @@ ReturnStatus InitShell(int argc, char *argv[], char *ver, char *sccs)
     Boolean b;
 
     nextarg=1;
+    scriptcount=0;
     argcount = 1; 
     arglist = (char **) malloc(argc * sizeof(char *));
     arglist[0] = argv[0];

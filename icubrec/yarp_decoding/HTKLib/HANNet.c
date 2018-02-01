@@ -129,6 +129,7 @@ void InitANNet(void)
     int intVal;
     ConfParam *cpVal;
 
+    batchIndex = 0;
     /* cz277 - 150811 */
     strcpy(ANNUpdateFlagStr, "");
     /*strcpy(layerUpdateFlagStr, "");
