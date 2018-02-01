@@ -25,7 +25,7 @@ class SoundPlayerThread: public yarp::os::RateThread {
                 return false;
             next_sample_ = 0;
             setRate(4096.0 / snd_.getFrequency() * 1000);
-            cout << 4096.0 / snd_.getFrequency() * 100 << endl;
+            cout << 4096.0 / snd_.getFrequency() * 1000 << endl;
             resume();
             return true;
         }
@@ -34,7 +34,7 @@ class SoundPlayerThread: public yarp::os::RateThread {
             yarp::sig::Sound sub;
             int last_sample;
 
-            last_sample = next_sample_ + 4096 - 1;
+            last_sample = next_sample_ + 4096;
             sub = snd_.subSound(next_sample_, last_sample);
             sound_port_->write(sub);
             next_sample_ = next_sample_ + 4096;
@@ -57,6 +57,7 @@ class SoundPlayerModule: public yarp::os::RFModule {
             if (!sound_port_.open("/sound:o"))
                 cerr << getName() << ": unable to open port /sound:o" << endl;
             thread_ = new SoundPlayerThread(1000, &sound_port_);
+            return true;
         }
 
         bool updateModule() {
@@ -69,6 +70,7 @@ class SoundPlayerModule: public yarp::os::RFModule {
             else
                 reply.addString("NACK");
             cmd_port_.reply(reply);
+            return true;
         }
 
         bool execute_cmd(Bottle cmd) {
@@ -84,11 +86,13 @@ class SoundPlayerModule: public yarp::os::RFModule {
         bool interruptModule() {
             cmd_port_.interrupt();
             sound_port_.interrupt();
+            return true;
         }
 
         bool close() {
             cmd_port_.close();
             sound_port_.close();
+            return true;
         }
 
     private:
