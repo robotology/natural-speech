@@ -106,4 +106,4 @@ fi
 # Now create the MLF file using a script, we prune out anything that
 # has words that aren't in our dictionary, producing a MLF with only
 # these files and a corresponding script file.
-perl $HTK_SCRIPTS/$MLF_CREATION_SCRIPT $SET feat_files.txt dot_files.txt $HTK_DATA/cmu/cmu6 $MLF_FILE $SCP_FILE 1 "" missing.txt 1 >missing.log
+perl $HTK_SCRIPTS/$MLF_CREATION_SCRIPT $SET feat_files.txt dot_files.txt $DICT_FILE $MLF_FILE $SCP_FILE 1 "" missing.txt 1 >missing.log
