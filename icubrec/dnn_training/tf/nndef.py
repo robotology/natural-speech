@@ -37,7 +37,8 @@ class nndef:
                 layer['biases'] = op.inputs[0]
         for tensor in matmul_op.inputs:
             op = tensor.op
-            if op.type in ["Relu", "QueueDequeueManyV2", "Placeholder"]:
+            if op.type in ["Relu", "QueueDequeueManyV2", "Placeholder",
+                           "IteratorGetNext"]:
                 layer['input'] = op
             if op.type == "Identity":
                 layer['weights'] = op.inputs[0]
