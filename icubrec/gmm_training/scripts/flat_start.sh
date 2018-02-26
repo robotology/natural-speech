@@ -10,7 +10,7 @@ cp $HTK_COMMON/timit/monophones0 $MODEL_FOLDER
 cp $HTK_COMMON/timit/monophones1 $MODEL_FOLDER
 
 # First convert the word level MLF into a phone MLF
-HLEd -A -T 1 -l '*' -d $DICT_FILE -i $MODEL_FOLDER/phones0.mlf $HTK_COMMON/mkphones0.led $MODEL_FOLDER/words.mlf >$MODEL_FOLDER/hhed_flat.log
+HLEd -A -T 1 -l '*' -d $HTK_DATA/cmu/cmu6 -i $MODEL_FOLDER/phones0.mlf $HTK_COMMON/mkphones0.led $MODEL_FOLDER/words.mlf >$MODEL_FOLDER/hhed_flat.log
 
 # Compute the global mean and variance and set all Gaussians in the given
 # HMM to have the same mean and variance

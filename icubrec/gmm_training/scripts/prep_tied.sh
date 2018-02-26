@@ -21,7 +21,7 @@ mkdir $MODEL_FOLDER/hmm13
 # an entry for sp and sil
 if [[ $3 != "cross" ]]
 then
-perl $SCRIPTS_PATH/CreateFullListWI.pl $DICT_FILE >$MODEL_FOLDER/fulllist
+perl $SCRIPTS_PATH/CreateFullListWI.pl $HTK_DATA/cmu/cmu6 >$MODEL_FOLDER/fulllist
 else
 perl $SCRIPTS_PATH/CreateFullList.pl $MODEL_FOLDER/monophones0 >$MODEL_FOLDER/fulllist
 fi

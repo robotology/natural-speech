@@ -27,9 +27,9 @@ rm -f $MODEL_FOLDER/hvite_align.log $MODEL_FOLDER/hled_sp_sil.log
 
 if [[ $1 != "flat" ]]
 then
-    HVite -A -T 1 -o SWT -b silence -C $HTK_COMMON/$FEAT_CONF_FILE -a -H $MODEL_FOLDER/timit/hmm8/macros -H $MODEL_FOLDER/timit/hmm8/hmmdefs -i $MODEL_FOLDER/aligned.mlf -m -t 250.0 -I $MODEL_FOLDER/words.mlf -S $MODEL_FOLDER/train.scp $DICT_FILE $MODEL_FOLDER/timit/monophones1 >$MODEL_FOLDER/hvite_align.log
+    HVite -A -T 1 -o SWT -b silence -C $HTK_COMMON/$FEAT_CONF_FILE -a -H $MODEL_FOLDER/timit/hmm8/macros -H $MODEL_FOLDER/timit/hmm8/hmmdefs -i $MODEL_FOLDER/aligned.mlf -m -t 250.0 -I $MODEL_FOLDER/words.mlf -S $MODEL_FOLDER/train.scp $HTK_DATA/cmu/cmu6spsil $MODEL_FOLDER/timit/monophones1 >$MODEL_FOLDER/hvite_align.log
 else
-    HVite -A -T 1 -o SWT -b silence -C $HTK_COMMON/$FEAT_CONF_FILE -a -H $MODEL_FOLDER/hmm5/macros -H $MODEL_FOLDER/hmm5/hmmdefs -i $MODEL_FOLDER/aligned.mlf -m -t 250.0 -I $MODEL_FOLDER/words.mlf -S $MODEL_FOLDER/train.scp $DICT_FILE $MODEL_FOLDER/monophones1 >$MODEL_FOLDER/hvite_align.log
+    HVite -A -T 1 -o SWT -b silence -C $HTK_COMMON/$FEAT_CONF_FILE -a -H $MODEL_FOLDER/hmm5/macros -H $MODEL_FOLDER/hmm5/hmmdefs -i $MODEL_FOLDER/aligned.mlf -m -t 250.0 -I $MODEL_FOLDER/words.mlf -S $MODEL_FOLDER/train.scp $HTK_DATA/cmu/cmu6spsil $MODEL_FOLDER/monophones1 >$MODEL_FOLDER/hvite_align.log
 fi
 
 # We'll get a "sp sil" sequence at the end of each sentence.  Merge these
