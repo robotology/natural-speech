@@ -34,7 +34,7 @@ rm -f $RESULT_FOLDER/hvite_et$2.log $RESULT_FOLDER/hresults_et$2.log
 
 # We need to send in a different config file depending on whether
 # we are doing cross word triphones or not.
-if test -z $DNN; then
+if [[ $MODEL_TYPE == "GMM" ]]; then
     HVite -A -T 1 -t $3 -C $HTK_COMMON/$CONFIG_CTXEXP -H $MODEL_FOLDER/$1/macros -H $MODEL_FOLDER/$1/$GMM_HMMDEFS -S $RESULT_FOLDER/dataset.scp -i $RESULT_FOLDER/recout_et$2.mlf -w $GRAM_FILE -p $4 -s $5 $DICT_FILE $MODEL_FOLDER/$GMM_HMMLIST >$RESULT_FOLDER/hvite_et$2.log
 else
     cp -rf $MODEL_FOLDER/cvn $MODEL_FOLDER/ident_cvn $RESULT_FOLDER
