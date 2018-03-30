@@ -25,7 +25,6 @@ class SoundPlayerThread: public yarp::os::RateThread {
                 return false;
             next_sample_ = 0;
             setRate(4096.0 / snd_.getFrequency() * 1000);
-            cout << 4096.0 / snd_.getFrequency() * 1000 << endl;
             resume();
             return true;
         }

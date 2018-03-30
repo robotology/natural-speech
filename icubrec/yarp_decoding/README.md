@@ -25,12 +25,11 @@ streaming application is demonstrated that we reuse here. We simply added a
 `trigger:o` port on which the commands `start` and `stop` are sent when the
 streaming button is pressed.
 
-To make this new audio streamer work, simply copy the original example and
-replace the original `audio_stream` subdirectory by the one provided here.
-Supposing your are in  `yarp_decoding` folder and that `$YARPJS_DIR`
-contains the location of yarp.js, this can be done with following commands:
+To make this new audio streamer work, simply copy the folder `stream_audio` to
+yarp.js installation folder. Supposing your are in  `yarp_decoding` folder and
+that `$YARPJS_DIR` contains the location of yarp.js, this can be done with
+following commands:
 
-    cp -r $YARPJS_DIR/examples $YARPJS_DIR/icubrec
     cp -r ./stream_audio $YARPJS_DIR/icubrec
 
 Now, you can start the node server using the command:

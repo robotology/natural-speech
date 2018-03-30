@@ -1,283 +1,488 @@
-<!doctype html>
-<html>
-  <head>
-    <title>YarpJS Stream Audio</title>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Yarp.js Examples</title>
 
 
-    <meta name=viewport content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/icubworld_logo.png">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
+    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet'  type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'  type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet'  type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'  type='text/css'>
 
 
-    <script src="/socket.io/socket.io.js"></script>
 
     <style>
-      .cont {
-        text-align: center;
-      }
-
-      .cont * {
-        display: inline-block;
-      }
-
-      .main {
-        margin-top: 4em;
-      }
-
-      canvas {
-        height: 40%;
-        border-radius: 10%;
-        margin-bottom: 1em;
-        border: 0.5em solid #D4D6D8;
-
-        box-shadow: 4px 4px 10px -3px rgba(0, 0, 0, 0.5);
-      }
+     /*!
+     * Start Bootstrap - Simple Sidebar (http://startbootstrap.com/)
+     * Copyright 2013-2016 Start Bootstrap
+     * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+     */
 
 
-      .invisible {
-          display: none;
-      }
+    html, body {
+        height: 100%;
+    }
 
-      #description {
-          padding: 3em;
-      }
+    body {
+        overflow-x: hidden;
+        position: fixed;
+        top:0;
+        width: 100%;
+        margin: 0;
+        font-family: 'Open Sans', sans-serif;
+     }
 
-      #description * {
-          text-align: center;
-      }
+    /* Toggle Styles */
 
-      #description p {
-          font-size: 1.3em;
-          margin-top: 3em;
-      }
+    #wrapper {
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
 
-      #description b {
-          font-weight: bold;
-          color: cornflowerblue;
-      }
+        height: 100%;
+    }
 
-      #description h1 b {
-          font-family: 'Lobster', serif;
-      }
+    #sidebar-wrapper {
+        z-index: 1000;
+        position: relative;
+        top: 0;
+        width: 100%;
+        height: 4.3em;
+        /*background: #000;*/
+        background: cornflowerblue;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
 
-      /* Custom */
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5), 0 0 20px 0 rgba(0, 0, 0, 0.4);
+    }
 
-      #description p {
-        margin-top: 1em;
-      }
+    #page-content-wrapper {
+        width: 100%;
+        position: relative;
+
+        top: -4.3em;
+        padding-top: 4.3em;
+        height: 100%;
+
+    }
+
+    /* Sidebar Styles */
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        align-items: center;
+
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        padding-right: 1em;
+        padding-top: 1em;
+    }
+
+    .sidebar-nav li {
+        text-indent: 0;
+        line-height: 40px;
+    }
+
+    .sidebar-nav li a {
+        padding-left: 20px;
+        /*display: block;*/
+        text-decoration: none;
+        /*color: #999999;*/
+        color:white;
+        font-size: 1.1em;
+    }
 
 
-      #description b.danger {
-          color: crimson;
-      }
+    .sidebar-nav li a:hover {
+        text-decoration: none;
+        /*color: #fff;*/
+        color:white;
+        background: rgba(255,255,255,0.2);
+    }
 
-      #description ul {
-        font-size: 1.3em;
-        text-align: left;
-      }
+    .sidebar-nav li a:active,
+    .sidebar-nav li a:focus {
+        text-decoration: none;
+    }
+
+    .sidebar-nav li a.selected {
+        color: bisque;
+    }
+
+    .brand {
+        position: fixed;
+    }
+
+    .sidebar-nav > .sidebar-brand, .brand{
+        height: 65px;
+        line-height: 60px;
+        padding-left: 1em;
+    }
+
+
+    .sidebar-nav > li:first-child {
+        /*color: #999999;*/
+        /*margin-bottom: 0.7em;*/
+        /*margin-top: 0.5em;*/
+    }
+
+    .sidebar-nav > .sidebar-brand img {
+        height: 1em;
+    }
+
+    .brand span {
+        font-family: 'Lobster', serif;
+        /*font-family: 'Arvo', serif;*/
+        /*font-family: 'Josefin Slab', serif;*/
+        font-size: 2.5em;
+
+        font-weight: normal;
+
+        color:white;
+    }
+
+    .sidebar-nav > .sidebar-brand a:hover {
+        color: #fff;
+        background: none;
+    }
+
+    .sidebar-nav li a span {
+        display: none;
+    }
+
+    @media(min-width:768px) {
+
+
+        /* Toggle Styles */
+
+        #wrapper {
+            padding-left: 0;
+
+            height: 100%;
+        }
+
+        #sidebar-wrapper {
+            position: fixed;
+            top: 0;
+            left: 250px;
+            width: 0;
+            height: 100%;
+            margin-left: -250px;
+            overflow-y: auto;
+        }
+
+        #page-content-wrapper {
+            position: absolute;
+            top:0;
+            padding-top:0;
+        }
+
+        /* Sidebar Styles */
+
+        .brand {
+            position: static;
+            margin-bottom: 1em;
+        }
+
+
+        .sidebar-nav {
+
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+
+            position: static;
+            top: 0;
+            width: 250px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+
+
+
+
+        .sidebar-nav li {
+            text-indent: 0;
+            line-height: 40px;
+        }
+
+        .sidebar-nav li a {
+            padding-left: 20px;
+            display: block;
+            text-decoration: none;
+            /*color: #999999;*/
+            color:white;
+            font-size: 1.1em;
+        }
+
+        .sidebar-nav li a:hover {
+            text-decoration: none;
+            /*color: #fff;*/
+            color:white;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .sidebar-nav li a:active,
+        .sidebar-nav li a:focus {
+            text-decoration: none;
+        }
+
+        .sidebar-nav li a.selected {
+            color: bisque;
+        }
+
+        .sidebar-nav > .sidebar-brand {
+            height: 65px;
+            line-height: 60px;
+        }
+
+        .sidebar-nav > .sidebar-brand img {
+            height: 1em;
+        }
+
+        .sidebar-nav > .sidebar-brand a {
+            font-family: 'Lobster', serif;
+            /*font-family: 'Arvo', serif;*/
+            /*font-family: 'Josefin Slab', serif;*/
+            font-size: 3em;
+
+            font-weight: normal;
+
+            color:white;
+        }
+
+        .sidebar-nav > .sidebar-brand a:hover {
+            color: #fff;
+            background: none;
+        }
+
+
+        .sidebar-nav li a span {
+            display: initial;
+            padding-left: 0.5em;
+        }
+
+    }
+
+        @media(min-width:768px) {
+            #wrapper {
+                padding-left: 250px;
+            }
+
+            #wrapper.toggled {
+                padding-left: 0;
+            }
+
+            #sidebar-wrapper {
+                width: 250px;
+                box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5), 0 0 20px 0 rgba(0, 0, 0, 0.4);
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                width: 0;
+            }
+
+            #page-content-wrapper {
+                position: relative;
+            }
+
+            #wrapper.toggled #page-content-wrapper {
+                position: relative;
+                margin-right: 0;
+            }
+
+        }
+
+
+        #main-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .invisible {
+            display: none;
+        }
+
+        #description {
+            padding: 3em;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        #description * {
+            text-align: center;
+        }
+
+        #description p {
+            font-size: 1.3em;
+            margin-top: 3em;
+        }
+
+        #description b {
+            font-weight: bold;
+            color: cornflowerblue;
+        }
+
+        #description h1 b {
+            font-family: 'Lobster', serif;
+        }
+
 
     </style>
-  </head>
 
 
+</head>
 
+<body>
 
+    <div id="wrapper">
 
-<!-- ############  BODY ################# -->
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+        <!-- <li class="sidebar-brand"> -->
+                    <!-- <img src='icubworld_logo.png' /> -->
+            <div class='brand'>
+                <span>
+                    Yarp.js
+                </span>
+            </div>
 
-  <body>
+                <!-- </li> -->
 
-    <div class='main cont'>
-        <canvas id="canvas"></canvas>
-        <br>
-        <div class='cont'>
-          <div>
-            <button id='btn-voice' type="button" class="btn" onClick="toggleVoiceBTN(this)" data-toggle="button" aria-pressed="false" autocomplete="off">
-                    <i class="fa fa-microphone-slash fa-fw" style='margin-right:0.3em' aria-hidden="true"></i>
-                    Stream Audio
-            </button>
-          </div>
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="#" class='yarp-app' id='stream_audio' page-link='stream_audio'><i class="fa fa-bullhorn fa-fw fa-lg" aria-hidden="true"></i> <span>Stream Audio</span></a>
+                </li>
+                <li>
+                    <a href="#" class='yarp-app' id='trigger' page-link='trigger'><i class="fa fa-microphone fa-fw fa-lg" aria-hidden="true"></i> <span>Trigger recognition</span></a>
+                </li>
+            </ul>
         </div>
+        <!-- /#sidebar-wrapper -->
 
-        <div id='description'>
-          <h1>Stream Audio</h1>
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <!-- <div styleclass="container-fluid"> -->
+            <div id="description">
+                <h1>Welcome to <b>Yarp.js</b></h1>
 
-          <p>
-            This simple application uses the Web APIs to send audio streams directly from the device microphone to the <b>YARP</b> network.
-            In particular it translates audio batches into <a target='_blank' href='http://www.yarp.it/classyarp_1_1sig_1_1Sound.html'>Yarp::sig::Sound</a> objects and then writes them on port <b>/soundStream/mic:o</b>
-            Furthermore it writes a Bottle through <b>/soundStream/trigger:o</b> upon clicking the streaming button in order to trigger the <b>yarpHear</b> module to start and stop saving to file.
-          </p>
+                <p>
+                    This is a bundle of sample applications that show how <b>YARP</b> can be combined with modern Web tools and APIs using <b>yarp.js</b>.
+                </p>
 
+                <p>
+                    You can directly use these applications in your system in order to include functionalities such as <b>speech recognition</b> or <b>3D data visualization</b> or you can adapt them to your needs by just writing few lines of code.
+                </p>
+
+                <p>
+                    <b>Note:</b> before starting please be sure to have a yarp server running on your network.
+                </p>
+
+            </div>
+
+            <object id="main-frame" class='invisible'></object>
+
+
+            <!-- </div> -->
         </div>
+        <!-- /#page-content-wrapper -->
 
     </div>
+    <!-- /#wrapper -->
 
-  </body>
+    <!-- jQuery -->
 
-<!-- ############  END BODY ################# -->
+<!--     <script src="build/three.js"></script>
+    <script src="examples/js/controls/OrbitControls.js"></script>
+ -->
+    <!-- <script src="http://code.jquery.com/jquery-1.11.1.js"></script> -->
+    <script src="/jquery/dist/jquery.min.js"></script>
 
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-  <script src="/jquery/dist/jquery.min.js"></script>
+<!--     <script src="/socket.io/socket.io.js"></script>
+    <script src="/yarp.js"></script>
+ -->
 
-  <script src="/yarp.js"></script>
+    <script>
 
+        var main_frame = document.getElementById('main-frame');
 
+        // init the links behavior
+        var yarpApps = Array.from(document.getElementsByClassName('yarp-app'));
 
-
-
-  <script>
-
-  var streamer;
-  var recording = false;
-
-  var canvasElement = document.getElementById('canvas');
-  var canvasContext = canvasElement.getContext("2d");
-
-
-  var draw = function() {
-
-      if(streamer!=undefined)
-      {
-        // you can then access all the frequency and volume data
-        // and use it to draw whatever you like on your canvas
-        for(bin = 0; bin < streamer.length; bin ++) {
-            // do something with each value. Here's a simple example
-            var val = streamer[bin];
-            var red = val+100;
-            var green = 149 - val;
-            var blue = 237 + val / 2;
-            canvasContext.fillStyle = 'rgb(' + Math.round(red) + ', ' + Math.round(green) + ', ' + Math.round(blue) + ')';
-            var bin_size = 3;
-            canvasContext.fillRect(bin * bin_size, 0, bin_size, 200);
-            // use lines and shapes to draw to the canvas is various ways. Use your imagination!
+        yarpApps.deactivate = function deactivate() {
+            yarpApps.map( function _yarpApps_deactivate(yApp) {
+                yApp.classList.remove('selected');
+            });
         }
 
-      }
-      requestAnimationFrame(draw);
-  };
+        yarpApps.map(function init_yarpApps(yApp) {
 
-  draw();
+            yApp.onclick = function update_iframe() {
 
-    var socket = io();
+                main_frame.classList.remove('invisible')
+                document.getElementById('description').classList.add('invisible');
 
-    yarp.init(socket);
+                yarpApps.deactivate();
+                yApp.classList.add('selected');
 
-    var trigger_out = yarp.PortHandler.openPort('/soundStream/trigger:o');
+                main_frame.setAttribute('data', yApp.getAttribute('page-link') + '/index.html?description=true');
+            };
 
-    // what to do as soon as the yarp module is ready
-    yarp.onInit(function() {
-
-        var port_mic_out = yarp.PortHandler.openPort('/soundStream/mic:o','sound');
-
-        var errorCallback = function(e) {
-          console.log('Audio Recording Rejected!', e);
-      };
-
-        if (!navigator.getUserMedia)
-          navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-        if (navigator.getUserMedia) {
-          navigator.getUserMedia({audio:true}, success, function(e) {
-            alert('Error capturing audio.');
-          });
-        } else alert('getUserMedia not supported in this browser.');
+        });
 
 
 
-        function success(e) {
-          audioContext = window.AudioContext || window.webkitAudioContext;
-          context = new audioContext();
+    </script>
 
-          // the sample rate is in context.sampleRate
-          audioInput = context.createMediaStreamSource(e);
-
-          var bufferSize = 2048;
-          recorder = context.createScriptProcessor(bufferSize, 1, 1);
-
-
-          // for visualizaiton
-          analyser = context.createAnalyser();
-          analyser.fftSize = 256; // see - there is that 'fft' thing.
-          audioInput.connect(analyser);
-          // analyser.connect(context.destination);
-
-          var sampleAudioStream = function() {
-
-            if(recording)
-              analyser.getByteFrequencyData(streamer);
-            else
-            {
-              for(bin = 0; bin < streamer.length; bin ++)
-                streamer[bin]=0;
-            }
-
-          };
-          setInterval(sampleAudioStream, 20); //
-          // public properties and methods
-          streamer = new Uint8Array(128); // This just means we will have 128 "bins" (always half the
-
-
-          recorder.onaudioprocess = function onaudioprocess(e2) {
-
-            if(!recording)
-            {
-              return;
-            }
-
-            var left = e2.inputBuffer.getChannelData(0);
-            var hh = convertFloat32ToInt16(left);
-
-            // socket.emit('stream-audio',{buffer:hh});
-            port_mic_out.write(hh);
-
-          }
-
-          audioInput.connect(recorder);
-          recorder.connect(context.destination);
-
-        }
-
-
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
     });
+    </script>
 
-
-
-
-    function convertFloat32ToInt16(buffer) {
-      l = buffer.length;
-      buf = new Int16Array(l);
-      while (l--) {
-        buf[l] = Math.min(1, buffer[l])*0x7FFF;
-      }
-      return buf.buffer;
-    }
-
-    function toggleVoiceBTN(el)
-    {
-      if($(el).hasClass('btn-primary'))
-      {
-        var text = 'stop'
-        trigger_out.write(text);
-        recording=false;
-        $(el).removeClass('btn-primary');
-        $(el).find('i').removeClass('fa-microphone');
-        $(el).find('i').addClass('fa-microphone-slash');
-      }
-      else
-      {
-        var text = 'start';
-        trigger_out.write(text);
-        recording=true;
-        $(el).addClass('btn-primary');
-        $(el).find('i').removeClass('fa-microphone-slash');
-        $(el).find('i').addClass('fa-microphone');
-      }
-    }
-
-  </script>
+</body>
 
 </html>

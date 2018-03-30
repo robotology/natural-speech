@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+    <head>
+        <title>YarpJS Stream Audio</title>
+
+
+        <meta name=viewport content="width=device-width, initial-scale=1">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+
+
+        <script src="/socket.io/socket.io.js"></script>
+
+        <style>
+            .cont {
+                text-align: center;
+            }
+
+            .cont * {
+                display: inline-block;
+            }
+
+            .main {
+                margin-top: 4em;
+            }
+
+            .invisible {
+                display: none;
+            }
+
+            #description {
+                padding: 3em;
+            }
+
+            #description * {
+                text-align: center;
+            }
+
+            #description p {
+                font-size: 1.3em;
+                margin-top: 3em;
+            }
+
+            #description b {
+                font-weight: bold;
+                color: cornflowerblue;
+            }
+
+            #description h1 b {
+                font-family: 'Lobster', serif;
+            }
+
+            /* Custom */
+
+            #description p {
+                margin-top: 1em;
+            }
+
+
+            #description b.danger {
+                color: crimson;
+            }
+
+            #description ul {
+                font-size: 1.3em;
+                text-align: left;
+            }
+
+            #btn-voice {
+                transform: scale(2);
+            }
+
+        </style>
+    </head>
+
+    <!-- ############  BODY ################# -->
+
+    <body>
+
+        <div class='main cont'>
+            <br>
+            <div class='cont'>
+                <div>
+                    <button id='btn-voice' type="button" class="btn" onClick="toggleVoiceBTN(this)" data-toggle="button" aria-pressed="false" autocomplete="off">
+                        <i class="fa fa-microphone fa-fw" style='margin-right:0.3em' aria-hidden="true"></i>
+                        <span>Start</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id='description'>
+                <h1>Trigger recognition</h1>
+
+                <p>
+                This simple application uses the Web APIs to send a Bottle through <b>/trigger/trigger:o</b> upon clicking the trigger button in order to start and stop the downstream process.
+                </p>
+            </div>
+        </div>
+    </body>
+
+    <!-- ############  END BODY ################# -->
+
+
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="/yarp.js"></script>
+    <script>
+        var recording = false;
+
+        var socket = io();
+
+        yarp.init(socket);
+
+        var trigger_out = yarp.PortHandler.openPort('/trigger/trigger:o');
+
+        function convertFloat32ToInt16(buffer) {
+            l = buffer.length;
+            buf = new Int16Array(l);
+            while (l--) {
+                buf[l] = Math.min(1, buffer[l])*0x7FFF;
+            }
+            return buf.buffer;
+        }
+
+        function toggleVoiceBTN(el)
+        {
+            if($(el).hasClass('btn-primary'))
+            {
+                var text = 'stop'
+                    trigger_out.write(text);
+                recording=false;
+                $(el).removeClass('btn-primary');
+                $(el).find('i').removeClass('fa-microphone-slash');
+                $(el).find('i').addClass('fa-microphone');
+                $(el).find('span').text('Start');
+            }
+            else
+            {
+                var text = 'start';
+                trigger_out.write(text);
+                recording=true;
+                $(el).addClass('btn-primary');
+                $(el).find('i').removeClass('fa-microphone');
+                $(el).find('i').addClass('fa-microphone-slash');
+                $(el).find('span').text('Stop');
+            }
+        }
+    </script>
+
+</html>
