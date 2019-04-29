@@ -1,4 +1,4 @@
-## iCubrec - HTK
+# iCubrec - HTK
 
 This folder contains the first version of the command recognition pipeline
 which is based on the [Hidden Markov Model ToolKit
