@@ -1,0 +1,6 @@
+copy these two files in chime4_vocub folder
+
+kaldi/egs/chime4_vocub/s5_1ch/fbank/global_train_cmvn.mat
+kaldi/egs/chime4_vocub/s5_1ch/fbank/global_train_cmvn.scp
+kaldi/egs/chime4_vocub/s5_1ch/conf/fbank.conf
+kaldi/egs/chime4_vocub/s5_1ch/conf/splice_opts
