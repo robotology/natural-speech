@@ -1,10 +1,15 @@
+This folder contains the pipeline to perform online command recognition with
+DNN-based command recognition. Pretrained models for the voice activity
+detection (VAD) and the command recognition modules are not yet available but
+will be added soon.
+
 ## Instruction to run the demo
 
 * Ensure `yarpserver` is running
 * Start `yarp-speech-sender` to stream the sound from the microphone of the
 computer (output port: `/sender`) or the `sound_player` to play wav files (see
 below for the second option).
-* Start the voice activity detection module (VAD): `./pipeline/VAD_pipeline.py`
+* Start the VAD: `./pipeline/VAD_pipeline.py`
 * Connect the input stream to the VAD (using one of the following commands,
 depending on the chosen source, microphone or wav file)
 ```
