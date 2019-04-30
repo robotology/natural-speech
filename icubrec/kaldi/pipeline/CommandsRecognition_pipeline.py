@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
@@ -51,7 +52,7 @@ def RC_function():
             if current_file is not None:
                 current_file=current_file[0]
                 index= os.path.splitext(os.path.basename(current_file))[0]
-                print current_file
+                print(current_file)
                 command_recognizer.run_CR_dnn(current_file,index)
 
 
@@ -78,8 +79,8 @@ if __name__ == '__main__':
         thread_CR = Thread(target=RC_function)
         thread_CR.start()
         time.sleep(1)
-	if output_timer % output_delay == 0:
-		print("file:", file_buffer.qsize())
+        if output_timer % output_delay == 0:
+            print("file:", file_buffer.qsize())
         output_timer += 1
 
     p.close()
