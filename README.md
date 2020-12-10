@@ -1,7 +1,7 @@
 Copyright 2017 Istituto Italiano di Tecnologia
 
-Authors: Leonardo Badino, Bertrand Higy, Luca Pasa, Raffaele Tavarone, 
-Alessio Mereta, Claudia Canevari
+Authors: Bertrand Higy, Vadim Tikhanoff, Luca Pasa, Raffaele Tavarone, 
+Alessio Mereta, Claudia Canevari, Leonardo Badino
 
 # natural-speech
 
